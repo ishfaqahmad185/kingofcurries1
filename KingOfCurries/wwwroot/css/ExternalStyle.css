@@ -1,0 +1,150 @@
+﻿.text-left {
+    text-align: left !important;
+}
+
+.m-130 {
+    margin-top: 130px !important;
+}
+
+.header-shape1 {
+    background-color: #41414E !important;
+}
+
+.w-45 {
+    width: 45% !important;
+}
+
+.w-40 {
+    width: 40% !important;
+}
+
+input.style4 {
+    background-color: var(--red-color);
+    border: none;
+}
+
+.text-right {
+    float: right !important;
+    text-align: right !important;
+}
+
+.as-product .product-title {
+    font-size: 16px !important;
+    margin: 6px 0 9px 0;
+    font-weight: 500;
+}
+
+.image-round {
+    border-radius: 20% !important;
+    width: 200px !important;
+    height: 200px !important;
+}
+
+.person-circle {
+    border-radius: 50%;
+    color: rgba(255, 255, 255, .87);
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    width: 100% !important;
+    display: inline-block;
+}
+
+.vertical-center {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+
+.dropdown-menu a {
+    font-weight: 500;
+    font-size: 16px;
+    color: black !important;
+    text-transform: uppercase;
+    text-align: left !important
+}
+
+    .dropdown-menu a:hover {
+        color: #EB0029 !important;
+    }
+
+.fa-color {
+    color: #EB0029 !important;
+}
+
+.w-10 {
+    width: 10% !important;
+}
+
+#btnConfirm {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 120px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: #eb0029;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 4px;
+}
+
+@media (max-width:870px) {
+    .menu-list-img {
+        display: none;
+    }
+
+    .StickyNav {
+        position: fixed;
+        width: 100% !important;
+    }
+}
+
+@media  (max-width:550px){
+    .toast {
+        width: 250px;
+        max-width: 250px !important;
+        font-size: .875rem;
+        pointer-events: auto;
+        background-color: hsla(0,0%,100%,.85);
+        background-clip: padding-box;
+        border: 1px solid rgba(0,0,0,.1);
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+        border-radius: .25rem;
+    }
+}
+
+.board-list_title, .product-title {
+    font-weight: bolder !important;
+}
+
+.makeSticky {
+    position: -webkit-sticky; /* Safari */
+    position: sticky !important;
+    top: 0;
+}
+
+
+.allergian-title {
+    font-weight: normal !important;
+    font-size: 12px !important;
+    padding-top: 6px;
+}
+
+.download-area {
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.board-list_title, .board-list_price {
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.modal{
+    z-index:80 !important;
+}
