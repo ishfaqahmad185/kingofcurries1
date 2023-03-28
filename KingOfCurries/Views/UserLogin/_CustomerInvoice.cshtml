@@ -1,0 +1,166 @@
+﻿
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<style>
+
+	.cardactive {
+		border: 3px solid #EB0034 !important;
+	}
+
+		.cardactive h5 {
+			color: #EB0034 !important;
+		}
+
+		.text-pink {
+			color: #EB0034 !important;
+			font-size:large !important;
+			font-weight:bold !important;
+		}
+
+	.text-pink-h1 {
+		color: #EB0034 !important;
+		font-size: 44px !important;
+		font-weight: bold !important;
+	}
+
+	.w-20 {
+		width: 20% !important;
+	}
+
+	.img-card-body {
+		width: 188px !important;
+		height: 271px !important;
+	}
+
+	.float-right{
+	float:right !important;
+	}
+
+	.price-width {
+		width: 80px !important;
+	}
+
+
+		</style>
+
+
+
+
+<section>
+
+
+
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card m-3">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-lg-12">
+							
+											<div class="card">
+												<div class="card-header w-100">
+													<div class="row w-100">
+														<div class="col-lg-4 ">
+															Invoice # <br/><strong><span id="spnInvoiceNo"></span> </strong>
+														</div>
+														<div class="col-lg-4 text-center">Invoice Date <br /> <strong><span id="spnInvoiceDate"></span></strong></div>
+														<div class="col-lg-4  align-content-end">
+															<span class="float-right align-content-end float-right">
+																Status<br/> <strong><span id="spnInvoiceStatus"></span></strong>
+															</span>
+														</div>
+										<div class="mt-4 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+											<div>Notes: <strong><span id="spnInvoiceNotes"></span></strong> </div>
+
+										</div>
+													</div>
+
+												</div>
+												<div class="card-body">
+													<div class="row mb-5">
+														<div class="mt-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
+															<h6>From:</h6>
+															<div> <strong>Harry's Restro</strong> </div>
+															<div>11 Market st, Kells,</div>
+															<div> Co. Meath, A82 YR84</div>
+															<div>Email: harrysrestro@hotmail.es</div>
+															<div>Phone: +353 46 928 0833</div>
+														</div>
+														<div class="mt-4 col-xl-4 col-lg-4 col-md-6 col-sm-12"></div>
+														<div class="mt-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 float-right">
+															<h6>To:</h6>
+															<div>Name <strong><span id="spnInvoiceUser"></span></strong> </div>
+															<div>Email <span id="spnInvoiceEmail"></span></div>
+															<div>Phone <span id="spnInvoicePhone"></span></div>
+															<div>Payment <span id="spnInvoicePayment"></span></div>
+															<div>Type <span id="spnInvoiceType"></span></div>
+															<div><span id="spnInvoiceAddress"></span></div>
+															<div><span id="spnInvoiceTown"></span></div>
+														</div>
+									
+													</div>
+													<div class="table-responsive">
+														<table class="table table-clear w-100">
+															<thead>
+																<tr>
+																	<th class="center">#</th>
+																	<th class="cart-col-image">Image</th>
+																	<th class="cart-col-productname">Product Name</th>
+																	<th class="cart-col-price">Price</th>
+																	<th class="cart-col-quantity">Quantity</th>
+																	<th class="cart-col-total">Total</th>
+																</tr>
+															</thead>
+															<tbody id="tblInvoiceTBody">
+														
+															</tbody>
+											<tbody>
+												<tr>
+													<td colspan="3"></td>
+													
+													
+													<td colspan="2"  class="left justify-content-end bg-light "><strong>Subtotal</strong></td>
+													<td class="right price-width bg-light "><span id="spnInvoiceSubTotal"></span></td>
+												</tr>
+												<tr>
+													<td colspan="3"></td>
+													<td colspan="2" class="left justify-content-end "><strong>Delivery </strong></td>
+													<td class="right price-width "><span id="spnInvoiceDelivery"></span></td>
+												</tr>
+
+												<tr>
+													<td colspan="3"></td>
+													
+													<td colspan="2" class="left justify-content-end bg-light "><strong>Total</strong></td>
+													<td class="right price-width bg-light ">
+														<strong><span id="spnInvoiceGrandTotal"></span></strong>
+
+													</td>
+												</tr>
+											</tbody>
+														</table>
+													</div>
+													
+												</div>
+											</div>
+										
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</section>
+
+
+
+
+
+
+

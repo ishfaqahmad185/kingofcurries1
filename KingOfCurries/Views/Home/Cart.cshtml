@@ -1,0 +1,307 @@
+﻿
+@{
+    ViewData["Title"] = "Cart";
+}
+
+<style>
+
+    @@media screen and (max-width: 930px) {
+
+        .CartImageMobileView {
+            display: none !important;
+        }
+
+        .footer-layout1 {
+            display: none !important;
+        }
+    }
+
+    .cart_table thead {
+  background-color: #ecf0f1;
+}
+.cart_table thead th {
+  border: none !important;
+  color: black;
+}
+
+.cart_table td {
+  color: #8b8b8b;
+}
+.woocommerce-notices-wrapper .woocommerce-message {
+  background-color: #BB3430;
+  color: white !important;
+}
+.woocommerce-message::before, .woocommerce-info::before {
+  color: white !important;
+}
+.cart_table .qty-input {
+  color: black !important;
+}
+
+.cart_totals th:first-child, .cart_totals td:first-child {
+  width: 45%;
+  background-color: #f9fbfb;
+  font-weight: 700;
+  font-size: 14px;
+  color: #333333;
+}
+
+.cart_totals th, .cart_totals td {
+
+  color: black !important;
+  
+}
+.cart_table td {
+  color: #000;
+}
+</style>
+
+<div class="breadcumb-wrapper CartImageMobileView" data-bg-src="../../images/Banner/5.jpg">
+    <div class="container z-index-common">
+        <div class="breadcumb-content">
+            <h1 class="breadcumb-title">Car <span class="text-theme2">t</span></h1>
+            <ul class="breadcumb-menu">
+                <li><a href="/" style="color:#BB3430 !important;" >Home</a></li>
+                <li>Cart</li>
+            </ul>
+        </div>
+    </div>
+</div>
+  <div class="as-cart-wrapper space-top space-extra-bottom">
+        <div class="container">
+            <div class="woocommerce-notices-wrapper">
+                <div class="woocommerce-message">Shipping costs updated.</div>
+            </div>
+            <form action="#" class="woocommerce-cart-form">
+                <table class="cart_table">
+                    <thead>
+                        <tr>
+                            <th class="cart-col-image">Image</th>
+                            <th class="cart-col-productname">Product Name</th>
+                            <th class="cart-col-price">Price</th>
+                            <th class="cart-col-quantity">Quantity</th>
+                            <th class="cart-col-total">Total</th>
+                            <th class="cart-col-remove">Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody class="cartTablebody">
+                        
+                      
+                    </tbody>
+                </table>
+            </form>
+            <div class="row justify-content-end">
+                <div class="col-md-8 col-lg-7 col-xl-6">
+                    <h2 class="h4 summary-title">Cart Totals</h2>
+                    <table class="cart_totals">
+                        <tbody>
+                            <tr>
+                                <td>Cart Subtotal</td>
+                                <td data-title="Cart Subtotal">
+                                    <span class="amount">
+                                        <bdi><span>€</span><span class="carttableTotal">0.0</span></bdi>
+                                    </span>
+                                </td>
+                            </tr>
+
+                        
+                        </tbody>
+                        <tfoot>
+                            <tr class="order-total">
+                                <td>Order Total</td>
+                                <td data-title="Total"><strong><span class="amount"><bdi><span>€</span><span class="carttableTotal">0.0</span></bdi></span></strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                <div class="wc-proceed-to-checkout mb-30"><a href="/Checkout" class="as-btn">Proceed to checkout</a></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts{
+
+        <script type="text/javascript">
+              $(document).ready(function(){
+    CartListJsonData();
+        });
+
+
+        function CartListJsonData() {
+
+    
+    
+
+    $.ajax({
+        type: "Get",
+        url: "/Home/ListCartDataJson/",
+
+        
+        processData: false,
+        contentType: false,
+        dataType: "json",
+        success: function (result) {
+            if (result.isSuccess) {
+              
+				
+				var html='';
+           
+            $(".carttableTotal").html(result.subPrice);
+                        var totalSum = parseFloat($(".carttableTotal").text());
+                        $(".carttableTotal").html(totalSum.toFixed(2));
+			$.each(result.responseText, function (key, item)
+					{
+                        var slug="'"+item.productSlug+"'";
+					
+						html += '<tr class="cart_item">';
+						html += ' <td data-title="Product">';
+
+						html += '<img width="91" height="91" src="'+item.items.itemImage+'" alt="Image">';
+						html += '</td>';
+						html += '<td data-title="Name">'+item.items.itemTitle+'<br/>' + item.subItems.subItemTitle + '<br/>' + item.freeItems.freeItemTitle +'</td>';
+						html += '<td data-title="Price">';
+						html += '<span class="amount">';
+                            if (item.subItemId>0){
+                                html += ' <bdi><span>€</span><span  class="td-amount"  >' + item.subItems.subItemPrice + '</span></bdi>';
+                            }else{
+                                html += ' <bdi><span>€</span><span  class="td-amount"  >' + item.items.price + '</span></bdi>';
+                            }
+						html += '  </span></td>';
+						html += '  <td data-title="Quantity">';
+						html += ' <div class="quantity">';
+                            html += ' <a class="quantity-minus  qty-btn" onclick="btnMinusQuantity(this,' + slug + ')" ><i class="far fa-minus"></i></a>';
+                            html += '  <input type="number" class="qty-input" readonly value="' + item.quantity + '" min="1" max="99">';
+                            html += ' <a class="quantity-plus qty-btn" onclick="btnPlusQuantity(this,' + slug + ')"><i class="far fa-plus"></i></a>';
+						html += '</div>';
+						html += '</td>';
+						html += '</td>';
+						html += ' <td data-title="Total">';
+						html += ' <span class="amount">';
+                            if (item.subItemId > 0) {
+                                html += ' <bdi><span>€</span><span  class="td-total-amount"  >' + item.subItems.totalPrice + '</span></bdi>';
+                            } else {
+                                html += ' <bdi><span>€</span><span  class="td-total-amount"  >' + item.items.totalPrice + '</span></bdi>';
+                            }
+						
+						html += ' </span>';
+						html += '</td>';
+						html += '<td data-title="Remove"><a onclick="removeCartTable('+item.items.itemId+')" class="remove"><i class="fal fa-trash-alt"></i></a></td>';
+						html += '</tr>';
+					
+						
+					});
+
+					$(".cartTablebody").html(html);
+				
+                
+
+            }
+            else {
+				 
+                swal("Error!", result.responseText, "error");
+            }
+
+
+        },
+        error: function (errormessage) {
+            //alert(errormessage.responseText);
+        }
+    });
+
+
+}
+
+ function removeCartTable(id){
+     CartRemoveItem(id); 
+     setTimeout(function(){
+     CartListJsonData(); 
+     },1500);
+     
+ }
+
+     function   btnMinusQuantity(e){
+         
+         
+          var a = $(e).siblings(".qty-input");
+                    s = parseInt(a.val());
+                    
+                !isNaN(s) && s > 1 && a.val(s - 1)
+     }
+
+        function btnMinusQuantity(e, uniqueId) {
+            
+
+            var a = $(e).siblings(".qty-input");
+          var  s = parseInt(a.val());
+            
+            !isNaN(s) && s > 1 && a.val(s - 1)
+
+            s = parseInt(a.val());
+            
+            var amountdata = $(e).closest('td').siblings().find(".td-amount");
+            var todata = $(e).closest('td').siblings().find(".td-amount");
+           
+
+            var totalAmount = parseFloat(amountdata.text())*s;
+            var totalData = $(e).closest('td').siblings().find(".td-total-amount");
+            totalData.text(totalAmount);
+            calculateSum();
+            CartUpdateItem(uniqueId, s);
+
+            var totalSum=parseFloat($(".carttableTotal").text());
+               //$(".carttableTotal").html(totalSum.toFixed(2));
+            
+        } 
+        
+        function btnPlusQuantity(e,uniqueId) {
+           
+
+            var a = $(e).siblings(".qty-input");
+         var   s = parseInt(a.val());
+           
+            isNaN(s) || a.val(s + 1)
+
+            s = parseInt(a.val());
+            
+            var amountdata = $(e).closest('td').siblings().find(".td-amount");
+            var todata = $(e).closest('td').siblings().find(".td-amount");
+           
+
+            var totalAmount = parseFloat(amountdata.text())*s;
+            var totalData = $(e).closest('td').siblings().find(".td-total-amount");
+           totalData.text(totalAmount);
+            calculateSum();
+   
+            CartUpdateItem(uniqueId, s);
+            var totalSum = parseFloat($(".carttableTotal").text());
+            $(".carttableTotal").html(totalSum.toFixed(2));
+         
+                   
+
+        }
+
+        function calculateSum() {
+    //Calculate sum of price
+    var sum = 0;
+            $('.cartTablebody tr').each(function () {
+                var item_price = parseFloat($(this).find('.td-total-amount').text());
+               
+        //Check for NaN & add.
+        sum += item_price?item_price:0;
+        
+       
+    });
+            $(".carttableTotal").html(sum.toFixed(2));
+
+
+    //Display to div
+            $("#total").text(sum.toFixed(2));
+}
+     
+        
+      
+        </script>
+      
+        
+    }

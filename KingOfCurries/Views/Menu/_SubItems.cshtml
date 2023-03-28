@@ -1,0 +1,94 @@
+﻿@{
+	Layout = null;
+}
+
+@section Styles{
+	<style>
+	
+		.allergian-title {
+
+    font-weight: normal !important;
+    font-size: 12px !important;
+
+}
+
+		.list-group {
+			cursor: pointer	!important;
+		}
+
+	</style>
+
+}
+
+<div class="modal fade" id="SubItemModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="staticBackdropLabel"> <span id="itemTitle">  </span> <span id="itemAllergen" class="allergian-title">  </span> </h5>
+			
+				
+				
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				
+			</div>
+			<div class="modal-body">
+			 
+				<span id="itemDescription"> </span>
+				<h5> <span id="itemSubTitle" data-id="false"> </span>  <span id="itemFreeTitle" style="color:#BB3034 !important" data-id="false"> </span> </h5>
+				
+				<h5><i class="fa fa-eur"  aria-hidden="true"></i> <span id="itemPrice"> </span> </h5>
+				<input type="hidden" id="hdnItemId" />
+				<input type="hidden" id="hdnIsSubItems" />
+				<input type="hidden" id="hdnIsFreeItems" />
+				
+				
+				
+				<div class="row" id="divSubItems" >
+					<div class="col-sm-12 col-md-12 col-lg-12">
+						<h5>
+							<span>Sub Item</span><span class="text-right align-content-end">
+								<a class="align-content-end " id="btnCollapseDiv" ><i class="fa-solid fa-chevron-up subItemArrow"></i></a>
+
+							</span>
+						</h5>
+					</div>
+				
+					<div class="col-sm-12 col-md-12 col-lg-12" id="multiCollapseExample1">
+						<div class="card">
+							<div class="card-body card-sub-items">
+								<h5><span>Choose One</span><span>
+
+								</span></h5>
+								<ul class="list-group w-100 ul-sub-items" >
+
+									
+
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+
+					<div class="row" id="divFreeItems" hidden>
+					<div class="col-sm-12 col-md-12 col-lg-12" id="multiCollapseExample2">
+						<div class="card">
+							<div class="card-body card-sub-items">
+								<h5>Choose One</h5>
+								<ul class="list-group w-100 ul-free-items">
+
+
+
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary disabled" disabled id="btnAddToCart">Add To Cart</button>
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>

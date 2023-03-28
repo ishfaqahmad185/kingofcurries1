@@ -1,0 +1,58 @@
+﻿
+@{
+	 
+
+	
+
+
+
+}
+
+<div class="modal fade" id="ChangePreparationDuration"    data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="staticBackdropLabel"><i class="fal fa-users"></i> Fill Form</h5>
+					 
+				</div>
+
+            
+            <div class="modal-body change-duration-body">
+
+				<form class="change-duration-form">
+                  
+					<input type="hidden" id="hdnOrderId" />
+					<div class="form-group col-sm-12">
+						<label>Duration Type</label>
+						<select id="ddlDurationType" class="default-select form-control wide">
+							<option value="1">Increase Time</option>
+							<option value="2">Decrease Time</option>
+						</select>
+					</div>
+					<div class="form-group col-sm-12">
+						<label>Duration</label>
+						<input type="number" required class="form-control" id="txtDuration" />
+					</div>
+
+                        <a id="btnChangeDuration" class="btn btn-danger  d-none d-xl-block" data-toggle="tooltip" data-placement="bottom" title="Add"><i class="mdi mdi-content-save text-white"></i>Change Order Time</a>
+
+</form>
+
+				</div>
+
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+ 
+	
+
+
+ 

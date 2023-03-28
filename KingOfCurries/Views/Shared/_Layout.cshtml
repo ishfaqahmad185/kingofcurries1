@@ -1,0 +1,963 @@
+﻿@inject ICategoryRepository _categoryRepository;
+@inject IBankHolidayRepository _bankHolidayRepository;
+@{
+    var ListCategory = _categoryRepository.GetAllCategory();
+
+    var checkBankHoliday = _bankHolidayRepository.GetAllbankHoliday().Any(x => x.SysTime == DateTime.Now.ToString("dd-MMM-yyyy"));
+}
+
+<!doctype html>
+<html class="no-js" lang="zxx">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1CY9G9G5N2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-1CY9G9G5N2');
+    </script>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>@ViewData["Title"] - King Of Curries Indian Resturant</title>
+    <meta name="author" content="HubSolutions" />
+    <meta name="description" content="KhyberGarden">
+
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="57x57" href="../../assets/images/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="../../assets/images/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="../../assets/images/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="../../assets/images/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="../../assets/images/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="../../assets/images/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="../../assets/images/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="../../assets/images/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../assets/images/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="../../assets/images/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="../../assets/images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon-16x16.png">
+    <link rel="manifest" href="../../WebsiteAssets/assets/images/manifest.json">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="../../assets/images/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster+Two:wght@400;700&family=Roboto:wght@100;300;400;500;700&family=Rubik:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!--==============================
+        All CSS File
+    ============================== -->
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="../../WebsiteAssets/assets/css/bootstrap.min.css">
+    <!-- Fontawesome Icon -->
+    <link rel="stylesheet" href="../../WebsiteAssets/assets/css/fontawesome.min.css">
+    <!-- Magnific Popup -->
+    <link rel="stylesheet" href="../../WebsiteAssets/assets/css/magnific-popup.min.css">
+    <!-- Layerslider -->
+    <link rel="stylesheet" href="../../WebsiteAssets/assets/css/layerslider.min.css">
+    <!-- Datepicker -->
+    <link rel="stylesheet" href="../../WebsiteAssets/assets/css/jquery.datetimepicker.min.css">
+    <!-- Slick Slider -->
+    <link rel="stylesheet" href="../../WebsiteAssets/assets/css/slick.min.css">
+    <!-- Theme Custom CSS -->
+    <link rel="stylesheet" href="../../WebsiteAssets/assets/css/style.css">
+
+    <link href="~/css/externalstyle.css" rel="stylesheet" />
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+        </symbol>
+        <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+        </symbol>
+        <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+        </symbol>
+    </svg>
+
+
+    @RenderSection("Styles", required: false)
+
+    <!-- Google tag (gtag.js) -->
+    <!-- Google Tag Manager -->
+
+
+    <style>
+        .header-layout1 .header-top {
+            background-color: #B5271A;
+        }
+
+        .subscribe-box_title {
+            color: #BB3430 !important;
+        }
+
+        .header-layout1::after {
+            height: 90px;
+            right: 0;
+            background-color: transparent !important;
+        }
+
+        .available-table {
+            background-color: transparent !important;
+            padding: 45px 50px;
+            border-radius: 20px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .img-border-radius {
+            border-radius: 20px !important;
+        }
+
+        .contact-form .form-control {
+            border-color: #D8962B !important;
+            border: 1px solid;
+        }
+
+        .contact-form .form-select {
+            border-color: #D8962B !important;
+            background: var(--smoke-color);
+            color: var(--black-color);
+            border: 1px solid;
+        }
+
+        .modal-content {
+            position: relative;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            width: 100%;
+            pointer-events: auto;
+            background-color: white;
+            background-clip: padding-box;
+            border: 1px solid rgba(0,0,0,.2);
+            border-radius: .3rem;
+            outline: 0;
+        }
+
+        .card-body {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1 1 auto;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+            padding: 1rem;
+            background-color: var(--smoke-color4);
+        }
+
+
+        .badge2 {
+            position: sticky;
+            width: -webkit-fit-content;
+            width: -moz-fit-content;
+            width: fit-content;
+            display: inline-block;
+            text-align: center;
+            background-color: var(--theme-color);
+            color: var(--white-color);
+            padding: 0.2em 0.4em;
+            border-radius: 50%;
+            top: 10px;
+            right: 10px;
+            font-weight: 400;
+            font-size: 0.7em;
+        }
+
+        .icon-btn:hover {
+            background-color: var(--theme-color);
+            color: var(--white-color);
+        }
+        /*.as-header .icon-btn {
+                  border: 1px solid #d0dbe9;
+                    border-top-color: rgb(208, 219, 233);
+                    border-right-color: rgb(208, 219, 233);
+                    border-bottom-color: rgb(208, 219, 233);
+                    border-left-color: rgb(208, 219, 233);
+                }*/
+
+
+
+            .home-dark .icon-btn {
+                background-color:#BB3034;
+                color:white !important;
+    }
+
+
+        .home-dark .as-header .icon-btn .badge2 {
+            background-color: var(--theme-color);
+        }
+
+        .badge2 {
+            display: inline-block;
+            padding: .35em .65em;
+            font-size: .75em;
+            font-weight: 700;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: .25rem;
+        }
+
+        .list-group-item {
+            position: relative;
+            display: block;
+            padding: .5rem 1rem;
+            text-decoration: none;
+            background-color: white;
+            border: 1px solid rgba(244, 244, 244, 0.85);
+            color: black;
+        }
+
+
+        .header-shape1 {
+            background-color: #BB3430 !important;
+        }
+
+        .header-shape1 {
+            width: 100%;
+            max-width: 1680px;
+            height: 124px;
+            background-color: var(--theme-color);
+            position: absolute;
+            top: 0;
+            left: 50%;
+            -webkit-transform: translateX(-50%);
+            -ms-transform: translateX(-50%);
+            transform: translateX(-50%);
+            -webkit-clip-path: path("M6.93299 11.866C18.108 34.16 35.985 57.951 52.323 72.275C85.979 101.781 123.106 118.156 167.211 122.945C173.923 123.674 382.207 123.99 841.711 123.969C1547.75 123.936 1515.41 124.142 1537 119.542C1574.47 111.561 1609.87 92.266 1637 65.038C1653.26 48.714 1664.48 32.965 1675.51 10.978L1681.02 0H841.001H0.984985L6.93299 11.866Z");
+            clip-path: path("M6.93299 11.866C18.108 34.16 35.985 57.951 52.323 72.275C85.979 101.781 123.106 118.156 167.211 122.945C173.923 123.674 382.207 123.99 841.711 123.969C1547.75 123.936 1515.41 124.142 1537 119.542C1574.47 111.561 1609.87 92.266 1637 65.038C1653.26 48.714 1664.48 32.965 1675.51 10.978L1681.02 0H841.001H0.984985L6.93299 11.866Z");
+            z-index: -1
+        }
+
+
+        .select, .form-select {
+            height: 55px;
+            padding: 0 25px 0 25px;
+            padding-right: 25px;
+            padding-right: 45px;
+            border: 1px solid var(--smoke-color2);
+            color: black;
+            background-color: white;
+            border-radius: 28px;
+            font-size: 16px;
+            width: 100%;
+            font-family: var(--body-font);
+            -webkit-transition: 0.4s ease-in-out;
+            transition: 0.4s ease-in-out;
+        }
+        .home-dark .as-header .icon-btn:hover{
+
+            background-color:black !important;
+        }
+
+        option {
+            background-color: white;
+            color: black;
+        }
+
+            option:checked, option:focus, option:hover {
+                background-color: white;
+                color: black;
+            }
+
+        .cart_table thead {
+            background-color: var(--smoke-color2);
+        }
+
+        .cart_item td {
+            color: white;
+        }
+
+        .cart_totals th:first-child, .cart_totals td:first-child {
+            width: 45%;
+            background-color: var(--smoke-color2);
+            font-weight: 700;
+            font-size: 14px;
+            color: white;
+        }
+
+        .toast-body {
+            background-color: white !important;
+            color: white;
+        }
+
+        .main-menu a {
+            display: block;
+            position: relative;
+            font-weight: 400;
+            font-size: 14px;
+            color: var(--black-color);
+            text-transform: uppercase;
+        }
+
+        iframe.skiptranslate {
+            display: none;
+        }
+
+        body {
+            top: 0 !important;
+        }
+
+
+        select.goog-te-combo {
+            height: 30px !important;
+        }
+
+        .header-layout1 .header-top {
+            padding: 0 0;
+        }
+
+        .goog-logo-link {
+            display: none !important;
+        }
+
+      .skiptranslate {
+            color: transparent !important;
+            font-size: 0px !important;
+        }
+
+            .skiptranslate > span {
+                display: none !important;
+            }
+
+        .Background_White {
+            background-color: white !important;
+        }
+
+       
+
+        .text_black {
+            color: black !important;
+        }
+
+        .text_white {
+            color: white !important;
+        }
+
+        .Background_Wheat {
+            background-color: wheat !important;
+        }
+
+        .Background_Theme {
+            background-color: #BB3430 !important;
+        }
+
+        @@media screen and (max-width: 930px) {
+
+            .header-shape1 {
+                height: 50px !important;
+            }
+        }
+
+            .home-dark .as-menu-wrapper .as-menu-area {
+                background-color: white !important;
+            }
+
+            .home-dark .as-mobile-menu ul .as-item-has-children > a .as-mean-expand {
+                background-color: black;
+            }
+        
+
+          
+            @@media screen and (min-width:940){
+               . as-mobile-menu {
+                    display:block;
+                    background-color:black;
+                }
+            }
+              @@media screen and (min-width: 940px) {
+                .header-shape1 {
+                    height: 120px !important;
+                }
+            }
+
+ /*             @@media (max-width: 991px)
+.header-layout2 .menu-area {
+  border-radius: 8px;
+  padding: 0 20px;
+}
+ @@media (max-width: 870px)
+.StickyNav {
+  position: fixed;
+  width: 100% !important;
+}*/
+
+
+
+    </style>
+    <!-- End Google Tag Manager -->
+</head>
+<body class="home-dark ls-direction-fix  Background_White ">
+
+
+
+    <div class="sidemenu-wrapper ">
+        <div class="sidemenu-content">
+            <button class="closeButton sideMenuCls"><i class="far fa-times"></i></button>
+            <div class="widget woocommerce widget_shopping_cart">
+                <h3 class="widget_title">Shopping cart</h3>
+                <div class="widget_shopping_cart_content">
+                    <ul class="woocommerce-mini-cart cart_list product_list_widget">
+                    </ul>
+                    <p class="woocommerce-mini-cart__total total"><strong>Subtotal:</strong> <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">€</span><span id="spnSubPrice">0.0</span></span></p>
+                    <p class="woocommerce-mini-cart__buttons buttons"><a href="/Cart" class="as-btn wc-forward">View cart</a> <a href="/Checkout" class="as-btn checkout wc-forward">Checkout</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="popup-search-box d-none d-lg-block">
+        <button class="searchClose"><i class="fal fa-times"></i></button>
+        <form action="#"><input type="text" placeholder="What are you looking for?"> <button type="submit"><i class="fal fa-search"></i></button></form>
+    </div>
+
+
+    <div class="as-menu-wrapper" id="#divSideBar">
+        <div class="as-menu-area text-center">
+            <button class="as-menu-toggle"> <i class="fal fa-times"></i></button>
+
+            @*	<div class="mobile-logo"><a href="/"><img src="../../WebsiteAssets/assets/img/KG_dark_logo_2.png" alt="Pizzer"></a></div>*@
+            <div class="mobile-logo">
+
+                @if (!string.IsNullOrEmpty(Context.Request.Cookies["KingOfCurriesUserId"]))
+                {
+                    var data = Context.Request.Cookies["KingOfCurriesUserName"].ToString().Split(" ");
+                    var firstName = "";
+                    var lastName = "";
+                    if (data.Length == 1)
+                    {
+                        firstName = "";
+                        lastName = data[0].Substring(0, 1);
+                    }
+                    else
+                    {
+                        firstName = data[0].Substring(0, 1);
+                        lastName = data[1].Substring(0, 1);
+                    }
+
+                    <div class="dropdown ml-45 mt-1  ">
+                        <a class="icon-btn    d-xxl-block " id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><span class="  person-circle">@firstName@lastName</span></a>
+                         
+
+                    </div>
+                     <div class="row">
+                    <a class="btn btn-outline-primary    ml-20  mt-1 w-40  " href="/MyAccount/"> <i class="fa-duotone fa-user-tie " style="color:#0d6efd; margin-right:5px"></i>My Account</a>
+                    <a class="btn btn-outline-primary  ml-10   mt-1 w-45  " href="/Logout/"><i class="fa-solid fa-right-from-bracket " style="color:#0d6efd; margin-right:5px"></i>Logout</a>
+                    </div>
+                }
+                else
+                {
+                    <a class="icon-btn  d-xxl-block" data-bs-toggle="modal" id="btnLoginModel" data-bs-target="#staticBackdrop"><img src="~/images/login.png" width="80%"></a>
+
+                }
+
+
+            </div>
+@*            <div class="row">
+
+
+                <a class="btn btn-outline-primary    ml-20  mt-1 w-40  " href="/MyAccount/"> <i class="fa-duotone fa-user-tie " style="color:#0d6efd; margin-right:5px"></i>My Account</a>
+                <a class="btn btn-outline-primary  ml-10   mt-1 w-45  " href="/Logout/"><i class="fa-solid fa-right-from-bracket " style="color:#0d6efd; margin-right:5px"></i>Logout</a>
+            </div>*@
+            <div class="row mt-2">
+               
+                <a class="btn Background_Theme text_white  ml-20  mt-1 w-40  " href="/Menu/takeaway">Order Online</a>
+                
+                                    <a class="btn Background_Theme text_white  ml-10 mt-1 w-45  " href="/ReserveTable">Reserve A Table</a>
+            </div>
+
+            <div class="as-mobile-menu">
+                <ul>
+                    <li><a href="/">Home</a></li>
+             
+
+                      <li class="menu-item-has-children">
+                        <a href="#">Menu</a>
+                        <ul class="sub-menu header-sub-menu">
+                            <li><a href="/menu/Takeaway"> Take Away</a></li>
+                            <li><a href="/menu/Restaurant"> Restaurant</a></li>
+                            @foreach (var item in ListCategory)
+                            {
+                                <li><a href="/menu/SingleMenu/@item.Slug.Replace("/","||").Replace("/","||")"> @item.CategoryName</a></li>
+                            }
+
+                        </ul>
+                    </li>
+                    <li><a asp-controller="Home" asp-action="Gallery">Gallery</a></li>
+                  
+                     
+                       
+                            <li><a asp-controller="Home" asp-action="ContactUs">Contact Us</a></li>
+                            
+                      
+                   
+
+                </ul>
+
+                @*	@if (!string.IsNullOrEmpty(Context.Request.Cookies["UserId"]))
+                {
+                var data = Context.Request.Cookies["UserName"].ToString().Split(" ");
+                var firstName = "";
+                var lastName = "";
+                if (data.Length == 1)
+                {
+                firstName = "";
+                lastName = data[0].Substring(0, 1);
+                }
+                else
+                {
+                firstName = data[0].Substring(0, 1);
+                lastName = data[1].Substring(0, 1);
+                }
+
+                <div class="dropdown ml-45 mt-1    ">
+                <a class="icon-btn   d-xxl-block " id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><span class="  person-circle">@firstName@lastName</span></a>
+
+                <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item " href="/MyAccount/"><i class="fa-duotone fa-user-tie fa-color"></i> My Account</a></li>
+                <li><a class="dropdown-item" href="/Logout/"><i class="fa-solid fa-right-from-bracket fa-color"></i> Logout</a></li>
+                </ul>
+                </div>
+                }
+                else
+                {
+                <a class="icon-btn  d-xxl-block" data-bs-toggle="modal" id="btnLoginModel" data-bs-target="#staticBackdrop"><img src="~/images/login.png" width="80%"></a>
+
+                }*@
+            </div>
+
+
+        </div>
+    </div>
+
+    <header class="as-header header-layout2">
+        <div class="header-shape1"></div>
+        <div class="header-top">
+            <div class="container">
+                <div class="row justify-content-center justify-content-lg-between align-items-center gy-2">
+                    <div class="col-auto d-none d-lg-block">
+                        <p class="header-info text-white"><i class="fa-solid fa-location-dot"></i> Avenida Federico García Lorca 3729631 Arroyo de la Miel (Málaga) </p>
+                        <p class="header-info text-white"><i class="fa-solid fa-phone"></i> <a href="tel:+34608905147">+34 608 905 147</a></p>
+                        <p class="header-info text-white"><i class="fa-solid fa-envelope"></i> <a href="mailto:info@kingofcurriesindianrestaurant.com"> info@kingofcurriesindianrestaurant.com </a></p>
+                    </div>
+                    <div class="col-auto">
+                        <div class="as-social">
+                            <a href="https://www.facebook.com/KingofCurriesBenalmadenaa/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                            @*<a href="https://www.twitter.com/"><i class="fab fa-twitter"></i></a>
+                                <a href="https://www.linkedin.com/"><i class="fab fa-linkedin-in"></i></a>*@
+                            <a href="https://www.tripadvisor.es/Restaurant_Review-g1079250-d18818641-Reviews-King_of_Curries_Benalmadena-Arroyo_de_la_Miel_Benalmadena_Costa_del_Sol_Provinc.html" target="_blank"><i class="fab fa-tripadvisor"></i></a>
+                            <a href="https://goo.gl/maps/XfH9GehQLm41Hqo47" target="_blank"><i class="fa fa-map"></i></a>
+                            @*<a href="https://www.youtube.com/"><i class="fab fa-youtube"></i></a></div>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       <div class="sticky-wrapper">
+            <div class="sticky-activeNav ">
+                <div class="container StickyNav">
+                    <div class="menu-area">
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-auto d-none d-xl-block">
+                               @* <div class="header-button">
+                                    <button type="button" class="icon-btn d-none d-xl-block"><i class="far fa-heart"></i> <span class="badge wishlist-count">0</span></button>
+
+                                </div>*@
+                            </div>
+                            <div class="col-auto d-none d-lg-block">
+                                <nav class="main-menu">
+                                    <ul>
+                                        <li>
+
+                                            <a href="/">Home</a>
+                                        </li>
+
+
+                                            <li class="menu-item-has-children">
+                        <a href="#">Menu</a>
+                        <ul class="sub-menu header-sub-menu">
+                            <li><a href="/menu/Takeaway"> Take Away</a></li>
+                            <li><a href="/menu/Restaurant"> Restaurant</a></li>
+                            @foreach (var item in ListCategory)
+                            {
+                                <li><a href="/menu/SingleMenu/@item.Slug.Replace("/","||").Replace("/","||")"> @item.CategoryName</a></li>
+                            }
+
+                        </ul>
+                    </li>
+
+
+                                        <li><a asp-controller="Home" asp-action="Gallery">Gallery</a></li>
+                                       
+                                                <li><a asp-controller="Home" asp-action="ContactUs">Contact Us</a></li>
+                                               
+                                          
+                                    </ul>
+
+                                </nav>
+
+                            </div>
+                            <div class="col-auto">
+                                <div class="header-logo">
+                                    <a href="/"><img src="~/images/Newkinglogo.png" style="width: 130px" alt="Khyber Garden"></a>
+                                </div>
+                            </div>
+                         
+                            <div class="col-auto">
+                            
+                                <div class="header-button">
+                                    <div class="dropdown">
+                                        <button class="btn btn-danger  d-none d-lg-block d-xl-none  d-xxl-none  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Order Online
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="/Menu/takeaway">Order Online</a></li>
+                                            <li><a class="dropdown-item" href="/ReserveTable">Reserve A Table</a></li>
+                                      
+                                        </ul>
+                                    </div>
+                                  
+                                        <a class="btn Background_Theme text_white   d-none d-xl-block" href="/Menu/takeaway">Order Online</a>
+
+                                    
+                                    <a class="btn Background_Theme text_white  d-none  d-xl-block" href="/ReserveTable">Reserve A Table</a>
+                                    <button type="button" class="icon-btn sideMenuToggler d-lg-block  d-xl-block"><i class="far fa-cart-shopping"></i> <span class="badge cart-count">0</span></button>
+                                    @if (!string.IsNullOrEmpty(Context.Request.Cookies["KingOfCurriesUserId"]))
+                                    {
+                                        var data = Context.Request.Cookies["KingOfCurriesUserName"].ToString().Split(" ");
+                                        var firstName = "";
+                                        var lastName = "";
+                                        if (data.Length == 1)
+                                        {
+                                            firstName = "";
+                                            lastName = data[0].Substring(0, 1);
+                                        }
+                                        else
+                                        {
+                                            firstName = data[0].Substring(0, 1);
+                                            lastName = data[1].Substring(0, 1);
+                                        }
+
+                                        <div class="dropdown d-none  d-lg-block d-xl-block ">
+                                            <a class="icon-btn d-lg-block   d-xxl-block " id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"><span class="  person-circle">@firstName@lastName</span></a>
+
+                                            <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton1">
+                                                <li><a class="dropdown-item " href="/MyAccount/"><i class="fa-duotone fa-user-tie fa-color"></i> My Account</a></li>
+                                                <li><a class="dropdown-item" href="/Logout/"><i class="fa-solid fa-right-from-bracket fa-color"></i> Logout</a></li>
+                                            </ul>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <a class="icon-btn d-none d-xl-block d-lg-block   d-xxl-block" data-bs-toggle="modal" id="btnLoginModel" data-bs-target="#staticBackdrop"><img src="~/images/login.png" width="80%"></a>
+
+                                    }<button type="button" class="as-menu-toggle d-inline-block d-lg-none"><i class="far fa-bars"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class=" d-md-block">
+        @await Html.PartialAsync("~/Views/Shared/_BusyIndicatoPartial.cshtml")
+        @RenderBody()
+    </div>
+
+
+    <div class="position-fixed bottom-0 end-0 p-3 toast-width " style="z-index: 11; background-color: white !important">
+        <div id="liveToast" class="toast hide" role="alert" data-bs-delay="1500" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img src="~/images/add-to-cart.png" width="15%" class="rounded me-2" alt="...">
+                <strong class="me-auto toaster-header"></strong>
+                <small>Just Now</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body Background_White text_black">
+            </div>
+        </div>
+    </div>
+
+
+
+    <footer class="footer-wrapper footer-layout3" id="KybergardenFooter" data-bg-src="../../images/banner/11.png">
+        <div class="container">
+            <div class="footer-top">
+                <div class="row align-items-center">
+                    <div class="col-xl-3 d-none d-xl-block">
+                        <div class="footer-logo">
+                            <a href="/" class="d-none d-xl-block"><img src="/images/kinglogo.png" width="180px" alt="HarrysRestro"></a>
+                            <a href="/" class="d-block d-lg-block d-xl-none"><img src="/images/kinglogo.png" alt="HarrysRestro"></a>
+                        </div>
+                    </div>
+                    <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12">
+                        <div class="subscribe-box">
+                            <div>
+                                <h2 class="subscribe-box_title">Subscription News</h2>
+                                <p class="subscribe-box_text">Subscribe to the weekly newsletter for latest updates.</p>
+                            </div>
+                            <form class="newsletter-form">
+                                <input class="form-control" type="email" id="txtNewsLetter" placeholder="Enter Email Address" required="">
+                                <a id="btnNewsLetter" class="as-btn style3">
+                                    SUBCRIBE<i class="fas fa-arrow-right ms-2"></i>
+                                </a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="widget-area">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col-md-3 col-xl-3">
+                        <div class="widget footer-widget">
+                            <h3 class="widget_title">About Restaurant</h3>
+                            <div class="as-widget-about">
+                                <p class="about-text">
+                                    Indian Food of the highest quality in a friendly atmosphere and close to the sea with a service at the height of our guests.
+                                    Harry's Restro Indian Restaurant specializes in Biryanis, Curries, Masala, Tandoori, among other dishes of the Indian cuisine
+                                </p>
+                                <div class="as-social"><a href="https://www.facebook.com/harrysrestro.harrysrestro" target="_blank"><i class="fab fa-facebook-f"></i></a> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xl-auto">
+                        <div class="widget widget_nav_menu footer-widget">
+                            <h3 class="widget_title">Quick Links</h3>
+                            <div class="menu-all-pages-container">
+                                <ul class="menu">
+                                    <li><a href="/">Home</a></li>
+
+                                    <li><a href="/Gallery">Gallery</a></li>
+                                    <li><a href="/contactus">Contact Us</a></li>
+                                    @*   <li><a href="/foodtest">Food Testing</a></li>
+                                        <li><a href="/catering">Catering</a></li>
+                                        <li><a href="/voucher">Voucher</a></li>*@
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xl-auto">
+                        <div class="widget widget_nav_menu footer-widget">
+                            <h3 class="widget_title">Our Menu</h3>
+                            <div class="menu-all-pages-container">
+                                <ul class="menu footer-sub-menu">
+                                    <li><a href="/menu/Takeaway"> Take Away</a></li>
+                                    <li><a href="/menu/Restaurant"> Restaurant</a></li>
+
+                                    <li><a href="/Cart">View Cart</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-xl-auto">
+                        <div class="widget footer-widget">
+                            <h3 class="widget_title">Contact Now</h3>
+                            <div class="as-widget-contact">
+                                <div class="info-box">
+                                    <div class="info-box_icon"><i class="fal fa-location-dot"></i></div>
+                                    <p class="info-box_text">Avenida Federico García Lorca 3729631 Arroyo de la Miel (Málaga)</p>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-box_icon"><i class="fal fa-mobile-button"></i></div>
+                                    <p class="info-box_text">
+                                        <a href="tel:+34 951 57 84 85" class="info-box_link text_black">+34 951 57 84 85</a>
+                                    </p>
+                                </div>
+                                <div class="info-box">
+                                    <div class="info-box_icon"><i class="fal fa-envelope"></i></div>
+                                    <p class="info-box_text">
+                                        <a href="mailto:info@kingofcurriesindianrestaurant.com" class="info-box_link text_black">info@kingofcurriesindianrestaurant.com</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright-wrap">
+            <div class="container">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-lg-6">
+                        <p class="copyright-text text-white">Copyright <i class="fal fa-copyright text-white"></i> 2022 <a href="https://powerobjects.ie/" target="_blank">Power Objects</a>. All Rights Reserved.</p>
+                    </div>
+                    <div class="col-lg-6 text-end d-none d-lg-block">
+                        <div class="footer-links">
+                            <ul>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Terms & Condition</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Button trigger modal -->
+    <!-- Modal -->
+    @await Html.PartialAsync("~/Views/UserLogin/_UserAuth.cshtml")
+
+    @await Html.PartialAsync("~/Views/Menu/_SubItems.cshtml")
+
+    <a href="#" class="scrollToTop scroll-btn"><i class="far fa-long-arrow-up"></i></a>
+
+
+
+    <!-- Jquery -->
+    <script src="../../WebsiteAssets/assets/js/vendor/jquery-3.6.0.min.js"></script>
+    <!-- Slick Slider -->
+    <script src="../../WebsiteAssets/assets/js/slick.min.js"></script>
+    <!-- Layerslider -->
+    <script src="../../WebsiteAssets/assets/js/layerslider.utils.js"></script>
+    <script src="../../WebsiteAssets//js/layerslider.transitions.js"></script>
+    <script src="../../WebsiteAssets/assets/js/layerslider.kreaturamedia.jquery.js"></script>
+    <!-- Bootstrap -->
+    <script src="../../WebsiteAssets/assets/js/bootstrap.min.js"></script>
+    <!-- Magnific Popup -->
+    <script src="../../WebsiteAssets/assets/js/jquery.magnific-popup.min.js"></script>
+    <!-- Datepicker -->
+    <script src="../../WebsiteAssets/assets/js/jquery.datetimepicker.min.js"></script>
+    <!-- Counter Up -->
+    <script src="../../WebsiteAssets/js/jquery.counterup.min.js"></script>
+    <!-- Isotope Filter -->
+    <script src="../../WebsiteAssets/assets/js/imagesloaded.pkgd.min.js"></script>
+    <script src="../../WebsiteAssets/js/isotope.pkgd.min.js"></script>
+    <!-- Main Js File -->
+    <script src="../../WebsiteAssets/assets/js/main.js"></script>
+
+    <script src="../../js/ExternalFile.js"></script>
+    <script src="../../theme/vendors/sweetalert/sweetalert.min.js"></script>
+    <script src="../../js/LayoutScripts.js" type="text/javascript"></script>
+
+
+
+    @RenderSection("Scripts", required: false)
+
+    @* <script type="text/javascript">
+        function googleTranslateElementInit() {
+        new google.translate.TranslateElement({ pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
+        }
+        </script>*@
+
+
+    <script>
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+
+                includedLanguages: 'en,da,nl,ur,fr,de,is,no,ru,es,sv',
+                autoDisplay: false,
+
+
+            }, 'google_translate_element');
+
+
+
+        }
+    </script>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    @*<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>*@
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+
+
+            $(".preloader").fadeOut();
+            $(".slick-slider").slick("refresh");
+
+            generateBackgroundColor();
+            CartListJson();
+
+        });
+
+
+
+    </script>
+    <script>
+        // Get the button
+        let mybutton = document.getElementById("btnConfirm");
+
+        // When the user scrolls down 20px from the top of the document, show the button
+        window.onscroll = function () { scrollFunction() };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+                // When the user clicks on the button, scroll to the top of the document
+
+    </script>
+
+    <script type='text/javascript'>
+
+        var TimerIntervalCount;
+        $('.icon-btn ').click(function () {
+            $('.as-body-visible').hide();
+
+        });
+
+        function ShowLoader() {
+            $('.spinner').css('display', 'block');
+        }
+
+        function HideLoader() {
+            $('.spinner').css('display', 'none');
+        }
+
+        function SetClockTimer(dateTimer) {
+
+            let hoursItem = document.querySelector("#hours");
+            let minItem = document.querySelector("#min");
+            let secItem = document.querySelector("#sec");
+
+
+            let countDown = () => {
+                let futureDate = new Date(dateTimer);
+                let currentDate = new Date();
+                let myDate = futureDate - currentDate;
+                //console.log(myDate);
+
+
+
+                let hours = Math.floor(myDate / 1000 / 60 / 60) % 24;
+
+                let min = Math.floor(myDate / 1000 / 60) % 60;
+
+                let sec = Math.floor(myDate / 1000) % 60;
+
+
+                hoursItem.innerHTML = hours;
+                minItem.innerHTML = min;
+                secItem.innerHTML = sec;
+            }
+
+            countDown()
+
+            TimerIntervalCount = setInterval(countDown, 1000)
+
+        }
+
+    </script>
+
+</body>
+</html>

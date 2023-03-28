@@ -1,0 +1,238 @@
+﻿@model KingofCurries.Models.SubCategory
+@{
+
+}
+
+<link rel="stylesheet" href="~/theme/vendors/summernote/dist/summernote-bs4.css">
+<link rel="stylesheet" href="~/theme/vendors/quill/quill.snow.css">
+<link rel="stylesheet" href="~/theme/vendors/simplemde/simplemde.min.css">
+<div class="row m-0 mb-3">
+    <div class="col-lg-12">
+        <div class="alert alert-danger" id="addSubCategoriesErrorMessage" hidden>
+        </div>
+
+    </div>
+
+</div>
+<form asp-action="AddSubCategories" id="AddSubCategories" asp-controller="SubCategory" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+
+    <div class="row">
+        <div class="col">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+           @* <div class="form-group row p-3" id="alertDiv22">
+                <div class="col-md-12">
+                    <div class="alertNew alert-dangerNew" role="alert" id="alertLabel22">
+                    </div>
+                </div>
+            </div>*@
+
+            <div class="form-group row">
+                <div class="col-sm-12">
+
+                    <label asp-for="ImageUrl" class="control-label">Image </label>
+
+                    <input asp-for="ImageUrl" type="file" id="imageUrl" name="ImageUrl" class="form-control  dropify" />
+
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+
+                </div>
+
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label asp-for="CategoryId" class="control-label"> Category</label>
+                  
+                    <select asp-for="CategoryId" id="select" class="custom-select " required asp-items="@(new SelectList(@ViewBag.Category,"Value","Text"))">
+                        <option value="" selected disabled>--Select Category--</option>
+                    </select>
+
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+
+                    <div class="invalid-feedback">
+                        Please Provide a Category
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label asp-for="SubCategoryName" class="control-label">Title</label>
+                    <input asp-for="SubCategoryName" maxlength="250" class="form-control" id="SubCategoryName" placeholder="Sub-Category Name" required />
+                    <span asp-validation-for="SubCategoryName" class="text-danger"></span>
+                    <div class="invalid-feedback">
+                        Please Provide a SubCategory Title
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class="form-group">
+                <div class="form-check">
+                    <div class="custom-control custom-switch lg">
+                        <input type="checkbox" class="custom-control-input control" id="Featuresid">
+                        <label class="custom-control-label" for="Featuresid"> Is Features ? </label>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label asp-for="Priority" class="control-label">Priority</label>
+                    <input asp-for="Priority" maxlength="250" class="form-control" id="Priority" placeholder="Priority Number" required />
+                    <span asp-validation-for="Priority" class="text-danger"></span>
+                    <div class="invalid-feedback">
+                        Please Provide a SubCategory Priority
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+
+                    <label asp-for="SubCategoryDescription" class="control-label">Description</label>
+                    <textarea name="SubCategoryDescription" class="form-control" id="SubCategoryDescription" placeholder="Sub-Category Description " required></textarea>
+
+                    <span asp-validation-for="SubCategoryDescription" class="text-danger"></span>
+                    <div class="invalid-feedback">
+                        Please Provide a SubCategory Description
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+
+            <div class="form-group float-right">
+
+
+                <a onclick="AddSubCategories()" class="btn btn-success btn-sm text-white" data-toggle="tooltip" data-placement="bottom" title="Add"><i class="mdi mdi-content-save text-white"></i>Add</a>
+                <a id="back" class="btn btn-warning btn-sm text-white " data-dismiss="modal" aria-label="Close" title="Cancel"><i class="fa fa-window-close-o text-white"></i> Cancel</a>
+
+
+            </div>
+
+        </div>
+    </div>
+</form>
+<!-- plugin js for this page -->
+<!-- End custom js for this page-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#alertDiv22').hide();
+       
+    });
+
+
+
+
+
+    function AddSubCategories() {
+ 
+
+        var form = $("#AddSubCategories")[0];
+        var isValid = form.checkValidity();
+
+        if (!isValid) {
+
+
+        }
+        else {
+        var CategoryId = document.getElementById('select').value;
+        var SubCategoryName = document.getElementById('SubCategoryName').value;
+        var SubCategoryDes = document.getElementById('SubCategoryDescription').value;
+        var Feature = $('#Featuresid').prop("checked");
+        var Prioty = document.getElementById('Priority').value;
+        var Image = document.getElementById('imageUrl');
+     
+
+       // var imagePath = $('#GalleyGategoryImageUrl').val();
+
+
+     
+
+        displayBusyIndicator();
+
+        var SubCategory = new FormData();
+
+        SubCategory.append("CategoryId", CategoryId);
+       
+        SubCategory.append("SubCategoryName", SubCategoryName);
+        SubCategory.append("SubCategoryDescription", SubCategoryDes);
+        SubCategory.append("Priority", Prioty);
+        SubCategory.append("Features", Feature); 
+        SubCategory.append("image", Image.files[0]);
+       
+    
+
+
+        $.ajax({
+            type: "POST",
+            url: "/SubCategory/AddSubCategory/",
+
+            data: SubCategory,
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,  // tell jQuery not to set contentType
+
+            //data: { AddVidTabName: AddvidTabName, VidFile11: VidFile1 },
+
+
+            success: function (result) {
+                if (result.code) {
+
+                    loadSubCategory();
+                    displayBusyIndicator2();
+                    $('#SubCategoryModel').modal('hide');
+                    $('#addSubCategoriesSuccessMessage').removeAttr('hidden');
+                    $('#addSubCategoriesSuccessMessage').html(' Sub Category Added Successfully');
+                    $('#addSubCategoriesSuccessMessage').fadeIn();
+
+                    $('#addSubCategoriesSuccessMessage').fadeTo(5000, 500).slideUp(500, function () {
+                        $("#addSubCategoriesSuccessMessage").slideUp(500);
+                    });
+                    $('#addSubCategoriesSuccessMessage').attr('hidden');
+
+                    $('#alertLabel22').html('');
+                    $('#alertDiv22').hide();
+                    $('#SubCategoryModel').modal('hide');
+                    $(".dropify-clear").trigger("click");
+
+                    $('#AddSubCategory')[0].reset();
+                    $('#AddSubCategoryName').attr('class', 'form-control');
+                    $('#AddSubCategoryName').attr('style', 'border-color:#c9ccd7');
+                }
+                else {
+
+
+                    displayBusyIndicator2();
+                    $('#addSubCategoriesErrorMessage').removeAttr('hidden');
+                    $('#addSubCategoriesErrorMessage').html(result.responseText);
+                    $('#addSubCategoriesErrorMessage').fadeIn();
+
+                    $('#addSubCategoriesErrorMessage').fadeTo(5000, 500).slideUp(500, function () {
+                        $("#addSubCategoriesErrorMessage").slideUp(500);
+                    });
+                    $('#addSubCategoriesErrorMessage').attr('hidden');
+
+                }
+            },
+            error: function (errormessage) {
+                //alert(errormessage.responseText);
+            }
+        });
+        }
+
+        form.classList.add('was-validated');
+        return false;
+
+    }
+
+</script>

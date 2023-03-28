@@ -1,0 +1,548 @@
+﻿@model KingofCurries.Models.GenericModel;
+@{
+    ViewData["Title"] = "AllOrders";
+    Layout = "~/Views/Shared/_LayoutClients.cshtml";
+}
+
+
+
+
+<style>
+
+
+    tbody::before {
+        content: '';
+        display: block;
+        height: 15px;
+    }
+    .material-icons{
+        color:white !important;
+    }
+</style>
+
+<link href="../../ClientAssets/vendor/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet">
+<!-- Pick date -->
+<link rel="stylesheet" href="../../ClientAssets/vendor/pickadate/themes/default.css">
+<link rel="stylesheet" href="../../ClientAssets/vendor/pickadate/themes/default.date.css">
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+
+@*   <link href="../../ClientAssets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
+    <link href="../../ClientAssets/css/style.css" rel="stylesheet">*@
+
+
+
+
+
+
+<div class="container-fluid">
+    <div class="form-head d-flex mb-3 align-items-start">
+        <div class="me-auto d-none d-lg-block">
+            <h2 class="text-primary font-w600 mb-0">All Orders</h2>
+            <p class="mb-0">Welcome to Harry's Restro!</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12 col-lg-12">
+            <div class="card">
+                <div class="card-header bg-blue">
+                    <h4 class="card-title text-white">Filter</h4>
+                </div>
+                <div class="card-body">
+                    <div class="basic-form">
+                        <form method="post" asp-action="SearchOrders" asp-controller="Clients">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group row">
+
+                                        <label class="col-sm- form-label">Name</label>
+                                        <div class="col-sm-12">
+                                            <input type="text" name="Username" id="setUserName" class="form-control input-default" placeholder="Name">
+                                        </div>
+
+
+
+                                    </div>
+
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group row">
+                                        <label class=" form-label">Invoice No</label>
+                                        <div class="col-sm-12">
+
+                                            <input type="text" name="Invoicenumber" id="setInvoiceNo" class="form-control input-default" placeholder="Invoice No">
+                                        </div>
+
+
+
+                                    </div>
+
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group row">
+                                        <label class=" form-label">Select Parcel Type</label>
+                                        <div class="col-sm-12">
+
+
+
+                                            <select class="  form-control wide" name="ParcelType" id="setParcelTypes">
+                                                <option value="">--Select Parcel Type--</option>
+                                                <option value="collection">Collection</option>
+                                                <option value="delivery">Delivery</option>
+
+                                            </select>
+                                        </div>
+
+
+
+                                    </div>
+
+
+                                </div>
+
+
+
+
+
+
+
+                            </div>
+
+
+
+                            <div class="row">
+
+                                <div class="col-md-4">
+                                    <div class="form-group row">
+
+                                        <label class="col-sm- form-label">From Date</label>
+                                        <div class="col-sm-12">
+
+@*                                            <input type="text" name="datepickerFromDate" class="form-control" placeholder="2017-06-04" id="mdate" value="@ViewBag.FromDate" data-dtp="dtp_MvODR">*@
+                                              <input type="text" name="datepickerFromDate"  value="@ViewBag.FromDate"  class="form-control" placeholder="2017-06-04" id="mdate">
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group row">
+
+                                        <label class="col-sm- form-label">To Date</label>
+                                        <div class="col-sm-12">
+
+
+                                       
+
+                                              <input type="text" name="datepickerToDate"  value="@ViewBag.ToDate"  class="form-control" placeholder="2017-06-04" id="mdate1">
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group row">
+                                        <label class=" form-label">Select Status</label>
+                                        <div class="col-sm-12">
+
+
+
+
+
+                                            <select name="StatusType" id="setForStatus" class="form-control wide" asp-items="@(new SelectList(@ViewBag.OrdersMain,"Value","Text"))">
+                                                <option value="0">--Select Status--</option>
+                                            </select>
+                                        </div>
+
+
+
+                                    </div>
+
+
+                                </div>
+
+
+
+
+
+
+                            </div>
+
+                            <div class="form-group float-end">
+                                <button class="btn btn-rounded btn-success"> <i class="fa fa-search" aria-hidden="true"></i>  Filter</button>
+
+
+                                <a asp-action="AllOrders" asp-controller="Clients" class="btn btn-rounded btn-secondary">   <i class="fa fa-refresh" aria-hidden="true"></i>  Refresh</a>
+
+                            </div>
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <div class="row">
+        <div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-3">
+            <div class="widget-stat card">
+                <div class="card-body  p-4">
+                    <div class="media ai-icon">
+                        <span class="me-3 bgl-danger text-danger">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-currency-euro" viewBox="0 0 16 16">
+                                <path d="M4 9.42h1.063C5.4 12.323 7.317 14 10.34 14c.622 0 1.167-.068 1.659-.185v-1.3c-.484.119-1.045.17-1.659.17-2.1 0-3.455-1.198-3.775-3.264h4.017v-.928H6.497v-.936c0-.11 0-.219.008-.329h4.078v-.927H6.618c.388-1.898 1.719-2.985 3.723-2.985.614 0 1.175.05 1.659.177V2.194A6.617 6.617 0 0 0 10.341 2c-2.928 0-4.82 1.569-5.244 4.3H4v.928h1.01v1.265H4v.928z" />
+                            </svg>
+                        </span>
+                        <div class="media-body">
+                            <p class="mb-1">Total Payment </p>
+                            <h4 class="mb-0">@Model.OrderSummary.TotalPayment</h4>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-3">
+            <div class="widget-stat card">
+                <div class="card-body  p-4">
+                    <div class="media ai-icon">
+                        <span class="me-3 bgl-primary text-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-currency-euro" viewBox="0 0 16 16">
+                                <path d="M4 9.42h1.063C5.4 12.323 7.317 14 10.34 14c.622 0 1.167-.068 1.659-.185v-1.3c-.484.119-1.045.17-1.659.17-2.1 0-3.455-1.198-3.775-3.264h4.017v-.928H6.497v-.936c0-.11 0-.219.008-.329h4.078v-.927H6.618c.388-1.898 1.719-2.985 3.723-2.985.614 0 1.175.05 1.659.177V2.194A6.617 6.617 0 0 0 10.341 2c-2.928 0-4.82 1.569-5.244 4.3H4v.928h1.01v1.265H4v.928z" />
+                            </svg>
+                        </span>
+                        <div class="media-body">
+                            <p class="mb-1">Total Collection Payment</p>
+                            <h4 class="mb-0">@Model.OrderSummary.TotalCollectionPayment</h4>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-3">
+            <div class="widget-stat card">
+                <div class="card-body  p-4">
+                    <div class="media ai-icon">
+                        <span class="me-3 bgl-warning text-warning">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-currency-euro" viewBox="0 0 16 16">
+                                <path d="M4 9.42h1.063C5.4 12.323 7.317 14 10.34 14c.622 0 1.167-.068 1.659-.185v-1.3c-.484.119-1.045.17-1.659.17-2.1 0-3.455-1.198-3.775-3.264h4.017v-.928H6.497v-.936c0-.11 0-.219.008-.329h4.078v-.927H6.618c.388-1.898 1.719-2.985 3.723-2.985.614 0 1.175.05 1.659.177V2.194A6.617 6.617 0 0 0 10.341 2c-2.928 0-4.82 1.569-5.244 4.3H4v.928h1.01v1.265H4v.928z" />
+                            </svg>
+
+                        </span>
+                        <div class="media-body">
+                            <p class="mb-1">Total Delivery Payment </p>
+                            <h4 class="mb-0">@Model.OrderSummary.TotalDeliveryPayment</h4>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-3">
+            <div class="widget-stat card">
+                <div class="card-body  p-4">
+                    <div class="media ai-icon">
+                        <span class="me-3 bgl-danger text-danger">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-currency-euro" viewBox="0 0 16 16">
+                                <path d="M4 9.42h1.063C5.4 12.323 7.317 14 10.34 14c.622 0 1.167-.068 1.659-.185v-1.3c-.484.119-1.045.17-1.659.17-2.1 0-3.455-1.198-3.775-3.264h4.017v-.928H6.497v-.936c0-.11 0-.219.008-.329h4.078v-.927H6.618c.388-1.898 1.719-2.985 3.723-2.985.614 0 1.175.05 1.659.177V2.194A6.617 6.617 0 0 0 10.341 2c-2.928 0-4.82 1.569-5.244 4.3H4v.928h1.01v1.265H4v.928z" />
+                            </svg>
+                        </span>
+                        <div class="media-body">
+                            <p class="mb-1">Delivery charges</p>
+                            <h4 class="mb-0" >@Model.OrderSummary.DeliveryCharges</h4>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-3">
+            <div class="widget-stat card">
+                <div class="card-body  p-4">
+                    <div class="media ai-icon">
+                        <span class="me-3 bgl-success text-success">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-currency-euro" viewBox="0 0 16 16">
+                                <path d="M4 9.42h1.063C5.4 12.323 7.317 14 10.34 14c.622 0 1.167-.068 1.659-.185v-1.3c-.484.119-1.045.17-1.659.17-2.1 0-3.455-1.198-3.775-3.264h4.017v-.928H6.497v-.936c0-.11 0-.219.008-.329h4.078v-.927H6.618c.388-1.898 1.719-2.985 3.723-2.985.614 0 1.175.05 1.659.177V2.194A6.617 6.617 0 0 0 10.341 2c-2.928 0-4.82 1.569-5.244 4.3H4v.928h1.01v1.265H4v.928z" />
+                            </svg>
+                        </span>
+                        <div class="media-body">
+                            <p class="mb-1">Cash Payment </p>
+                            <h4 class="mb-0">@Model.OrderSummary.CashPayment</h4>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-3">
+            <div class="widget-stat card">
+                <div class="card-body  p-4">
+                    <div class="media ai-icon">
+                        <span class="me-3 bgl-success text-success">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-currency-euro" viewBox="0 0 16 16">
+                                <path d="M4 9.42h1.063C5.4 12.323 7.317 14 10.34 14c.622 0 1.167-.068 1.659-.185v-1.3c-.484.119-1.045.17-1.659.17-2.1 0-3.455-1.198-3.775-3.264h4.017v-.928H6.497v-.936c0-.11 0-.219.008-.329h4.078v-.927H6.618c.388-1.898 1.719-2.985 3.723-2.985.614 0 1.175.05 1.659.177V2.194A6.617 6.617 0 0 0 10.341 2c-2.928 0-4.82 1.569-5.244 4.3H4v.928h1.01v1.265H4v.928z" />
+                            </svg>
+                        </span>
+                        <div class="media-body">
+                            <p class="mb-1">Card Payment </p>
+                            <h4 class="mb-0">@Model.OrderSummary.CardPayment</h4>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-3">
+            <div class="widget-stat card">
+                <div class="card-body  p-4">
+                    <div class="media ai-icon">
+                        <span class="me-3 bgl-primary text-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-1-circle" viewBox="0 0 16 16">
+                                <path d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8Zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0ZM9.283 4.002V12H7.971V5.338h-.065L6.072 6.656V5.385l1.899-1.383h1.312Z" />
+                            </svg>
+                        </span>
+                        <div class="media-body">
+                            <p class="mb-1">Total Collection Orders</p>
+                            <h4 class="mb-0">@Model.OrderSummary.TotalCollectionOrders</h4>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-3">
+            <div class="widget-stat card">
+                <div class="card-body  p-4">
+                    <div class="media ai-icon">
+                        <span class="me-3 bgl-warning text-warning">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-1-circle" viewBox="0 0 16 16">
+                                <path d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8Zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0ZM9.283 4.002V12H7.971V5.338h-.065L6.072 6.656V5.385l1.899-1.383h1.312Z" />
+                            </svg>
+                        </span>
+                        <div class="media-body">
+                            <p class="mb-1">Total Delivery Orders</p>
+                            <h4 class="mb-0">@Model.OrderSummary.TotalDeliveryOrders</h4>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-blue">
+                    <h4 class="card-title text-white">Order List</h4>
+                </div>
+
+
+                <div class="card-body">
+
+                    @using (Html.BeginForm("AllOrders", "Clients", FormMethod.Post))
+                    {
+
+                        <div class="table-responsive">
+                            <table id="example" class="table header-border table-responsive-sm table-responsive-md table-responsive-lg">
+                                <thead>
+                                    <tr>
+                                       <th></th>
+                                        <th>Action</th>
+                                        <th>Customer Info</th>
+                                       
+                                      
+                                        
+                                        <th>Order Info</th>
+                                        <th>Col / Del Info</th>
+                                        <th>Total </th>
+                                        <th>Notes </th>
+                                       
+                                        
+                                        
+                                 
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.LOrder)
+                                    {
+                                        <tr>
+                                           
+                                         <td></td>
+                                            <td class="text-center">
+                                                <a onclick="LoadInvoiceData('@item.OrderNo')" class="btn  shadow btn-xs sharp btn-info btn-sm" data-toggle="tooltip" data-placement="bottom" title="Details"><i class="fa fa-receipt text-white"></i></a>&nbsp
+                                                <a onclick="PrintReceipt('@item.OrderId','1')" class="btn  shadow btn-xs sharp btn-warning btn-sm" data-toggle="tooltip" data-placement="bottom" title="Print"><i class="fa fa-print text-white"></i></a>
+                                                <br /><br />
+                                                @if (item.DeliveryType.ToLower() == "collection" && item.StatusName == "Order Delivered")
+                                                {
+                                                    <span class="badge light badge-success">Order Collected</span>
+                                                }
+                                                else
+                                                {
+
+                                                    <span class="badge light badge-danger">@Html.DisplayFor(modelItem => item.StatusName)</span>
+                                                }
+                                             </td>
+                                            <td>@Html.DisplayFor(modelItem => item.UserName)<br/>
+                                                @item.ContactNo<br/>
+                                                @item.Email</td>
+                                            <td> @Html.DisplayFor(modelItem => item.OrderNo)<br/>
+                                                @if (item.DeliveryType == "delivery")
+                                                {
+                                                <span class="badge light badge-success">@Html.DisplayFor(modelItem => item.DeliveryType)</span> 
+                                                }
+                                                else
+                                                {
+
+                                                <span class="badge light badge-danger">@Html.DisplayFor(modelItem => item.DeliveryType)</span>
+                                                }<br /><br />
+                                                @if (item.paymentType == "card")
+                                                {
+                                                    <span class="badge light badge-success">@Html.DisplayFor(modelItem => item.paymentType)</span>
+                                                }
+                                                else
+                                                {
+
+                                                    <span class="badge light badge-danger">@Html.DisplayFor(modelItem => item.paymentType)</span>
+                                                }
+                                           </td>
+                                            <td>
+                                                Order Time <br /> @Html.DisplayFor(modelItem => item.Systime)<br /><br />
+                                                @if(item.DeliveryType == "delivery"){
+                                                <span>Delivery Time</span>
+                                                }else{
+                                                <span>Collection Time</span>
+                                                }
+                                                 <br/>
+                                             @Html.DisplayFor(modelItem => item.DeliveryTime) 
+                                            </td>
+                                           
+                                            <td> <i class="fa fa-eur" aria-hidden="true"></i>	@Html.DisplayFor(modelItem => item.TotalAmount) </td>
+                                            <td>@item.Remarks</td>
+                                         
+                                           
+                                           
+                                        </tr>
+                                 
+
+
+
+                                    }
+
+
+
+
+
+
+
+                                </tbody>
+
+                            </table>
+                            
+                         
+                        </div>
+
+                    }
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+    </div>
+
+   
+</div>
+<script>
+   
+    $(document).ready(
+        
+            function () {
+                $('#setUserName').val('@ViewBag.Username');
+                    $('#setInvoiceNo').val('@ViewBag.Invoicenumber');
+                    $('#setParcelTypes').val('@ViewBag.ParcelType');
+                      $('.datepicker1').val('@ViewBag.FromDate');
+                    $('.datepicker2').val('@ViewBag.ToDate');
+                    $('#setForStatus').val('@ViewBag.StatusType');
+
+           
+
+          
+   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="../../ClientAssets/vendor/global/global.min.js"></script>
+
+
+
+<!-- momment js is must -->
+<script src="../../ClientAssets/vendor/moment/moment.min.js"></script>
+
+<script src="../../ClientAssets/vendor/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+<!-- pickdate -->
+<script src="../../ClientAssets/vendor/pickadate/picker.js"></script>
+<script src="../../ClientAssets/vendor/pickadate/picker.time.js"></script>
+<script src="../../ClientAssets/vendor/pickadate/picker.date.js"></script>
+
+<!-- Daterangepicker -->
+<!-- Material color picker init -->
+<script src="../../ClientAssets/js/plugins-init/material-date-picker-init.js"></script>
+<!-- Pickdate -->
+<script src="../../ClientAssets/js/plugins-init/pickadate-init.js"></script>
+
+
+<!-- Chartist -->
+
+
+
+
+
+

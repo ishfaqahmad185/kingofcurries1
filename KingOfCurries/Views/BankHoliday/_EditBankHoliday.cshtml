@@ -1,0 +1,201 @@
+﻿@model KingofCurries.Models.BankHoliday
+@{
+    
+}
+
+
+<!-- Plugin css for this page -->
+<!-- End plugin css for this page -->
+
+<link rel="stylesheet" href="~/theme/vendors/summernote/dist/summernote-bs4.css">
+<link rel="stylesheet" href="~/theme/vendors/quill/quill.snow.css">
+<link rel="stylesheet" href="~/theme/vendors/simplemde/simplemde.min.css">
+
+<div class="row m-0 mb-3">
+    <div class="col-lg-12">
+        <div class="alert alert-danger" id="addBankHolidayErrorMessage" hidden>
+
+        </div>
+
+    </div>
+
+</div>
+<div class="row">
+    <div class="col">
+        <form asp-action="Edit" id="EditBankHolidays">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+         
+
+            <input type="hidden" asp-for="BankHolidayId" id="ebankHolidayId" />
+    
+
+
+            <div class="form-group row">
+                <label asp-for="Title" for="etitle" class="col-sm-3 col-form-label">Title  Name *</label>
+                <div class="col-sm-9">
+                    <input asp-for="Title" class="form-control" type="text" id="etitle" placeholder="Title" required />
+                    <div class="invalid-feedback">
+                        Please Provide a valid Title
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group row">
+                <label asp-for="Dates" for="edates" class="col-sm-3 col-form-label">Dates *</label>
+                <div class="col-sm-9">
+
+                    <div id="datepicker1" class="input-group date datepicker">
+                        <input asp-for="Dates" class="form-control" type="text" id="edates" placeholder="dates" required />
+                        <span class="input-group-addon input-group-append border-left">
+                            <span class="ti-calendar input-group-text"></span>
+                        </span>
+
+                    </div>
+                    <div class="invalid-feedback">
+                        Please Provide a valid dates
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+
+
+
+            <div class="form-group">
+                <div class="custom-control custom-switch lg">
+                    <input type="checkbox" asp-for="Status" class="custom-control-input control" name="Status" id="estatus" data-val="true" data-val-required="Status" value="false">
+                    <label class="custom-control-label" for="estatus">Status</label>
+                </div>
+            </div>
+
+
+              
+           
+             
+
+            <div class="form-group float-right">
+                <a onclick="UpdateDelivery()" class="btn btn-success btn-sm text-white" data-toggle="tooltip" data-placement="bottom" title="Update"><i class="mdi mdi-update text-white"></i>Update</a>
+                <a id="back" class="btn btn-warning btn-sm text-white " data-dismiss="modal" aria-label="Close" title="Back"><i class="fa fa-chevron-left text-white"></i> Back</a>
+            </div>
+
+
+        </form>
+    </div>
+ </div>
+
+
+<script type="text/javascript">
+
+     
+   
+   
+
+
+    function UpdateDelivery() {
+
+        var form = $("#EditBankHolidays")[0];
+        var isValid = form.checkValidity();
+        //var isValid2 = CheckDateValidate();
+        if (!isValid) {
+
+
+        }
+        else {
+
+    
+
+
+        var Title = document.getElementById('etitle').value;
+        var Dates = document.getElementById('edates').value;
+        var Status = $('#estatus').prop('checked');
+        var BankHolidayId = document.getElementById('ebankHolidayId').value;
+
+          
+        displayBusyIndicator();
+        var bankHoliday = new FormData();
+        bankHoliday.append("BankHolidayId", BankHolidayId);
+        bankHoliday.append("Title", Title);
+        bankHoliday.append("Dates", Dates);
+        bankHoliday.append("Status", Status);
+
+
+
+
+        $.ajax({
+            type: "POST",
+            url: "/BankHoliday/UpdateBankHoliday/",
+
+            data: bankHoliday,
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,  // tell jQuery not to set contentType
+
+
+            success: function (result) {
+                if (result.code) {
+                    loadBankHoliday();
+                    displayBusyIndicator2();
+                    $('#EditBankHolidayModal').modal('hide');
+                    $('#addBankHolidaySuccessMessage').modal('hide');
+                    $('#addBankHolidaySuccessMessage').removeAttr('hidden');
+                    $('#addBankHolidaySuccessMessage').html('BankHoliday  is Updated Successfully');
+                    $('#addBankHolidaySuccessMessage').fadeIn();
+
+                    $('#addBankHolidaySuccessMessage').fadeTo(5000, 500).slideUp(500, function () {
+                        $("#addBankHolidaySuccessMessage").slideUp(500);
+                    });
+                    $('#addBankHolidaySuccessMessage').attr('hidden');
+
+                    
+                }
+                else {
+                    displayBusyIndicator2();
+
+                    $('#addBankHolidayErrorMessage').removeAttr('hidden');
+                    $('#addBankHolidayErrorMessage').html(result.responseText);
+                    $('#addBankHolidayErrorMessage').fadeIn();
+
+                    $('#addBankHolidayErrorMessage').fadeTo(5000, 500).slideUp(500, function () {
+                        $("#addBankHolidayErrorMessage").slideUp(500);
+                    });
+
+                    $('#addBankHolidayErrorMessage').attr('hidden');
+                }
+
+
+            },
+            error: function (errormessage) {
+                //alert(errormessage.responseText);
+            }
+        });
+        }
+        form.classList.add('was-validated');
+        return false;
+    }
+
+
+    $(function () {
+        $("#datepicker1").datepicker({
+            autoclose: true,
+            todayHighlight: true
+        });
+    });
+  
+  
+
+</script>
+
+<script src="~/theme/vendors/summernote/dist/summernote-bs4.min.js"></script>
+<script src="~/theme/vendors/tinymce/tinymce.min.js"></script>
+<script src="~/theme/vendors/quill/quill.min.js"></script>
+<script src="~/theme/vendors/simplemde/simplemde.min.js"></script>
+<!-- End plugin js for this page -->
+<!-- Custom js for this page-->
+<script src="~/theme/js/editorDemo.js"></script>
+
+<!-- Custom js for this page-->
+<!-- End custom js for this page-->

@@ -1,0 +1,802 @@
+﻿@model KingofCurries.Models.ClientDashBoard
+@{
+	Layout = "~/Views/Shared/_LayoutClients.cshtml";
+}
+<style>
+	@@media (max-width:1100px) {
+		.widget-stat .media .media-body p {
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 0.650rem;
+}
+	}
+</style>
+<div class="container-fluid">
+	<div class="form-head d-flex mb-3 align-items-start">
+		<div class="me-auto d-none d-lg-block">
+			<h2 class="text-primary font-w600 mb-0">Dashboard</h2>
+			<p class="mb-0">Welcome to Harry's Restro Admin!</p>
+		</div>
+
+		<div class="">
+			<form method="post" action="/Clients/Index">
+
+				<div class="input-group mb-3">
+					<input type="text" id="daterange" readonly class="form-control" name="daterange" value="@ViewBag.GetDateRange" />
+					<button type="submit" class="btn btn-primary" id="basic-addon2">
+						<i class="fa fa-search" aria-hidden="true"></i> Search
+					</button>
+
+				</div>
+
+			</form>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xl-4 col-xxl-4 col-lg-4 col-md-6 col-sm-6">
+			<div class="widget-stat card">
+				<div class="card-body p-4">
+					<div class="media ai-icon d-flex">
+						<span class="me-3 bgl-primary text-primary">
+							<!-- <i class="ti-user"></i> -->
+							<img src="~/images/cargo.png" class="w-75" />
+						</span>
+						<div class="media-body">
+							<h5 class="mb-0 text-black"><span class="counter ms-0">@Model.TotalOrders</span></h5>
+							<p class="mb-0">Total Orders</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-4 col-xxl-4 col-lg-4 col-md-6 col-sm-6">
+			<div class="widget-stat card">
+				<div class="card-body p-4">
+					<div class="media ai-icon d-flex">
+						<span class="me-3 bgl-primary text-primary">
+							<!-- <i class="ti-user"></i> -->
+							<img src="../../images/tablet.png" class="w-75" />
+						</span>
+						<div class="media-body">
+							<h5 class="mb-0 text-black"><span class="counter ms-0">@Model.CollectionOrders</span></h5>
+							<p class="mb-0">Collection Orders</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-4 col-xxl-4 col-lg-4 col-md-6 col-sm-6">
+			<div class="widget-stat card">
+				<div class="card-body p-4">
+					<div class="media ai-icon d-flex">
+						<span class="me-3 bgl-primary text-primary">
+							<!-- <i class="ti-user"></i> -->
+							<img src="../../images/shipping.png" class="w-75" />
+						</span>
+						<div class="media-body">
+							<h5 class="mb-0 text-black"><span class="counter ms-0">@Model.DeliveryOrders</span></h5>
+							<p class="mb-0">Delivery Orders</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-3 col-xxl-3 col-lg-4 col-md-6 col-sm-6">
+			<div class="widget-stat card">
+				<div class="card-body p-4">
+					<div class="media ai-icon d-flex">
+						<span class="me-3 bgl-primary text-primary">
+							<!-- <i class="ti-user"></i> -->
+							<img src="../../images/schedule.png" class="w-75" />
+						</span>
+						<div class="media-body">
+							<h5 class="mb-0 text-black"> <span class="counter ms-0">@Model.TotalReservation</span></h5>
+							<p class="mb-0">Total Reservations</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-3 col-xxl-3 col-lg-4 col-md-6 col-sm-6">
+			<div class="widget-stat card">
+				<div class="card-body p-4">
+					<div class="media ai-icon d-flex">
+						<span class="me-3 bgl-primary text-primary">
+							<!-- <i class="ti-user"></i> -->
+							<img src="../../images/booking.png" class="w-75" />
+						</span>
+						<div class="media-body">
+							<h5 class="mb-0 text-black"> <span class="counter ms-0">@Model.ConfrimReservation</span></h5>
+							<p class="mb-0">Confirm Reservations</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-3 col-xxl-3 col-lg-4 col-md-6 col-sm-6">
+			<div class="widget-stat card">
+				<div class="card-body p-4">
+					<div class="media ai-icon d-flex">
+						<span class="me-3 bgl-primary text-primary">
+							<!-- <i class="ti-user"></i> -->
+							<img src="../../images/cancel.png" class="w-75" />
+						</span>
+						<div class="media-body">
+							<h5 class="mb-0 text-black"> <span class="counter ms-0">@Model.CancelReservation</span></h5>
+							<p class="mb-0">Cancelled Reservations</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-3 col-xxl-3 col-lg-4 col-md-6 col-sm-6">
+			<div class="widget-stat card">
+				<div class="card-body p-4">
+					<div class="media ai-icon d-flex">
+						<span class="me-3 bgl-primary text-primary">
+							<!-- <i class="ti-user"></i> -->
+							<img src="../../images/calendar.png" class="w-75" />
+						</span>
+						<div class="media-body">
+							<h5 class="mb-0 text-black"> <span class="counter ms-0">@Model.NewReservation</span></h5>
+							<p class="mb-0">New Reservations</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-3 col-xxl-3 col-lg-4 col-md-6 col-sm-6">
+			<div class="widget-stat card">
+				<div class="card-body p-4">
+					<div class="media ai-icon d-flex">
+						<span class="me-3 bgl-primary text-primary">
+							<!-- <i class="ti-user"></i> -->
+							<img src="../../images/invoice(1).png" class="w-75" />
+						</span>
+						<div class="media-body">
+							<h5 class="mb-0 text-black">€<span class="counter ms-0">@Model.TotalPayments</span></h5>
+							<p class="mb-0">Total Payments</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-3 col-xxl-3 col-lg-4 col-md-6 col-sm-6">
+			<div class="widget-stat card">
+				<div class="card-body p-4">
+					<div class="media ai-icon d-flex">
+						<span class="me-3 bgl-primary text-primary">
+							<!-- <i class="ti-user"></i> -->
+							<img src="../../images/get-money.png" class="w-75" />
+						</span>
+						<div class="media-body">
+							<h5 class="mb-0 text-black">€<span class="counter ms-0">@Model.DeliveryPayments</span></h5>
+							<p class="mb-0">Delivery Order Payment</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-3 col-xxl-3 col-lg-4 col-md-6 col-sm-6">
+			<div class="widget-stat card">
+				<div class="card-body p-4">
+					<div class="media ai-icon d-flex">
+						<span class="me-3 bgl-primary text-primary">
+							<!-- <i class="ti-user"></i> -->
+							<img src="../../images/invoice.png" class="w-75" />
+						</span>
+						<div class="media-body">
+							<h5 class="mb-0 text-black">€<span class="counter ms-0">@Model.Collectionpayments</span></h5>
+							<p class="mb-0">Collection Order Payment</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-3 col-xxl-3 col-lg-4 col-md-6 col-sm-6">
+			<div class="widget-stat card">
+				<div class="card-body p-4">
+					<div class="media ai-icon d-flex">
+						<span class="me-3 bgl-primary text-primary">
+							<!-- <i class="ti-user"></i> -->
+							<img src="../../images/food-truck.png" class="w-75" />
+						</span>
+						<div class="media-body">
+							<h5 class="mb-0 text-black">€<span class="counter ms-0">@Model.DeliveryCharges</span></h5>
+							<p class="mb-0">Delivery Charges</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xl-3 col-xxl-3 col-lg-4 col-md-6 col-sm-6">
+			<div class="widget-stat card">
+				<div class="card-body p-4">
+					<div class="media ai-icon d-flex">
+						<span class="me-3 bgl-primary text-primary">
+							<!-- <i class="ti-user"></i> -->
+							<img src="../../images/printed.png" class="w-75" />
+						</span>
+						<div class="media-body">
+							<h5 class="mb-0 text-black"><span class="counter ms-0">@Model.TotalCard</span></h5>
+							<p class="mb-0">Card Orders</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-3 col-xxl-3 col-lg-4 col-md-6 col-sm-6">
+			<div class="widget-stat card">
+				<div class="card-body p-4">
+					<div class="media ai-icon d-flex">
+						<span class="me-3 bgl-primary text-primary">
+							<!-- <i class="ti-user"></i> -->
+							<img src="../../images/credit-card(1).png" class="w-75" />
+						</span>
+						<div class="media-body">
+							<h5 class="mb-0 text-black">€<span class="counter ms-0">@Model.Cardpayments</span></h5>
+							<p class="mb-0">Card Payment</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-3 col-xxl-3 col-lg-4 col-md-6 col-sm-6">
+			<div class="widget-stat card">
+				<div class="card-body p-4">
+					<div class="media ai-icon d-flex">
+						<span class="me-3 bgl-primary text-primary">
+							<!-- <i class="ti-user"></i> -->
+							<img src="../../images/banknotes.png" class="w-75" />
+						</span>
+						<div class="media-body">
+							<h5 class="mb-0 text-black"><span class="counter ms-0">@Model.TotalCash</span></h5>
+							<p class="mb-0">Cash Orders</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-3 col-xxl-3 col-lg-4 col-md-6 col-sm-6">
+			<div class="widget-stat card">
+				<div class="card-body p-4">
+					<div class="media ai-icon d-flex">
+						<span class="me-3 bgl-primary text-primary">
+							<!-- <i class="ti-user"></i> -->
+							<img src="../../images/payment-method.png" class="w-75" />
+						</span>
+						<div class="media-body">
+							<h5 class="mb-0 text-black">€<span class="counter ms-0">@Model.Cashpayments</span></h5>
+							<p class="mb-0">Cash Payments</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xl-6 col-xxl-6 col-lg-12 col-md-12">
+			<div class="card">
+				<div class="card-header border-0 pb-0 d-sm-flex flex-wrap d-block">
+					<div class="mb-3">
+						<h4 class="card-title mb-1">Orders Summary</h4>
+						<small class="mb-0">Harry's Restro</small>
+					</div>
+
+				</div>
+				<div class="card-body tab-content orders-summary pt-3">
+					<div class="tab-pane fade show active" id="Monthly">
+						<div class="d-flex flex-wrap order-manage p-3 align-items-center mb-4">
+							<a href="javascript:void(0);" class="btn fs-22 text-white py-1 btn-success px-4 me-3">@Model.NewOrders</a>
+							<h4 class="mb-0">New Orders <i class="fa fa-circle text-success ms-1 fs-15"></i></h4>
+						</div>
+						<div class="row">
+							<div class="col-sm-4 mb-4">
+								<div class="border px-3 py-3 rounded-xl">
+									<h2 class="fs-32 font-w600 counter">@Model.DeliveryOrders</h2>
+									<p class="fs-16 mb-0">Delivery</p>
+								</div>
+							</div>
+							<div class="col-sm-4 mb-4">
+								<div class="border px-3 py-3 rounded-xl">
+									<h2 class="fs-32 font-w600 counter">@Model.CollectionOrders</h2>
+									<p class="fs-16 mb-0">Collection</p>
+								</div>
+							</div>
+							<div class="col-sm-4 mb-4">
+								<div class="border px-3 py-3 rounded-xl">
+									<h2 class="fs-32 font-w600 counter">@Model.CancelOrders</h2>
+									<p class="fs-16 mb-0">Canceled</p>
+								</div>
+							</div>
+						</div>
+						<div class="widget-timeline-icon">
+							<div class="row align-items-center">
+								<div class="col-xl-3 col-lg-2 col-xxl-4 col-sm-3 col-md-3 my-2 text-center text-sm-left">
+									<div id="chart" class="d-inline-block"></div>
+								</div>
+								<div class="col-xl-9 col-lg-10 col-xxl-8 col-sm-9 col-md-9">
+									<div class="d-flex align-items-center mb-3">
+										<p class="mb-0 fs-14 me-2 col-4 col-xxl-5 px-0">Deliverys (@Model.DeliveryPercentage%)</p>
+										<div class="progress mb-0" style="height:8px; width:100%;">
+											<div class="progress-bar bg-warning progress-animated" style="width:@Model.DeliveryPercentage%; height:8px;" role="progressbar">
+												<span class="sr-only">@Model.DeliveryPercentage% Complete</span>
+											</div>
+										</div>
+										<span class="pull-right ms-auto col-1 col-xxl-2 px-0 text-right">@Model.DeliveryOrders</span>
+									</div>
+									<div class="d-flex align-items-center  mb-3">
+										<p class="mb-0 fs-14 me-2 col-4 col-xxl-5 px-0">Collections (@Model.CollectionPercentage%)</p>
+										<div class="progress mb-0" style="height:8px; width:100%;">
+											<div class="progress-bar bg-success progress-animated" style="width:@Model.CollectionPercentage%; height:8px;" role="progressbar">
+												<span class="sr-only">@Model.CollectionPercentage% Complete</span>
+											</div>
+										</div>
+										<span class="pull-right ms-auto col-1 col-xxl-2 px-0 text-right">@Model.CollectionOrders</span>
+									</div>
+									<div class="d-flex align-items-center">
+										<p class="mb-0 fs-14 me-2 col-4 col-xxl-5 px-0">Cancelled (@Model.CancelledPercentage%)</p>
+										<div class="progress mb-0" style="height:8px; width:100%;">
+											<div class="progress-bar bg-dark progress-animated" style="width:@Model.CancelledPercentage%; height:8px;" role="progressbar">
+												<span class="sr-only">@Model.CancelledPercentage% Complete</span>
+											</div>
+										</div>
+										<span class="pull-right ms-auto col-1 col-xxl-2 px-0 text-right">@Model.CancelOrders</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-6 col-xxl-6 col-lg-12 col-md-12">
+			<div class="card">
+				<div class="card-header border-0 pb-0 d-sm-flex flex-wrap d-block">
+					<div class="mb-3">
+						<h4 class="card-title mb-1">Reservations Summary</h4>
+						<small class="mb-0">Harry's Restro</small>
+					</div>
+
+				</div>
+				<div class="card-body tab-content orders-summary pt-3">
+					<div class="tab-pane fade show active" id="Monthly">
+						<div class="d-flex flex-wrap order-manage p-3 align-items-center mb-4">
+							<a href="javascript:void(0);" class="btn fs-22 text-white py-1 btn-success px-4 me-3">@Model.NewReservation</a>
+							<h4 class="mb-0">New Reservation <i class="fa fa-circle text-success ms-1 fs-15"></i></h4>
+						</div>
+						<div class="row">
+							<div class="col-sm-4 mb-4">
+								<div class="border px-3 py-3 rounded-xl">
+									<h2 class="fs-32 font-w600 counter">@Model.TotalReservation</h2>
+									<p class="fs-16 mb-0">Total</p>
+								</div>
+							</div>
+							<div class="col-sm-4 mb-4">
+								<div class="border px-3 py-3 rounded-xl">
+									<h2 class="fs-32 font-w600 counter">@Model.ConfrimReservation</h2>
+									<p class="fs-16 mb-0">Confirm</p>
+								</div>
+							</div>
+							<div class="col-sm-4 mb-4">
+								<div class="border px-3 py-3 rounded-xl">
+									<h2 class="fs-32 font-w600 counter">@Model.CancelReservation</h2>
+									<p class="fs-16 mb-0">Canceled</p>
+								</div>
+							</div>
+						</div>
+						<div class="widget-timeline-icon">
+							<div class="row align-items-center">
+								<div class="col-xl-3 col-lg-2 col-xxl-4 col-sm-3 col-md-3 my-2 text-center text-sm-left">
+									<div id="chart2" class="d-inline-block"></div>
+								</div>
+								<div class="col-xl-9 col-lg-10 col-xxl-8 col-sm-9 col-md-9">
+									<div class="d-flex align-items-center mb-3">
+										<p class="mb-0 fs-14 me-2 col-4 col-xxl-5 px-0">New (@Model.NewReservationPercentage%)</p>
+										<div class="progress mb-0" style="height:8px; width:100%;">
+											<div class="progress-bar bg-warning progress-animated" style="width:@Model.NewReservationPercentage%; height:8px;" role="progressbar">
+												<span class="sr-only">@Model.NewReservationPercentage% Complete</span>
+											</div>
+										</div>
+										<span class="pull-right ms-auto col-1 col-xxl-2 px-0 text-right">@Model.NewReservation</span>
+									</div>
+									<div class="d-flex align-items-center  mb-3">
+										<p class="mb-0 fs-14 me-2 col-4 col-xxl-5 px-0">Confirm (@Model.ConfrimReservationPercentage%)</p>
+										<div class="progress mb-0" style="height:8px; width:100%;">
+											<div class="progress-bar bg-success progress-animated" style="width:@Model.ConfrimReservationPercentage%; height:8px;" role="progressbar">
+												<span class="sr-only">@Model.ConfrimReservationPercentage% Complete</span>
+											</div>
+										</div>
+										<span class="pull-right ms-auto col-1 col-xxl-2 px-0 text-right">@Model.ConfrimReservation</span>
+									</div>
+									<div class="d-flex align-items-center">
+										<p class="mb-0 fs-14 me-2 col-4 col-xxl-5 px-0">Cancelled (@Model.CancelReservationPercentage%)</p>
+										<div class="progress mb-0" style="height:8px; width:100%;">
+											<div class="progress-bar bg-dark progress-animated" style="width:@Model.CancelReservationPercentage%; height:8px;" role="progressbar">
+												<span class="sr-only">@Model.CancelReservationPercentage% Complete</span>
+											</div>
+										</div>
+										<span class="pull-right ms-auto col-1 col-xxl-2 px-0 text-right">@Model.CancelReservation</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-9 col-xxl-8 col-lg-12 col-md-12">
+			<div id="user-activity" class="card">
+				<div class="card-header border-0 pb-0 d-sm-flex d-block">
+					<div>
+						<h4 class="card-title mb-1">Order By Date</h4>
+						<small class="mb-0">Harry's Restro</small>
+					</div>
+
+				</div>
+				<div class="card-body">
+					<div class="tab-content" id="myTabContent">
+						<div class="tab-pane fade show active" id="user" role="tabpanel">
+							<canvas id="activity" class="chartjs"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-3 col-xxl-4 col-lg-12 col-md-12">
+			<div class="card " style="background-image:url(../../ClientAssets/images/bg-icon.png); background-repeat:no-repeat; background-position:top right;">
+				<div class="card-body  mt-3">
+					<h5>Top 3 Products</h5>
+					<div class="row mb-4">
+						@{
+							var count1 = 1;
+							@foreach (var item in Model.TopProducts)
+							{
+								int percent = 0;
+								if (item.Count > 0)
+								{
+									percent = (int)Math.Round((double)((item.Count * 100) / Model.TotalProducts));
+
+								}
+
+								if (count1 == 1)
+								{
+
+									<div class="col-12">
+										<div class="d-flex justify-content-between">
+											<h6>@percent%</h6>
+											<span>@item.Key</span>
+										</div>
+										<div class="progress">
+											<div class="progress-bar bg-primary" style="width: @percent%"></div>
+										</div>
+									</div>
+									count1 = 2;
+								}
+								else if (count1 == 2)
+								{
+									<div class="col-12 mt-3">
+										<div class="d-flex justify-content-between">
+											<h6>@percent%</h6>
+											<span>@item.Key</span>
+										</div>
+										<div class="progress">
+											<div class="progress-bar bg-success" style="width: @percent%"></div>
+										</div>
+									</div>
+									count1 = 3;
+								}
+								else
+								{
+									<div class="col-12 mt-3 mb-3">
+										<div class="d-flex justify-content-between">
+											<h6>@percent%</h6>
+											<span>@item.Key</span>
+										</div>
+										<div class="progress">
+											<div class="progress-bar bg-warning" style="width: @percent%"></div>
+										</div>
+									</div>
+								}
+
+							}
+
+						}
+
+					</div>
+
+					<h5>Top 3 Location</h5>
+					<div class="row">
+						@{
+							var count = 1;
+							@foreach (var item in Model.TopLocation)
+							{
+								
+								int percent =0;
+								if (item.Count > 0)
+								{
+									percent = (int)Math.Round((double)((item.Count * 100) / Model.DeliveryOrders));
+
+								}
+
+								if (count == 1)
+								{
+
+									<div class="col-12">
+										<div class="d-flex justify-content-between">
+											<h6>@percent%</h6>
+											<span>@item.Key</span>
+										</div>
+										<div class="progress">
+											<div class="progress-bar bg-primary" style="width: @percent%"></div>
+										</div>
+									</div>
+									count=2;
+										}
+								else if (count == 2)
+								{
+									<div class="col-12 mt-3">
+										<div class="d-flex justify-content-between">
+											<h6>@percent%</h6>
+											<span>@item.Key</span>
+										</div>
+										<div class="progress">
+											<div class="progress-bar bg-success" style="width: @percent%"></div>
+										</div>
+									</div>
+									count = 3;
+								}
+								else
+								{
+									<div class="col-12 mt-3 mb-3">
+										<div class="d-flex justify-content-between">
+											<h6>@percent%</h6>
+											<span>@item.Key</span>
+										</div>
+										<div class="progress">
+											<div class="progress-bar bg-warning" style="width: @percent%"></div>
+										</div>
+									</div>
+								}
+
+							}
+
+						}
+
+					
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts{
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+	<script>
+
+
+		$(document).ready(function () {
+			donutChart();
+			donutChart2();
+			activityBar();
+
+		});
+
+
+
+
+
+
+
+		var deliveryData = @Model.DeliveryOrders;
+		var CollectionData = @Model.CollectionOrders;
+		var CanceledData = @Model.CancelOrders;
+		var donutChart = function () {
+
+			var options = {
+				series: [deliveryData, CollectionData, CanceledData],
+				colors: ['#ff5c5a', '#2bc156', '#404a56'],
+				chart: {
+					width: 140,
+					height: 140,
+					type: 'donut',
+					sparkline: {
+						enabled: true,
+					},
+
+				},
+				plotOptions: {
+					pie: {
+						customScale: 1,
+						donut: {
+							size: '50%'
+
+						}
+					}
+				},
+				dataLabels: {
+					enabled: false
+				},
+				responsive: [{
+					breakpoint: 1300,
+					options: {
+						chart: {
+							width: 120,
+							height: 120
+						},
+					}
+				}],
+				legend: {
+					show: false
+				}
+			};
+			var chart = new ApexCharts(document.querySelector("#chart"), options);
+			chart.render();
+		}
+
+		var newReservation = @Model.NewReservation;
+		var confirmReservation = @Model.ConfrimReservation;
+		var cancelReservation = @Model.CancelReservation;
+		var donutChart2 = function () {
+
+			var options = {
+				series: [newReservation, confirmReservation, cancelReservation],
+				colors: ['#ff5c5a', '#2bc156', '#404a56'],
+				chart: {
+					width: 140,
+					height: 140,
+					type: 'donut',
+					sparkline: {
+						enabled: true,
+					},
+
+				},
+				plotOptions: {
+					pie: {
+						customScale: 1,
+						donut: {
+							size: '50%'
+
+						}
+					}
+				},
+				dataLabels: {
+					enabled: false
+				},
+				responsive: [{
+					breakpoint: 1300,
+					options: {
+						chart: {
+							width: 120,
+							height: 120
+						},
+					}
+				}],
+				legend: {
+					show: false
+				}
+			};
+			var chart = new ApexCharts(document.querySelector("#chart2"), options);
+			chart.render();
+		}
+
+
+		$(function () {
+			var date = new Date();
+
+			$('input[name="daterange"]').daterangepicker({
+				opens: 'left',
+				showDropdowns: true,
+				minYear: 2020,
+				maxYear: date.getFullYear() + 1,
+				locale: {
+					format: 'DD MMM, YYYY'
+				}
+			}, function (start, end, label) {
+				console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+			});
+		});
+
+		var activityBar = function () {
+
+			var arrayOfKeys = JSON.parse('@Html.Raw(Json.Serialize(@Model.keys))');
+			var arrayOfCounts = JSON.parse('@Html.Raw(Json.Serialize(@Model.counts))');
+		
+
+			var activity = document.getElementById("activity");
+			if (activity !== null) {
+				var activityData = [{
+					first: arrayOfCounts
+				},
+
+				];
+				activity.height = 170;
+
+				var config = {
+					type: "bar",
+					data: {
+						labels: arrayOfKeys,
+						datasets: [
+							{
+								label: "Order By Date",
+								data: arrayOfCounts,
+								borderColor: 'rgba(47, 76, 221, 1)',
+								borderWidth: "0",
+								barThickness: 'flex',
+								backgroundColor: 'rgba(47, 76, 221, 1)',
+								minBarLength: 10
+							}
+						]
+					},
+					options: {
+						responsive: true,
+						maintainAspectRatio: false,
+
+						legend: {
+							display: false
+						},
+						scales: {
+							yAxes: [{
+								gridLines: {
+									color: "rgba(233,236,255,1)",
+									drawBorder: true
+								},
+								ticks: {
+									fontColor: "#3e4954",
+									max: 20,
+									min: 0,
+									stepSize: 2
+								},
+							}],
+							xAxes: [{
+								barPercentage: 0.3,
+
+								gridLines: {
+									display: false,
+									zeroLineColor: "transparent"
+								},
+								ticks: {
+									stepSize: 20,
+									fontColor: "#3e4954",
+									fontFamily: "Nunito, sans-serif"
+								}
+							}]
+						},
+						tooltips: {
+							mode: "index",
+							intersect: false,
+							titleFontColor: "#888",
+							bodyFontColor: "#555",
+							titleFontSize: 12,
+							bodyFontSize: 15,
+							backgroundColor: "rgba(255,255,255,1)",
+							displayColors: true,
+							xPadding: 10,
+							yPadding: 7,
+							borderColor: "rgba(220, 220, 220, 1)",
+							borderWidth: 1,
+							caretSize: 6,
+							caretPadding: 10
+						}
+					}
+				};
+
+				var ctx = document.getElementById("activity").getContext("2d");
+				var myLine = new Chart(ctx, config);
+
+				var items = document.querySelectorAll("#user-activity .nav-tabs .nav-item");
+				items.forEach(function (item, index) {
+					item.addEventListener("click", function () {
+						config.data.datasets[0].data = activityData[index].first;
+						myLine.update();
+					});
+				});
+			}
+		}
+
+
+	</script>
+
+					}

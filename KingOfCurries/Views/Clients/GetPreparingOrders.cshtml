@@ -1,0 +1,126 @@
+﻿@{
+	ViewData["Title"] = "GetPreparingOrders";
+	Layout = "~/Views/Shared/_LayoutClients.cshtml";
+}
+
+<div class="container-fluid">
+	<div class="form-head d-flex mb-3 align-items-start">
+		<div class="me-auto d-none d-lg-block">
+			<h2 class="text-primary font-w600 mb-0">Preparing Orders</h2>
+			<p class="mb-0">Welcome to Harry's Restro Admin!</p>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="alert  alert-change-duration " hidden>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-header bg-blue">
+					<h4 class="card-title text-white">Preparing Orders</h4>
+				</div>
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table table-responsive-md">
+							<thead class="OrderTableHeader">
+							</thead>
+							<tbody class="ordersMainAllPreparing">
+							</tbody>
+
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+
+</div>
+
+@await Html.PartialAsync("~/Views/Clients/_ChangePrepareationTime.cshtml")
+
+
+@section Scripts{
+
+	<script type="text/javascript">
+
+		$(function () {
+			$("#btnChangeDuration").on("click", function (e) {
+				var form = $(".change-duration-form")[0];
+				var isValid = form.checkValidity();
+				if (!isValid) {
+					e.preventDefault();
+					e.stopPropagation();
+				}
+				else {
+
+
+					ChangeDurration();
+
+				}
+				form.classList.add('was-validated');
+				return false; // For testing only to stay on this page
+			});
+		});
+
+
+		function ChangeDurration() {
+
+			var orderId = $("#hdnOrderId").val();
+			var orderTime = $("#txtDuration").val();
+			var orderType = $("#ddlDurationType").val();
+
+			var formData = new FormData();
+			formData.append("orderId", orderId);
+			formData.append("orderTime", orderTime);
+			formData.append("orderType", orderType);
+
+			$.ajax({
+
+				method: "Post",
+				url: "/Clients/ChangeOrderduration",
+
+				data: formData, 
+				processData: false,
+				contentType: false,
+				dataType: "json",
+				success: function (result) {
+
+					if (result.success) {
+						$("#ChangePreparationDuration").modal('hide');
+						$(".alert-change-duration").html(result.responseText);
+						$(".alert-change-duration").addClass("alert-success");
+						$(".alert-change-duration").removeAttr("hidden");
+						$(".alert-change-duration").show();
+					
+					} else {
+						$(".alert-change-duration").html(result.responseText);
+						$(".alert-change-duration").addClass("alert-danger");
+						$(".alert-change-duration").removeAttr("hidden");
+						$(".alert-change-duration").show();
+					}
+
+				},
+
+				error: function (errorResponse) {
+
+
+					$(".alert-change-duration").html(errorResponse.Message);
+					$(".alert-change-duration").addClass("alert-danger");
+				},
+
+			})
+
+		}
+
+
+	</script>
+	}
+
+

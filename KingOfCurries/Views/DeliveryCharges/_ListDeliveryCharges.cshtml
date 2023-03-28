@@ -1,0 +1,232 @@
+﻿@model KingofCurries.Models.DeliveryCharges
+@{
+
+}
+<style>
+    @@media only screen and (min-width: 850px) {
+
+        .MobileviewMaxwidth1 {
+            max-width: 60% !important;
+        }
+    }
+</style>
+
+
+
+<div class="card">
+    <div class="card-body">
+
+
+
+
+        <div class="row">
+            <div class="search">
+
+                <input type="text" id="myInput" onkeyup="SearchFunction()" class="searchTerm" placeholder="Search Your Delivery Charges....">
+
+            </div>
+        </div>
+
+        <table id="myTable" class="table ">
+            <thead>
+                <tr>
+                    <th>
+                        Title
+                    </th>
+
+                    <th>
+                        Price
+                    </th>
+
+
+
+
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="deliveryChargesList">
+            </tbody>
+        </table>
+
+    </div>
+
+
+</div>
+
+<div class="row">
+    <div class="col-12 grid-margin">
+        <div class="modal fade" id="DeliveryChargesPopUp" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable mt-4 MobileviewMaxwidth1" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add DeliveryCharges</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fa fa-window-close-o"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="AddPreview">
+                        @await Html.PartialAsync("~/Views/DeliveryCharges/_AddDeliveryCharges.cshtml", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12 grid-margin">
+        <div class="modal fade" id="EditDeliveryChargesModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable mt-4 MobileviewMaxwidth1" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit DeliveryCharges</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fa fa-window-close-o"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="EditDeliveryChargesPreview">
+                        @await Html.PartialAsync("~/Views/DeliveryCharges/_EditDeliveryCharges.cshtml", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        loadDeliveryCharges();
+
+
+    });
+
+    function loadDeliveryCharges() {
+
+        $.ajax({
+            url: "/DeliveryCharges/ListDeliveryCharges",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+
+                console.log(result)
+                var html = '';
+                if (result.code === true) {
+
+
+
+
+
+                    $.each(result.jsonText, function (key, item) {
+
+
+
+                        html += '<tr>';
+                        html += '<td class="text-wrap" >' + item.title + '</td>';
+                        html += '<td class="text-wrap" >' + item.price + '</td>';
+                        html += ' <td>';
+
+                        html += '<a onclick="EditdeliveryCharges(' + item.deliveryChargesId + ')" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fa fa-edit text-white"></i></a>&nbsp;';
+                        html += '<a onclick="DeletedeliveryCharges(' + item.deliveryChargesId + ')" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash text-white"></i></a>';
+
+                        html += ' </td>';
+                        html += '</tr>';
+                    });
+                    $('.deliveryChargesList').html(html);
+                } else {
+                    alert(false);
+                }
+            },
+            error: function (errormessage) {
+                //alert(errormessage.responseText);
+            }
+        });
+    }
+
+    function AddDelivery() {
+
+        $('#DeliveryChargesPopUp').modal('show');
+
+    }
+
+    function EditdeliveryCharges(id) {
+        $.ajax({
+            type: "Get",
+            url: '@Url.Action("EditDeliveryChargesById", "DeliveryCharges")',
+            data: { id: id },
+            success: function (data) {
+                $('#EditDeliveryChargesPreview').html(data);
+                $('#EditDeliveryChargesModal').modal('show');
+
+            }
+        })
+    }
+
+    function DeletedeliveryCharges(id) {
+
+        var ans = confirm("Are you sure you want to delete this Delete DeliveryCharges?");
+        if (ans) {
+            $.ajax({
+                url: "/DeliveryCharges/DeleteDeliveryCharges/" + id,
+                type: "POST",
+
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result.success) {
+                        loadDeliveryCharges();
+                        $(window).scrollTop(0);
+                        $('#addDeliveryChargesSuccessMessage').removeAttr('hidden');
+                        $('#addDeliveryChargesSuccessMessage').html('DeliveryCharges Deleted Successfully');
+                        $('#addDeliveryChargesSuccessMessage').fadeIn();
+
+                        $('#addDeliveryChargesSuccessMessage').fadeTo(5000, 500).slideUp(500, function () {
+                            $("#addDeliveryChargesSuccessMessage").slideUp(500);
+                        });
+                        $('#addDeliveryChargesSuccessMessage').attr('hidden');
+
+                    }
+                    else {
+
+
+
+                    }
+
+
+                },
+                error: function (errormessage) {
+                    // alert(errormessage.responseText);
+                }
+            });
+        }
+    }
+
+    function SearchFunction() {
+        var input, filter, table, tr, td, i, ii;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.querySelectorAll("tbody tr");
+        for (i = 0; i < tr.length; i++) {
+            var tds = tr[i].getElementsByTagName("td");
+            var found = false;
+            for (ii = 0; ii < tds.length && !found; ii++) {
+                if (tds[ii].textContent.toUpperCase().indexOf(filter) > -1) {
+                    found = true;
+                    break;
+                }
+            }
+            tr[i].style.display = found ? "" : "none";
+        }
+    }
+
+
+
+</script>

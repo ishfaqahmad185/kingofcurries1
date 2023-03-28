@@ -1,0 +1,234 @@
+﻿@model KingofCurries.Models.BankHoliday
+@{
+
+}
+<style>
+    @@media only screen and (min-width: 850px) {
+
+        .MobileviewMaxwidth1 {
+            max-width: 60% !important;
+        }
+    }
+</style>
+
+
+
+<div class="card">
+    <div class="card-body">
+
+
+
+
+        <div class="row">
+            <div class="search">
+
+                <input type="text" id="myInput" onkeyup="myFunction()" class="searchTerm" placeholder="Search Bank Holiyday....">
+
+            </div>
+        </div>
+
+        <table id="myTable" class="table ">
+            <thead>
+                <tr>
+                    <th>
+                        Title
+                    </th>
+
+                    <th>
+                        Dates
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bankHoliday">
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+
+<div class="row">
+    <div class="col-12 grid-margin">
+        <div class="modal fade" id="BankHolidayPopUp" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable mt-4 MobileviewMaxwidth1" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add DeliveryCharges</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fa fa-window-close-o"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="AddPreview">
+                        @await Html.PartialAsync("~/Views/BankHoliday/_AddBankHoliday.cshtml", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12 grid-margin">
+        <div class="modal fade" id="EditBankHolidayModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable mt-4 MobileviewMaxwidth1" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit BankHoliday </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fa fa-window-close-o"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="EditBankHolidayPreview">
+                        @await Html.PartialAsync("~/Views/BankHoliday/_EditBankHoliday.cshtml", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        loadBankHoliday();
+
+
+    });
+
+    function loadBankHoliday() {
+
+        $.ajax({
+            url: "/BankHoliday/ListBankHoliday",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+
+                console.log(result)
+                var html = '';
+                if (result.code === true) {
+
+
+
+
+
+                    $.each(result.jsonText, function (key, item) {
+
+
+
+                        html += '<tr>';
+                        html += '<td class="text-wrap" >' + item.title + '</td>';
+                        html += '<td class="text-wrap" >' + item.sysTime + '</td>';
+                        html += '<td class="text-wrap" >' + item.status + '</td>';
+                        html += ' <td>';
+
+                        html += '<a onclick="EditBankHoliday(' + item.bankHolidayId + ')" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fa fa-edit text-white"></i></a>&nbsp;';
+                        html += '<a onclick="DeleteBankHoliday(' + item.bankHolidayId + ')" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash text-white"></i></a>';
+
+                        html += ' </td>';
+                        html += '</tr>';
+                    });
+                    $('.bankHoliday').html(html);
+                } else {
+                    alert(false);
+                }
+            },
+            error: function (errormessage) {
+                //alert(errormessage.responseText);
+            }
+        });
+    }
+
+    function AddBankHolidays() {
+
+        $('#BankHolidayPopUp').modal('show');
+
+    }
+
+    function EditBankHoliday(id) {
+        $.ajax({
+            type: "Get",
+            url: '@Url.Action("EditBankHolidayById", "BankHoliday")',
+            data: { id: id },
+            success: function (data) {
+                $('#EditBankHolidayPreview').html(data);
+                $('#EditBankHolidayModal').modal('show');
+
+            }
+        })
+    }
+
+    function DeleteBankHoliday(id) {
+
+        var ans = confirm("Are you sure you want to delete this BankHoliday?");
+        if (ans) {
+            $.ajax({
+                url: "/BankHoliday/DeleteBankHoliday/" + id,
+                type: "POST",
+
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result.success) {
+                        loadBankHoliday();
+                        $(window).scrollTop(0);
+                        $('#addBankHolidaySuccessMessage').removeAttr('hidden');
+                        $('#addBankHolidaySuccessMessage').html('BankHoliday Deleted Successfully');
+                        $('#addBankHolidaySuccessMessage').fadeIn();
+
+                        $('#addBankHolidaySuccessMessage').fadeTo(5000, 500).slideUp(500, function () {
+                            $("#addBankHolidaySuccessMessage").slideUp(500);
+                        });
+                        $('#addBankHolidaySuccessMessage').attr('hidden');
+
+                    }
+                    else {
+
+
+
+                    }
+
+
+                },
+                error: function (errormessage) {
+                    // alert(errormessage.responseText);
+                }
+            });
+        }
+    }
+
+
+    function SearchFunction() {
+        var input, filter, table, tr, td, i, ii;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.querySelectorAll("tbody tr");
+        for (i = 0; i < tr.length; i++) {
+            var tds = tr[i].getElementsByTagName("td");
+            var found = false;
+            for (ii = 0; ii < tds.length && !found; ii++) {
+                if (tds[ii].textContent.toUpperCase().indexOf(filter) > -1) {
+                    found = true;
+                    break;
+                }
+            }
+            tr[i].style.display = found ? "" : "none";
+        }
+    }
+
+</script>

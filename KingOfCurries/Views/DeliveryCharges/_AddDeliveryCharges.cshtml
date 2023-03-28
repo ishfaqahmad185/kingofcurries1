@@ -1,0 +1,166 @@
+﻿@model KingofCurries.Models.DeliveryCharges
+@{
+
+}
+
+<link rel="stylesheet" href="~/theme/vendors/summernote/dist/summernote-bs4.css">
+<link rel="stylesheet" href="~/theme/vendors/quill/quill.snow.css">
+<link rel="stylesheet" href="~/theme/vendors/simplemde/simplemde.min.css">
+<div class="row m-0 mb-3">
+    <div class="col-lg-12">
+        <div class="alert alert-danger" id="addDeliveryChargesErrorMessage" hidden>
+        </div>
+
+    </div>
+
+</div>
+<form asp-action="AddDeliveryCharges" id="AddDeliveryCharges" asp-controller="DeliveryCharges" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+
+    <div class="row">
+        <div class="col">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+           
+              
+    
+             <div class="form-group row">
+                 <div class="col-sm-12">
+                    <label asp-for="Title" for="title" class="control-label">Title  Name </label>
+                    <input asp-for="Title" maxlength="250" class="form-control" id="title" placeholder="Title" required />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                    <div class="invalid-feedback">
+                        Please Provide a valid Title Name
+                    </div>
+                 </div> 
+            
+            </div>
+
+
+           
+
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label asp-for="Price" for="price" class="control-label">Price</label>
+                    <input asp-for="Price"   class="form-control" id="price" placeholder=" Price " required />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                    <div class="invalid-feedback">
+                        Please Provide a valid Price
+                    </div>
+                </div>
+
+            </div>
+
+             
+ 
+
+           
+
+       
+
+            <div class="form-group float-right">
+
+
+                <a onclick="AddDeliveryCharge()" class="btn btn-success btn-sm text-white" data-toggle="tooltip" data-placement="bottom" title="Add"><i class="mdi mdi-content-save text-white"></i>Add</a>
+                <a id="back" class="btn btn-warning btn-sm text-white " data-dismiss="modal" aria-label="Close" title="Cancel"><i class="fa fa-window-close-o text-white"></i> Cancel</a>
+
+
+            </div>
+
+        </div>
+    </div>
+</form>
+<!-- plugin js for this page -->
+<!-- End custom js for this page-->
+<script type="text/javascript">
+
+
+   
+
+   
+
+    function AddDeliveryCharge() {
+
+
+
+
+        var form = $("#AddDeliveryCharges")[0];
+        var isValid = form.checkValidity();
+        if (!isValid) {
+
+
+        }
+        else {
+        var Title = document.getElementById('title').value;
+        var Price = document.getElementById('price').value;
+        
+      
+        displayBusyIndicator();
+        var deliveryCharges = new FormData();
+        deliveryCharges.append("Title", Title);
+        deliveryCharges.append("Price", Price);
+ 
+        
+ 
+
+        $.ajax({
+            type: "POST",
+            url: "/DeliveryCharges/AddDeliveryCharges/",
+
+            data: deliveryCharges,
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,  // tell jQuery not to set contentType
+
+
+             
+
+            success: function (result) {
+                if (result.code) {
+                 
+                    loadDeliveryCharges();
+                    displayBusyIndicator2();
+                    $('#DeliveryChargesPopUp').modal('hide');
+                    $('#addDeliveryChargesSuccessMessage').removeAttr('hidden');
+                    $('#addDeliveryChargesSuccessMessage').html('DeliveryCharges  Added Successfully');
+                    $('#addDeliveryChargesSuccessMessage').fadeIn();
+
+                    $('#addDeliveryChargesSuccessMessage').fadeTo(5000, 500).slideUp(500, function () {
+                        $("#addDeliveryChargesSuccessMessage").slideUp(500);
+                    });
+                    $('#addDeliveryChargesSuccessMessage').attr('hidden');
+
+                    $('#DeliveryChargesPopUp').modal('hide');
+ 
+              
+                   
+                    //$('#').attr('class', 'form-control');
+                    //$('#AddGalleryTitle').attr('style', 'border-color:#c9ccd7');
+                }
+                else { 
+                    
+                    
+                    displayBusyIndicator2();
+                    $('#addDeliveryChargesErrorMessage').removeAttr('hidden');
+                    $('#addDeliveryChargesErrorMessage').html(result.responseText);
+                    $('#addDeliveryChargesErrorMessage').fadeIn();
+
+                    $('#addDeliveryChargesErrorMessage').fadeTo(5000, 500).slideUp(500, function () {
+                        $("#addDeliveryChargesErrorMessage").slideUp(500);
+                    });
+                    $('#addDeliveryChargesErrorMessage').attr('hidden');
+
+                }
+            },
+            error: function (errormessage) {
+                //alert(errormessage.responseText);
+            }
+        });
+        }
+
+        form.classList.add('was-validated');
+        return false;
+    }
+
+    
+     
+</script>
+

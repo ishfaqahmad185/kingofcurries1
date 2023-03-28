@@ -1,0 +1,254 @@
+﻿@model KingofCurries.Models.SubItems
+@{
+
+}
+<style>
+	@@media only screen and (min-width: 850px) {
+
+		.MobileviewMaxwidth1 {
+			max-width: 60% !important;
+		}
+	}
+</style>
+
+
+
+<div class="card">
+	<div class="card-body">
+
+		<div class="row">
+            <div class="search">
+
+                <input type="text" id="myInput" onkeyup="SearchFunction()" class="searchTerm" placeholder="Search Your SubItem....">
+
+            </div>
+        </div>
+
+
+
+		<div class="">
+
+			<table class="table" id="myTable">
+				<thead>
+					<tr>
+						<th>
+							Title
+						</th>
+						<th>
+							Detail
+						</th>
+						<th>
+							Item Name
+						</th>
+						<th>
+							Price
+						</th>
+						<th>
+							Image
+						</th>
+						<th>
+							Thumbnail  
+						</th>
+						<th>
+							Priority
+						</th>
+
+						
+
+						<th>
+							Actions
+						</th>
+					</tr>
+				</thead>
+				<tbody class="SubItemsList">
+				</tbody>
+			</table>
+
+		</div>
+
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12 grid-margin">
+		<div class="modal fade" id="AddSubItemsPopUp" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable mt-4 MobileviewMaxwidth1" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Add SubItems</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true"><i class="fa fa-window-close-o"></i></span>
+						</button>
+					</div>
+					<div class="modal-body" id="AddPreview">
+						@await Html.PartialAsync("~/Views/SubItems/_AddSubItems.cshtml", Model)
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+    <div class="col-12 grid-margin">
+        <div class="modal fade" id="EditSubItemsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable mt-4 MobileviewMaxwidth1" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit SubItems</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fa fa-window-close-o"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="EditSubItemsPreview">
+                        @await Html.PartialAsync("~/Views/SubItems/_EditSubItems.cshtml", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+
+		$(document).ready(function () {
+
+			loadListSubItems();
+
+			
+		});
+
+	function loadListSubItems() {
+				
+			$.ajax({
+			url: "/SubItems/ListSubItems",
+				type: "GET",
+				contentType: "application/json;charset=utf-8",
+				dataType: "json",
+				success: function (result) {
+					console.log("ibad Khan");
+				
+				  console.log(result)
+					var html = '';
+					if (result.code === true) {
+                
+						$.each(result.jsonText, function (key, item)
+					{
+					
+		                  
+					 ;
+						html += '<tr>';
+						html += '<td class="text-wrap" >' + item.subItemTitle + '</td>';
+						html += '<td class="text-wrap" >' + item.subItemDetails + '</td>';
+						html += '<td class="text-wrap" >' + item.itemTitle + '</td>';
+						html += '<td class="text-wrap" >' + item.subItemPrice + '</td>';
+						//html += '<td class="text-wrap" >' + item.galleyGategoryImageUrl + '</td>';
+						html += '<td class="text-wrap" ><img src="' +  item.subItemImage + '" style="width:80px !important;height:80px !important;"/></td>';
+						html += '<td class="text-wrap" ><img src="' +  item.subItemThumbnail + '" style="width:80px !important;height:80px !important;"/></td>';
+						html += '<td class="text-wrap" >' + item.priority + '</td>';
+						//html += '<td class="text-wrap" ><img src="' +full+item.announcementImageUrl2+'" style="width:80px !important;height:80px !important;"/></td>';
+						//html += '<td class="text-wrap" >' + item.promosUrl + '</td>';
+						//html += '<td class="text-wrap" ></td>';
+						html += ' <td>';
+
+					  //  html += '<div class="custom-control custom-switch lg"><input type="checkbox" class="custom-control-input control" name="ShowOnWebsite" id="'+showonWebsiteId+'" onchange="tableCheckBoxChange('+item.announcementID+')" data-val="true"  data-val-required="Do you want to show on Website" value="'+ item.showOnWebsite+'" '+classChecked+'><label class="custom-control-label" for="'+showonWebsiteId+'"></label></div><br/><a onclick="EditAnnouncement(' + item.announcementID + ')" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fa fa-edit text-white"></i></a>&nbsp;';
+						html += '<a onclick="EditSubItems(' + item.subItemId + ')" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fa fa-edit text-white"></i></a>&nbsp;';
+						html += '<a onclick="DeleteSubItems(' + item.subItemId + ')" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash text-white"></i></a>';
+						
+						html += ' </td>';
+						html += '</tr>';
+					});
+					$('.SubItemsList').html(html);
+					}else{
+						alert(false);
+					}
+				},
+				error: function (errormessage) {
+					//alert(errormessage.responseText);
+				}
+			});
+		}
+
+		function AddSubItems() {
+
+		$('#AddSubItemsPopUp').modal('show');
+
+		}
+
+	function EditSubItems(id) {
+		alert("Click");
+			 $.ajax({
+				type: "Get",
+			url: '@Url.Action("GetSubItemsById", "SubItems")',
+				 data: { id: id },
+				success: function (data) {
+					$('#EditSubItemsPreview').html(data);
+					$('#EditSubItemsModal').modal('show');
+
+				}
+			})
+		}
+
+	function DeleteSubItems(id) {
+
+		var ans = confirm("Are you sure you want to delete this SubItems?");
+		if (ans) {
+			$.ajax({
+				url: "/SubItems/DeleteSubItems/" + id,
+				type: "POST",
+
+				contentType: "application/json;charset=UTF-8",
+				dataType: "json",
+				success: function (result) {
+					if (result.success) {
+						loadListSubItems();
+						$(window).scrollTop(0);
+						$('#addSubItemsSuccessMessage').removeAttr('hidden');
+						$('#addSubItemsSuccessMessage').html('SubItem Deleted Successfully');
+						$('#addSubItemsSuccessMessage').fadeIn();
+
+						$('#addSubItemsSuccessMessage').fadeTo(5000, 500).slideUp(500, function () {
+							$("#addSubItemsSuccessMessage").slideUp(500);
+						});
+						$('#addSubItemsSuccessMessage').attr('hidden');
+
+					}
+					else {
+					
+
+
+					}
+
+
+				},
+				error: function (errormessage) {
+				   // alert(errormessage.responseText);
+				}
+			});
+		}
+		}
+
+	function SearchFunction() {
+		var input, filter, table, tr, td, i, ii;
+		input = document.getElementById("myInput");
+		filter = input.value.toUpperCase();
+		table = document.getElementById("myTable");
+		tr = table.querySelectorAll("tbody tr");
+		for (i = 0; i < tr.length; i++) {
+			var tds = tr[i].getElementsByTagName("td");
+			var found = false;
+			for (ii = 0; ii < tds.length && !found; ii++) {
+				if (tds[ii].textContent.toUpperCase().indexOf(filter) > -1) {
+					found = true;
+					break;
+				}
+			}
+			tr[i].style.display = found ? "" : "none";
+		}
+	}
+
+
+</script>
+

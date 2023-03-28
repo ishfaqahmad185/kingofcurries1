@@ -1,0 +1,219 @@
+﻿@model KingofCurries.Models.FreeItems
+@{
+
+}
+
+<link rel="stylesheet" href="~/theme/vendors/summernote/dist/summernote-bs4.css">
+<link rel="stylesheet" href="~/theme/vendors/quill/quill.snow.css">
+<link rel="stylesheet" href="~/theme/vendors/simplemde/simplemde.min.css">
+<div class="row m-0 mb-3">
+    <div class="col-lg-12">
+        <div class="alert alert-danger" id="addFreeItemsErrorMessage" hidden>
+
+        </div>
+
+    </div>
+
+</div>
+
+<form asp-action="AddFreeItems" id="AddFreeItems" asp-controller="FreeItems" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+    <div class="row">
+        <div class="col">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<div class="form-group row p-3" id="alertDiv22">
+                <div class="col-md-12">
+                    <div class="alertNew alert-dangerNew" role="alert" id="alertLabel22">
+
+                    </div>
+                </div>
+            </div>*@
+           
+            <div class="form-group row">
+                <div class="col-sm-12">
+
+                           <label asp-for="FreeItemImage" class="control-label">Image</label>
+              
+             <input asp-for="FreeItemImage" type="file" id="UploadImage" name="FreeItemImageUrl" class="form-control  dropify" />
+
+                <span asp-validation-for="FreeItemImage" class="text-danger"></span>
+         
+                </div>
+         
+            </div>
+             <div class="form-group row">
+                 <div class="col-sm-6">
+                      <label asp-for="FreeItemTitle" class="control-label">FreeItem Title</label>
+                <input asp-for="FreeItemTitle" maxlength="250" class="form-control" id="txtfreeItemTitle" placeholder=" FreeItemTitle Title" required />
+                <span asp-validation-for="FreeItemTitle" class="text-danger"></span>
+                    <div class="invalid-feedback">
+                        Please Provide FreeItemTitle
+                    </div>
+                 </div> 
+                 <div class="col-sm-6">
+                 <label asp-for="ItemId" class="control-label">Item Title</label>
+                    @*<input asp-for="CountyId" class="form-control" />*@
+                    <select asp-for="ItemId" id="txtItemTitle" class="custom-select " required asp-items="@(new SelectList(@ViewBag.Items,"Value","Text"))">
+                        <option value="" selected disabled>--Select Item--</option>
+                    </select>
+                    <span asp-validation-for="ItemId" class="text-danger"></span>
+                    <div class="invalid-feedback">
+                        Please Provide Item Title
+                    </div>
+                 </div>
+               
+            </div>
+
+            <div class="form-group row">
+             <div class="col-sm-6">
+                      <label asp-for="Priority" class="control-label">Priority</label>
+                <input asp-for="Priority" maxlength="250" class="form-control" id="Priority" placeholder=" Priority " required />
+                <span asp-validation-for="Priority" class="text-danger"></span>
+                <div class="invalid-feedback">
+                        Please Provide Priority
+                    </div>
+                 </div>
+                 <div class="col-sm-6">
+                    <label asp-for="FreeItemDetails" class="control-label">FreeItemDetails</label>               
+                    <textarea name="description" class="form-control" id="txtFreeItemDetail" placeholder="Free Item Detail " required></textarea>
+                     <span asp-validation-for="FreeItemDetails" class="text-danger"></span>
+                    <div class="invalid-feedback">
+                        Please Provide FreeItemDetail
+                    </div>
+                 </div>
+               
+            </div>
+           @* <div class="form-group">
+                <div class="custom-control custom-switch lg">
+                        <input type="checkbox" class="custom-control-input control" name="ShowOnWebsite" id="ShowOnWebsite" data-val="true" data-val-required="Do you want to show on Website" value="false">
+                        <label class="custom-control-label" for="ShowOnWebsite">Do you want to show on Website?</label>
+                    </div>
+            </div>*@
+
+            @*<div class="form-group">
+                <div class="form-group">
+                    <label asp-for="FreeItemDetails" class="control-label">FreeItemDetails</label>               
+                    <textarea name="description" class="form-control" id="txtFreeItemDetail" placeholder="Free Item Detail " required></textarea>
+                   <span asp-validation-for="FreeItemDetails" class="text-danger"></span>
+                </div>
+            </div>*@
+
+            <div class="form-group float-right">
+                <a onclick="AddfreeItem()" class="btn btn-success btn-sm text-white" data-toggle="tooltip" data-placement="bottom" title="Add"><i class="mdi mdi-content-save text-white"></i>Add</a>
+                <a id="back" class="btn btn-warning btn-sm text-white " data-dismiss="modal" aria-label="Close" title="Cancel"><i class="fa fa-window-close-o text-white"></i> Cancel</a>
+            </div>
+
+        </div>
+    </div>
+</form>
+<!-- plugin js for this page -->
+<!-- End custom js for this page-->
+<script type="text/javascript">
+    //$(document).ready(function () {
+    //    $('#alertDiv22').hide();    
+    //});
+
+    function AddfreeItem() {
+
+        var form = $("#AddFreeItems")[0];
+        var isValid = form.checkValidity();
+        if(!isValid) {
+
+        }
+        else{
+        var freeItemTitle=document.getElementById('txtfreeItemTitle').value; 
+        var freeItemDetail=document.getElementById('txtFreeItemDetail').value; 
+        var itemTitle=document.getElementById('txtItemTitle').value; 
+       
+         
+        
+        var priority = document.getElementById('Priority').value;
+         
+        var FreeItemImageUrl = document.getElementById('UploadImage');
+         
+        console.log(FreeItemImageUrl);
+        console.log(FreeItemImageUrl.files[0]);
+   
+     
+        
+       
+        
+
+ 
+        displayBusyIndicator();
+        var freeItems = new FormData();
+        freeItems.append("FreeItemTitle" , freeItemTitle);
+        
+         
+        freeItems.append("FreeItemDetails" , freeItemDetail);
+        freeItems.append("ItemId" , itemTitle);
+        
+        freeItems.append("Priority" ,priority);
+        
+        freeItems.append("FreeItemImageUrl", FreeItemImageUrl.files[0]);
+        
+         
+        
+ 
+
+        $.ajax({
+            type: "POST",
+            url: "/FreeItems/AddItems/",
+
+            data: freeItems,
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,  // tell jQuery not to set contentType
+
+            //data: { AddVidTabName: AddvidTabName, VidFile11: VidFile1 },
+
+
+            success: function (result) {
+                alert("Passed");
+                if (result.code) {
+                   
+                    loadListFreeItems();
+                    displayBusyIndicator2();
+                    $('#addFreeItemsSuccessMessage').modal('hide');
+                    $('#addFreeItemsSuccessMessage').removeAttr('hidden');
+                    $('#addFreeItemsSuccessMessage').html('FreeItems Added Successfully');
+                    $('#addFreeItemsSuccessMessage').fadeIn();
+
+                    $('#addFreeItemsSuccessMessage').fadeTo(5000, 500).slideUp(500, function () {
+                        $("#addFreeItemsSuccessMessage").slideUp(500);
+                    });
+                    $('#addFreeItemsSuccessMessage').attr('hidden');
+
+                    $('#alertLabel22').html('');
+            //$('#alertDiv22').hide();
+            $('#AddFreeItemsPopUp').modal('hide');
+            $('#AddFreeItems')[0].reset();
+            $('#AddFreeItemsTitle').attr('class', 'form-control');
+            $('#AddFreeItemsTitle').attr('style', 'border-color:#c9ccd7');
+                }
+                else {
+
+                    displayBusyIndicator2();
+                    $('#addFreeItemsErrorMessage').removeAttr('hidden');
+                    $('#addFreeItemsErrorMessage').html(result.responseText);
+                    $('#addFreeItemsErrorMessage').fadeIn();
+
+                    $('#addFreeItemsErrorMessage').fadeTo(5000, 500).slideUp(500, function () {
+                        $("#addFreeItemsErrorMessage").slideUp(500);
+                    });
+                    $('#addFreeItemsErrorMessage').attr('hidden');
+
+                }
+            },
+            error: function (errormessage) {
+                //alert(errormessage.responseText);
+            }
+        });
+        }
+        form.classList.add('was-validated');
+        return false;
+
+    }
+
+   
+</script>
+

@@ -1,0 +1,300 @@
+﻿@model KingofCurries.Models.Users
+@{
+
+}
+
+<style>
+    @@media only screen and (min-width: 850px) {
+
+        .MobileviewMaxwidth1 {
+            max-width: 60% !important;
+        }
+    }
+
+</style>
+
+<div class="card">
+    <div class="card-body">
+
+
+
+
+
+        <div class="row">
+            <div class="search">
+                <input type="text" id="myInput" onkeyup="SearchFunction()" class="searchTerm" placeholder="Search your User....">
+
+            </div>
+        </div>
+        <table id="myTable" class="table ">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        User Type
+                    </th>
+
+
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="UsersList">
+            </tbody>
+        </table>
+
+
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 grid-margin">
+        <div class="modal fade" id="AddUsersPopUp" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable mt-4 MobileviewMaxwidth1" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Users</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fa fa-window-close-o  text-black"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="AddUsersPreview">
+                        @await Html.PartialAsync("~/Views/Users/_AddUser.cshtml", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 grid-margin">
+        <div class="modal fade" id="EditUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable mt-4 MobileviewMaxwidth1" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Users</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fa fa-window-close-o  text-black"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="EditUsersPreview">
+                        @await Html.PartialAsync("~/Views/Users/_EditUser.cshtml", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        loadUsers();
+    });
+    function AddUsers() {
+
+        $('#AddUsersPopUp').modal('show');
+
+    }
+
+    function loadUsers() {
+
+        $.ajax({
+            url: "/Users/ListUsers",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+
+                console.log(result)
+                var html = "";
+                var UserType = "";
+                if (result.code === true) {
+
+
+
+                    $.each(result.jsonText, function (key, item) {
+
+                        if (item.userType === 1) {
+                            UserType = "Admin";
+
+                        }
+                        else if (item.userType === 2) {
+                            UserType = "Client";
+
+                        }
+                        else {
+                            UserType = "Customer";
+
+                        }
+
+
+
+                        html += '<tr>';
+                        html += '<td class="text-wrap" >' + item.userName + '</td>';
+                        html += '<td class="text-wrap" >' + item.emailAddress + '</td>';
+                        html += '<td class="text-wrap" >' + UserType + '</td>';
+                        html += ' <td>';
+
+                        html += '<a onclick="EditUsers(' + item.userId + ')" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fa fa-edit text-white"></i></a>&nbsp;';
+                        html += '<a onclick="DeleteUsers(' + item.userId + ')" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash text-white"></i></a>';
+
+                        html += ' </td>';
+                        html += '</tr>';
+                    });
+                    $('.UsersList').html(html);
+                } else {
+                    alert(false);
+                }
+            },
+            error: function (errormessage) {
+                //alert(errormessage.responseText);
+            }
+        });
+    }
+    //function loadUsers() {
+    //    $.ajax({
+    //        url: "/Users/ListUsers",
+    //        type: "GET",
+    //        contentType: "application/json;charset=utf-8",
+    //        dataType: "json",
+    //        success: function (result) {
+    //            //var btnStoreAssign = "";
+    //            var html = "";
+    //            var UserType = "";
+    //            $.each(result, function (key, item) {
+
+    //                //if (item.userType === 1) {
+    //                //    UserType = "Admin";
+    //                //    btnStoreAssign = "hidden";
+    //                //}
+    //                ////else if (item.userType === 2) {
+    //                ////    UserType = "Seller";
+    //                ////    btnStoreAssign = "";
+    //                ////}
+    //                //else {
+    //                //    UserType = "Customer";
+    //                //    btnStoreAssign = "hidden";
+    //                //}
+    //                html += '<tr>';
+    //                html += '<td class="text-wrap" >' + item.userName + '</td>';
+    //                html += '<td class="text-wrap" >' + item.emailAddress + '</td>';
+
+    //                html += '<td class="text-wrap" >' + UserType + '</td>';
+
+    //                //var storeName = item.storeName.split("|");
+    //                //html += '<td class="text-wrap">';
+    //                //$.each(storeName, function (key, item2) {
+    //                //    html += '<label class="text-wrap">' + item2 + '</label><br/>';
+
+    //                //});
+    //                html += '</td>';
+
+    //                html += ' <td>';
+
+    //                //html += '<a onclick="checkdata(' + item.userId + ')" data-id="' + item.userId + '" ' + btnStoreAssign + ' class="btn btn-warning btn-sm text-white UserAssignPopUp mr-1" data-toggle="tooltip" data-placement="bottom" title="Assign Store To User"><i class="ti  ti-shopping-cart-full menu-icon"></i></a>';
+    //                html += '<a onclick="EditUsers(' + item.userId + ')" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fa fa-edit text-white"></i></a>&nbsp;';
+    //                html += '<a onclick="DeleteUsers(' + item.userId + ')" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash text-white"></i></a>';
+    //                html += ' </td>';
+    //                html += '</tr>';
+    //            });
+    //            $('.UsersList').html(html);
+    //        },
+    //        error: function (errormessage) {
+    //            //alert(errormessage.responseText);
+    //        }
+    //    });
+    //}
+    function EditUsers(userId) {
+        $.ajax({
+            type: "Get",
+            url: '@Url.Action("EditUserById", "Users")',
+            data: { id: userId },
+            success: function (data) {
+                $('#EditUsersPreview').html(data);
+                $('#EditUserModal').modal('show');
+
+            }
+        })
+    }
+
+    function DeleteUsers(userId) {
+
+
+
+        var ans = confirm("Are you sure you want to delete this User ?");
+        if (ans) {
+            $.ajax({
+                url: "/Users/DeleteUser/" + userId,
+                type: "POST",
+
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (result) {
+
+                    if (result.success) {
+                        loadUsers();
+
+                        $('#addUserSuccessMessage').removeAttr('hidden');
+                        $('#addUserSuccessMessage').html('User Deleted Successfully');
+                        $('#addUserSuccessMessage').fadeIn();
+
+                        $('#addUserSuccessMessage').fadeTo(5000, 500).slideUp(500, function () {
+                            $("#addUserSuccessMessage").slideUp(500);
+                        });
+                        $('#addUserSuccessMessage').attr('hidden');
+
+                    }
+                    else {
+
+                        $('#addUserErrorMessage').removeAttr('hidden');
+                        $('#addUserErrorMessage').html(result.responseText);
+                        $('#addUserErrorMessage').fadeIn();
+
+                        $('#addUserErrorMessage').fadeTo(5000, 500).slideUp(500, function () {
+                            $("#addUserErrorMessage").slideUp(500);
+                            $('#addUserErrorMessage').attr('hidden');
+                        });
+                        $('#addUserErrorMessage').attr('hidden');
+
+                    }
+
+
+                },
+                error: function (errormessage) {
+                    // alert(errormessage.responseText);
+                }
+            });
+        }
+    }
+
+
+    function SearchFunction() {
+        var input, filter, table, tr, td, i, ii;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.querySelectorAll("tbody tr");
+        for (i = 0; i < tr.length; i++) {
+            var tds = tr[i].getElementsByTagName("td");
+            var found = false;
+            for (ii = 0; ii < tds.length && !found; ii++) {
+                if (tds[ii].textContent.toUpperCase().indexOf(filter) > -1) {
+                    found = true;
+                    break;
+                }
+            }
+            tr[i].style.display = found ? "" : "none";
+        }
+    }
+
+
+</script>

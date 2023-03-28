@@ -1,0 +1,250 @@
+﻿@model KingofCurries.Models.SubCategory
+@{
+
+}
+
+
+
+<div class="row m-0 mb-3">
+    <div class="col-lg-12">
+        <div class="alert alert-danger" id="editSubCategoriesErrorMessage" hidden>
+        </div>
+
+    </div>
+
+</div>
+<form asp-action="Edit" id="EditSubCategory" asp-controller="SubCategory" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+
+    <div class="row">
+        <div class="col">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row p-3" id="alertDiv12">
+                <div class="col-md-12">
+                    <div class="alertNew alert-dangerNew" role="alert" id="alertLabel23">
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" asp-for="SubCategoryId" id="SubCatId" />
+
+
+            <div class="form-group row">
+                <div class="col-sm-12">
+
+                    <label asp-for="ImageUrl" class="control-label">Image </label>       <input asp-for="ImageUrl" type="file" id="editimageUrl" name="ImageUrledit" class="form-control  dropify" />
+                    <input asp-for="ImageUrl" type="hidden" id="editimageUrlCheck" name="ImageUrl" />
+
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+
+
+                </div>
+
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label asp-for="CategoryId" class="control-label"> Category</label>
+                 
+                    <select asp-for="CategoryId" id="editselect" class="custom-select " required asp-items="@(new SelectList(@ViewBag.Category,"Value","Text"))">
+                        <option value="" selected disabled>--Select County--</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+
+                    <div class="invalid-feedback">
+                        Please Provide a Category
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label asp-for="SubCategoryName" class="control-label">Title</label>
+                    <input asp-for="SubCategoryName" maxlength="250" class="form-control" id="editSubCategoryName" placeholder="Sub-Category Name" required />
+                    <span asp-validation-for="SubCategoryName" class="text-danger"></span>
+
+                    <div class="invalid-feedback">
+                        Please Provide a SubCategory Title
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="form-group ">
+                <div class="form-check">
+                    <div class="custom-control custom-switch lg">
+                        <input type="checkbox" asp-for="Features" class="custom-control-input control" id="editFeaturesid">
+                        <label class="custom-control-label" for="editFeaturesid"> Is Features ? </label>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label asp-for="Priority" class="control-label">Priority</label>
+                    <input asp-for="Priority" maxlength="250" class="form-control" id="editPriority" placeholder="Priority Number" required />
+                    <span asp-validation-for="Priority" class="text-danger"></span>
+                    <div class="invalid-feedback">
+                        Please Provide a SubCategory Priority
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-12">
+
+                    <label asp-for="SubCategoryDescription" for="editSubCategoryDescription" class="control-label">Description</label>
+                    <textarea name="SubCategoryDescription" asp-for="SubCategoryDescription" class="form-control" id="editSubCategoryDescription" placeholder="Sub-Category Description " required></textarea>
+
+                    <span asp-validation-for="SubCategoryDescription" class="text-danger"></span>
+                    <div class="invalid-feedback">
+                        Please Provide a SubCategory Description
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            
+
+
+            <div class="form-group float-right">
+
+                <a onclick="UpdateSubCategories()" class="btn btn-success btn-sm text-white" data-toggle="tooltip" data-placement="bottom" title="Update"><i class="mdi mdi-content-save text-white"></i>Update</a>
+                <a id="back" class="btn btn-warning btn-sm text-white " data-dismiss="modal" aria-label="Close" title="Cancel"><i class="fa fa-window-close-o text-white"></i> Cancel</a>
+
+            </div>
+
+        </div>
+    </div>
+</form>
+<script>
+
+    $(document).ready(function () {
+        DropifySubCategoryImageShow();
+        $('#alertDiv12').hide();
+        $('#editSubCategoriesErrorMessage').hide();
+       
+
+    });
+    function UpdateSubCategories() {
+
+        var form = $("#EditSubCategory")[0];
+        var isValid = form.checkValidity();
+
+        if (!isValid) {
+
+
+        }
+        else {
+
+        var SubCategoryid = $("#SubCatId").val();
+        alert(SubCategoryid);
+        var CategoryId = document.getElementById('editselect').value;
+        var SubCategoryName = document.getElementById('editSubCategoryName').value;
+        var SubCategoryDes = document.getElementById('editSubCategoryDescription').value;
+        var Feature = $('#editFeaturesid').prop("checked");
+        var Prioty = document.getElementById('editPriority').value;
+        var Image = document.getElementById('editimageUrl');
+        var hiddenimage = $('#editimageUrlCheck').val();
+
+
+        // var imagePath = $('#GalleyGategoryImageUrl').val();
+
+
+
+
+        displayBusyIndicator();
+
+        var editSubCategory = new FormData();
+
+        editSubCategory.append("SubCategoryId", SubCategoryid);
+        editSubCategory.append("CategoryId", CategoryId);
+
+        editSubCategory.append("SubCategoryName", SubCategoryName);
+        editSubCategory.append("SubCategoryDescription", SubCategoryDes);
+        editSubCategory.append("Priority", Prioty);
+        editSubCategory.append("Features", Feature);
+        editSubCategory.append("image", Image.files[0]);
+        editSubCategory.append("ImageUrl", hiddenimage);
+
+
+
+
+        $.ajax({
+            type: "POST",
+            url: "/SubCategory/UpdateSubCategory/",
+
+            data: editSubCategory,
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,  // tell jQuery not to set contentType
+
+         
+
+            success: function (result) {
+                if (result.code) {
+
+                    loadSubCategory();
+                    displayBusyIndicator2();
+                    $('#EditSubCategoryModal').modal('hide');
+                    $('#addSubCategoriesSuccessMessage').removeAttr('hidden');
+                    $('#addSubCategoriesSuccessMessage').html(' Sub Category Updated Successfully');
+                    $('#addSubCategoriesSuccessMessage').fadeIn();
+
+                    $('#addSubCategoriesSuccessMessage').fadeTo(5000, 500).slideUp(500, function () {
+                        $("#addSubCategoriesSuccessMessage").slideUp(500);
+                    });
+                    $('#addSubCategoriesSuccessMessage').attr('hidden');
+
+                    //$('#alertLabel22').html('');
+                    //$('#alertDiv22').hide();
+                    //$('#EditSubCategoryModal').modal('hide');
+                    //$(".dropify-clear").trigger("click");
+
+                    //$('#AddGalleryCategories')[0].reset();
+                    //$('#').attr('class', 'form-control');
+                    //$('#AddGalleryCategoriesTitle').attr('style', 'border-color:#c9ccd7');
+                }
+                else {
+
+
+                    displayBusyIndicator2();
+                    $('#addSubCategoriesErrorMessage').removeAttr('hidden');
+                    $('#addSubCategoriesErrorMessage').html(result.responseText);
+                    $('#addSubCategoriesErrorMessage').fadeIn();
+
+                    $('#addSubCategoriesErrorMessage').fadeTo(5000, 500).slideUp(500, function () {
+                        $("#addSubCategoriesErrorMessage").slideUp(500);
+                    });
+                    $('#addSubCategoriesErrorMessage').attr('hidden');
+
+                }
+            },
+            error: function (errormessage) {
+                //alert(errormessage.responseText);
+            }
+        });
+        }
+
+        form.classList.add('was-validated');
+        return false;
+
+    }
+
+    function DropifySubCategoryImageShow() {
+
+        var filedropper = $('#editimageUrl').dropify();
+        filedropper = filedropper.data('dropify');
+        filedropper.resetPreview();
+        filedropper.clearElement();
+        filedropper.settings['defaultFile'] = $("#editimageUrlCheck").val();
+        filedropper.destroy();
+        filedropper.init();
+    }
+</script>

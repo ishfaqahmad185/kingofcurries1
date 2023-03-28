@@ -1,0 +1,342 @@
+﻿@model KingofCurries.Models.Item
+@{
+
+}
+
+<link rel="stylesheet" href="../../theme/vendors/summernote/dist/summernote-bs4.css">
+<link rel="stylesheet" href="../../theme/vendors/quill/quill.snow.css">
+<link rel="stylesheet" href="../../theme/vendors/simplemde/simplemde.min.css">
+<div class="row m-0 mb-3">
+    <div class="col-lg-12">
+        <div class="alert alert-danger" id="addItemErrorMessage" hidden>
+        </div>
+
+    </div>
+
+</div>
+<form asp-action="AddItem" id="EditItem" asp-controller="Item" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+    <div class="row">
+        <div class="col">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row p-3" id="alertDiv22" hidden>
+                <div class="col-md-12">
+                    <div class="alertNew alert-dangerNew" role="alert" id="alertLabel22">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row m-0 mb-3">
+                <div class="col-lg-12">
+                    <div class="alert alert-danger" id="addProductErrorMessage" hidden>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <input type="hidden" asp-for="ItemId" id="eItemId" />
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <div class="col-sm-6 p-4 ">
+                        @if (Model != null)
+                        {
+                            <img src="@Model.ItemImage" class="align-content-center center" width="150px" style="align-content:center" />
+                        }
+                    </div>
+                    <label asp-for="ItemImage" class="control-label">Item Image</label>
+
+                    <input asp-for="ItemImage" type="file" id="eimgItem" name="IImage" class="form-control  dropify" />
+                     <input type="hidden" asp-for="ItemImage" name="hdnImageUrl" id="checkImgItem" />
+                    <input type="hidden" asp-for="ThumbnailImage" name="hdnImageUrl" id="checkImgItemThumb" />
+                    <span asp-validation-for="ItemImage" class="text-danger"></span>
+                   
+
+
+                </div>
+                <div class="col-sm-6">
+
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <label asp-for="CategoryId" class="control-label">Category Name</label>
+                            @*<input asp-for="CountyId" class="form-control" />*@
+                            <select asp-for="CategoryId" id="eCategoryIdAdd" class="custom-select " onchange="DoSubCatandCategory()" required asp-items="@(new SelectList(@ViewBag.Categories,"Value","Text"))">
+                                <option value="" selected disabled>--Select Category--</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-12 mt-2">
+                            <label asp-for="SubCategoryId" class="control-label">SubCategory Name</label>
+                            @*<input asp-for="CountyId" class="form-control" />*@
+                            <select asp-for="SubCategoryId" id="eSubCategoryIdAdd" class="custom-select " required >
+                            </select>
+                        </div>
+                        <div class="col-sm-12 mt-2">
+                            <label asp-for="ItemTitle" class="control-label">Item Title</label>
+                            <input asp-for="ItemTitle" maxlength="250" class="form-control" id="etxtItemTitle" placeholder="Item Title" required />
+                            <span asp-validation-for="ItemTitle" class="text-danger"></span>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+            <div class="form-group row">
+                <div class="col-sm-6">
+                    <label asp-for="Price" class="control-label">Price</label>
+                    <input asp-for="Price" maxlength="250" class="form-control" id="etxtSubCategoryPrice" placeholder="SubCategory Price" required />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6">
+                    <label asp-for="Priority" class="control-label">Priority</label>
+                    <input asp-for="Priority" maxlength="250" class="form-control" id="etxtPriority" placeholder="Priority" required />
+                    <span asp-validation-for="Priority" class="text-danger"></span>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label asp-for="ItemAllergen" class="control-label">Item Allergen</label>
+                        <input asp-for="ItemAllergen" maxlength="250" class="form-control" id="txtEditItemAllergen" placeholder="Item Allergan" required />
+                        <span asp-validation-for="ItemAllergen" class="text-danger"></span>
+                    </div>
+                    <div class="col-sm-3 mt-5">
+                        <div class="custom-control custom-switch lg">
+                            <input type="checkbox" asp-for="IsFeatureItem" class="custom-control-input control" name="IsFeatureItem" id="eIsFeatureItem" data-val="true" value="false">
+                            <label class="custom-control-label" for="eIsFeatureItem">FeatureItem</label>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3 mt-5">
+                        <div class="custom-control custom-switch lg">
+                            <input type="checkbox" asp-for="IsFlatDiscount" class="custom-control-input control" name="IsFlatDiscount" id="eIsFlatDiscount" data-val="true" value="false">
+                            <label class="custom-control-label" for="eIsFlatDiscount">FlatDiscount</label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <div class="custom-control custom-switch lg">
+                        <input type="checkbox" asp-for="IsDiscount" class="custom-control-input control" name="IsDiscount" id="eIsDiscount" data-val="true" value="false">
+                        <label class="custom-control-label" for="eIsDiscount">Discount</label>
+                    </div>
+                </div>
+
+
+                <div class="col-sm-12" id="divDiscPrice" hidden>
+                    <label asp-for="DiscountAmount"  class="control-label">Discount Amount</label>
+                    <input asp-for="DiscountAmount" maxlength="250" class="form-control" id="etxtDiscountAmount" placeholder="Discount Amount" required />
+                    <span asp-validation-for="DiscountAmount" class="text-danger"></span>
+                </div>
+
+            </div>
+
+            
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label asp-for="ItemDetail" class="control-label">Item Detail</label>
+                 
+                    <textarea asp-for="ItemDetail" id="tinyMceExample" name="description" placeholder=" ItemDetail " required></textarea>
+
+                    <span asp-validation-for="ItemDetail" class="text-danger"></span>
+
+                </div>
+            </div>
+
+            <div class="form-group float-right">
+
+
+                <a onclick="Edititem()" class="btn btn-success btn-sm text-white" data-toggle="tooltip" data-placement="bottom" title="Add"><i class="mdi mdi-content-save text-white"></i>Update</a>
+                <a id="back" class="btn btn-warning btn-sm text-white " data-dismiss="modal" aria-label="Close" title="Cancel"><i class="fa fa-window-close-o text-white"></i> Cancel</a>
+
+
+            </div>
+
+        </div>
+    </div>
+</form>
+<!-- plugin js for this page -->
+<!-- End custom js for this page-->
+<script src="../../theme/vendors/summernote/dist/summernote-bs4.min.js"></script>
+<script src="../../theme/vendors/tinymce/tinymce.min.js"></script>
+<script src=".../../theme/vendors/simplemde/simplemde.min.js"></script>
+<!-- End plugin js for this page -->
+<!-- Custom js for this page-->
+<script src="../../theme/js/editorDemo.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var isdiscountData='@Model.IsDiscount';
+
+        if(isdiscountData==='true'){
+            $("#divDiscPrice").removeAttr("hidden");
+            $("#divDiscPrice").show();
+        }else{
+            $("#divDiscPrice").attr("hidden");
+            $("#divDiscPrice").hide();
+        }
+
+        DoSubCatandCategory();
+    });
+ 
+
+    function Edititem() {
+
+
+        var itemId = $("#eItemId").val();
+        var itemTitle = document.getElementById('etxtItemTitle').value;
+        var itemDetail = tinymce.get("tinyMceExample").getContent();
+    
+        var IImage = document.getElementById('eimgItem');
+        var OldImage = $("#checkImgItem").val();
+        var OldImage2 = $("#checkImgItemThumb").val() ;
+        var CategoryIdAdd = $("#eCategoryIdAdd").val();
+      
+        var SubCategoryIdAdd = $("#eSubCategoryIdAdd").val();
+        var SubCategoryPrice = $("#etxtSubCategoryPrice").val();
+        var ItemAllergen = $("#txtEditItemAllergen").val();
+        var Priority = $("#etxtPriority").val();
+        var IsDiscount = $('#eIsDiscount').prop("checked");
+        var DiscountAmount = $("#etxtDiscountAmount").val();
+        var IsFeatureItem = $('#eIsFeatureItem').prop("checked");
+        var IsFlatDiscount = $('#eIsFlatDiscount').prop("checked");
+
+
+
+        displayBusyIndicator();
+        var items = new FormData();
+        items.append("ItemId", itemId);
+        items.append("ItemTitle", itemTitle);
+        items.append("ItemDetail", itemDetail);
+        items.append("IImage", IImage.files[0]);
+        items.append("ItemImage", OldImage);
+        items.append("ThumbnailImage", OldImage2);
+        items.append("CategoryId", CategoryIdAdd);
+        items.append("SubCategoryId", SubCategoryIdAdd);
+        items.append("Price", SubCategoryPrice);
+        items.append("Priority", Priority);
+        items.append("IsDiscount", IsDiscount);
+        items.append("DiscountAmount", DiscountAmount);
+        items.append("IsFeatureItem", IsFeatureItem);
+        items.append("IsFlatDiscount", IsFlatDiscount);
+        items.append("ItemAllergen", ItemAllergen);
+
+
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Item/UpdateItem/",
+
+            data: items,
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,  // tell jQuery not to set contentType
+
+
+            success: function (result) {
+                if (result.code) {
+                    loadItem();
+                    displayBusyIndicator2();
+                    $('#EditItemss').modal('hide');
+                    $('#addItemSuccessMessage').modal('hide');
+                    $('#addItemSuccessMessage').removeAttr('hidden');
+                    $('#addItemSuccessMessage').html('DeliveryCharges  is Updated Successfully');
+                    $('#addItemSuccessMessage').fadeIn();
+
+                    $('#addItemSuccessMessage').fadeTo(5000, 500).slideUp(500, function () {
+                        $("#addItemSuccessMessage").slideUp(500);
+                    });
+                    $('#addItemSuccessMessage').attr('hidden');
+
+                    //$('#alertLabel22').html('');
+                    //$('#addItemErrorMessage').removeAttr('hidden');
+                    //$('#addItemErrorMessage').html(result.responseText);
+                    //$('#addItemErrorMessage').fadeIn();
+
+                    //$('#addItemErrorMessage').fadeTo(5000, 500).slideUp(500, function () {
+                    //    $("#addItemErrorMessage").slideUp(500);
+                    //});
+
+                    //$('#addItemErrorMessage').attr('hidden');
+                }
+                else {
+                    displayBusyIndicator2();
+
+                    $('#addItemErrorMessage').removeAttr('hidden');
+                    $('#addItemErrorMessage').html(result.responseText);
+                    $('#addItemErrorMessage').fadeIn();
+
+                    $('#addItemErrorMessage').fadeTo(5000, 500).slideUp(500, function () {
+                        $("#addItemErrorMessage").slideUp(500);
+                    });
+
+                    $('#addItemErrorMessage').attr('hidden');
+                }
+
+
+            },
+            error: function (errormessage) {
+                //alert(errormessage.responseText);
+            }
+        });
+    }
+
+ 
+
+    function DoSubCatandCategory() {
+        var CatId = document.getElementById('eCategoryIdAdd').value;
+
+
+        $.ajax({
+            url: "/Item/LoadSubCategoryDDL",
+            type: "GET",
+            data: { id: CatId },
+            contentType: "application/json;charset=utf-8",
+            datatype: "json",
+            success: function (result) {
+                console.log(result);
+                var s = '<option value="" disabled >-- Select Sub-Category --</option>';
+                $.each(result, function (key, item) {
+                    s += '<option value="' + item.subCategoryId + '">' + item.subCategoryName + '</option>'
+                });
+                $("#eSubCategoryIdAdd").html(s);
+
+            },
+            error: function (errormessage) {
+
+                $('#errorMessage').text(errormessage);
+                $('#divErrorMsg').removeAttr('hidden');
+
+                var s = '<option value="-1">--Select SubCategory--</option>';
+
+                $("#eSubCategoryIdAdd").html(s);
+                $("#eSubCategoryIdAdd").val("@Model.SubCategoryId");
+
+
+
+
+
+            }
+        });
+    }
+
+
+ 
+
+</script>
+

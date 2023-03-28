@@ -1,0 +1,294 @@
+﻿@model Models.CompanyProfile
+@{
+
+}
+
+
+<style>
+    .invalidImage {
+        width: 100%;
+        margin-top: 0.25rem;
+        font-size: 80%;
+        color: #dc3545;
+    }
+</style>
+<link rel="stylesheet" href="~/theme/vendors/summernote/dist/summernote-bs4.css">
+<link rel="stylesheet" href="~/theme/vendors/quill/quill.snow.css"> 
+ <link rel="stylesheet" href="~/theme/vendors/simplemde/simplemde.min.css">
+<div class="row m-0 mb-3">
+    <div class="col-lg-12">
+        <div class="alert alert-danger" id="AddCompanyProfileErrorMessage" hidden>
+        </div>
+
+    </div>
+
+</div>
+<form asp-action="AddCompanyProfile" id="AddCompanyProfile" asp-controller="CompanyProfile" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+
+    <div class="row">
+        <div class="col">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger">
+                <div class="form-group row p-3" id="alertDiv22">
+                    <div class="col-md-12">
+                        <div class="alertNew alert-dangerNew" role="alert" id="alertLabel22">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card " id="cardImage">
+                <div class="card-body ">
+            <div class="form-group row">
+                <div class="col-sm-12">
+
+                    <label asp-for="CompanyLogo" class="control-label">Company Logo </label>
+
+                    <input asp-for="CompanyLogo" type="file" id="companyLogo" name="ImageCompany" class="form-control  dropify" />
+
+                    <span asp-validation-for="CompanyLogo" class="text-danger"></span>
+                    <div class="invalidImage" id="ImageText">
+                        Please Select a valid Image, Image Supported Only jpeg, jpg, png, gif, bmp
+                    </div>
+
+                </div>
+
+            </div>
+            </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label asp-for="CompanyTitle" class="control-label">Company Title</label>
+                    <input asp-for="CompanyTitle" class="form-control" id="txtCompanytitle" placeholder="Company Title" required />
+                    <span asp-validation-for="CompanyTitle" class="text-danger"></span>
+
+                    <div class="invalid-feedback">
+                        Please Provide a valid Company Title
+                    </div>
+                </div>
+
+            </div>
+
+            
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label asp-for="Companyaddress" class="control-label">Company Address</label>
+                    <input asp-for="Companyaddress"  class="form-control" id="txtCompanyaddress" placeholder="Company Address" required />
+                    <span asp-validation-for="Companyaddress" class="text-danger"></span>
+                    <div class="invalid-feedback">
+                        Please Provide a valid Company Address
+                    </div>
+
+                </div>
+
+            </div>
+            
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label asp-for="CompanyPhoneNo" class="control-label">Company Phone No</label>
+                    <input asp-for="CompanyPhoneNo"  class="form-control" id="txtCompanyPhoneNo" placeholder="Company PhoneNo" required />
+                    <span asp-validation-for="CompanyPhoneNo" class="text-danger"></span>
+
+                    <div class="invalid-feedback">
+                        Please Provide a valid Company Phone No
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label asp-for="CompanyEmail" class="control-label">Company Email </label>
+                    <input asp-for="CompanyEmail" type="email" class="form-control" id="txtCompanyEmail" placeholder="Company Email" required />
+                    <span asp-validation-for="CompanyEmail" class="text-danger"></span>
+                    <div class="invalid-feedback">
+                        Please Provide a valid Company Email
+                    </div>
+                </div>
+
+            </div>
+            
+         
+           
+            
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label asp-for="CompanyShortname" class="control-label">Company ShortName   </label>
+                    <input asp-for="CompanyShortname"  class="form-control" id="txtCompanyShortname" placeholder="Company Shortname" required />
+                    <span asp-validation-for="CompanyShortname" class="text-danger"></span>
+                    <div class="invalid-feedback">
+                        Please Provide a valid Company Short Name
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label asp-for="CompanyDetail" class="control-label">Company Detail</label>
+                    <textarea name="description" id="summernote-basic" placeholder=" Company Detail" required></textarea>
+
+                    <span asp-validation-for="CompanyDetail" class="text-danger"></span>
+
+                    <div class="invalid-feedback">
+                        Please Provide a valid Company Detail
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="form-group float-right">
+
+
+                <a onclick="Addcompanyprofile()" class="btn btn-success btn-sm text-white" data-toggle="tooltip" data-placement="bottom" title="Add"><i class="mdi mdi-content-save text-white"></i>Add</a>
+                <a id="back" class="btn btn-warning btn-sm text-white " data-dismiss="modal" aria-label="Close" title="Cancel"><i class="fa fa-window-close-o text-white"></i> Cancel</a>
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#ImageText').hide();
+        $('#alertDiv22').hide();
+        
+    });
+
+
+    //$('#companyLogo').change(function () {
+    //    var fileExtension = ['jpeg', 'jpg', 'png', 'gif', 'bmp'];
+    //    if ($.inArray($('#companyLogo').val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+    //        $('#cardImage').attr("class", "card border-danger");
+    //        $('#ImageText').show();
+    //        return false;
+    //    }
+    //    else {
+    //        $('#cardImage').attr("class", "card border-success");
+    //        $('#ImageText').hide();
+    //    }
+    //});
+
+    function Addcompanyprofile() {
+
+        var form = $("#AddCompanyProfile")[0];
+        var isValid = form.checkValidity();
+
+        if (!isValid) {
+
+
+        }
+
+        else{ 
+       
+
+        var companyTitle = document.getElementById('txtCompanytitle').value;
+        
+        var companyLogo = document.getElementById('companyLogo');
+              
+        var companyAddress = $("#txtCompanyaddress").val();
+           
+        var companyPhoneNo = $("#txtCompanyPhoneNo").val();
+        
+        var companyShortName = $("#txtCompanyShortname").val();
+
+        var companyEmail = $("#txtCompanyEmail").val();
+
+        var companyDetails = $("#summernote-basic").summernote('code');
+
+          
+       
+
+  
+        //displayBusyIndicator();
+        var companyProfile = new FormData();
+        
+        companyProfile.append("CompanyTitle", companyTitle);
+
+      
+             
+        companyProfile.append("Companyaddress", companyAddress);
+
+        companyProfile.append("CompanyPhoneNo", companyPhoneNo);
+       
+        companyProfile.append("CompanyShortname", companyShortName);
+
+        companyProfile.append("CompanyEmail", companyEmail);
+      
+        companyProfile.append("CompanyDetail", companyDetails);
+
+
+            companyProfile.append("CompanyImage", companyLogo.files[0]);
+ 
+
+        $.ajax({
+            type: "POST",
+            url: "/CompanyProfile/AddCompanyProfile/",
+
+            data: companyProfile,
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,  // tell jQuery not to set contentType
+
+           
+
+
+            success: function (result) {
+                if (result.code) {
+                   
+                    loadCompanyProfile();
+                    displayBusyIndicator2();
+
+                        $('#alertLabel22').html('');
+                        $('#alertDiv22').hide();
+                        $('#AddCompanyProfilePopUp').modal('hide');
+                        $(".dropify-clear").trigger("click");
+                        $("#AddCompanyProfile")[0].classList.remove('was-validated');
+                    $('#addcompanyProfileSuccessMessage').removeAttr('hidden');
+                    $('#addcompanyProfileSuccessMessage').html(' Company Profile Added Successfully');
+                    $('#addcompanyProfileSuccessMessage').fadeIn();
+
+                    $('#addcompanyProfileSuccessMessage').fadeTo(5000, 500).slideUp(500, function () {
+                        $("#addcompanyProfileSuccessMessage").slideUp(500);
+                    });
+                    $('#addcompanyProfileSuccessMessage').attr('hidden');
+
+                  
+                   
+              
+                    $('#addcompanyProfileSuccessMessage')[0].reset();
+                    $('#addcompanyProfileSuccessMessage').attr('class', 'form-control');
+                    $('#addcompanyProfileSuccessMessage').attr('style', 'border-color:#c9ccd7');
+                }
+                else { 
+                    
+                    
+                    displayBusyIndicator2();
+                    $('#addcompanyProfileErrorMessage').removeAttr('hidden');
+                    $('#addcompanyProfileErrorMessage').html(result.responseText);
+                    $('#addcompanyProfileErrorMessage').fadeIn();
+
+                    $('#addcompanyProfileErrorMessage').fadeTo(5000, 500).slideUp(500, function () {
+                        $("#addcompanyProfileErrorMessage").slideUp(500);
+                    });
+                    $('#addcompanyProfileErrorMessage').attr('hidden');
+
+                }
+            },
+            error: function (errormessage) {
+                //alert(errormessage.responseText);
+            }
+        });
+        }
+        form.classList.add('was-validated');
+        return false;
+
+    }
+
+</script>

@@ -1,0 +1,58 @@
+﻿@model Models.ErrorModel
+@{
+    ViewData["Title"] = "Payment Failed";
+  
+}
+
+<div class="breadcumb-wrapper" data-bg-src="../../images/Banner/5.jpg">
+    <div class="container z-index-common">
+        <div class="breadcumb-content">
+            <h1 class="breadcumb-title">Payment <span class="font-style text-theme2">Failed</span></h1>
+            <ul class="breadcumb-menu">
+                <li><a href="/" style="color:#D8962B !important;">Home</a></li>
+                <li>Payment Failed</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+ <div class="page-content">
+     <section class="container text-center text-grey font-primary pt-3">
+   <div class="row align-items-center " >
+         <div class="col-sm-12">
+                <img class="align-center" width=200 height=200 src="../../images/payment_failed.png" />
+         </div>
+         <div class="col-sm-12 ">
+             <h2 class="text-danger">Your Payment Failed !</h2>
+         </div>
+           <hr class="mb-6 ml-8 mr-8">
+         <div class="col-sm-12 mt-2">
+
+                @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                {
+                    <h3 class="text-danger">Reasons:  @Model.ErrorMessage</h3>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.ErrorCode))
+                {
+                    <h3 class="text-danger">Reasons:  @Model.ErrorCode</h3>
+                    <hr >
+                    <h3 class="text-danger">Reasons:  @Model.ErrorMessage</h3>
+                }
+
+                @if (!string.IsNullOrEmpty(Model.PaymentUniqueId))
+                {
+                      <hr class="mb-6 ml-8 mr-8">
+                    <p>You many verify your payment on stripe your payment unique description is ( <span > <strong>@Model.PaymentUniqueId</strong></span> )</p> 
+                }
+            </div>
+            <div class="col-sm-12 mt-2 mb-2">
+                <a class="btn btn-outline  btn-primary" href="/home/ConfirmOrderCard"><i class="fa fa-credit-card"></i> Pay Again</a>
+                <a class="btn btn-outline  btn-warning " href="/"><i class="fa fa-home"></i> Go Back To Home</a>
+
+            </div>
+
+     </div>
+     </section>
+     </div>
+

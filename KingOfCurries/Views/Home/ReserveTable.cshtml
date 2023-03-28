@@ -1,0 +1,290 @@
+﻿@model KingofCurries.Models.Reservation
+
+
+@{
+    ViewData["Title"] = "Reserve Table";
+}
+<style>
+
+    .chevron-left, .chevron-right{
+        color:#BB3034 !important;
+    }
+
+    .gj-icon{
+
+      /*  background-color:wheat;*/
+        color:var(--body-color);
+    }
+
+  .booking-form .form-control {
+  background-color: wheat;
+  border-color: var(--body-color);
+  color: black !important;
+}
+
+   .btn-outline-secondary {
+    color: #6c757d !important;
+    border-color: var(--body-color);
+    background-color: WHEAT !important;
+   }
+   tbody, td, tfoot, th, thead, tr {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 0;
+    color: black !important;
+
+}
+.gj-picker div[role=navigator] div[role=period] {
+    width: 100%;
+    text-align: center;
+    font-weight: 700;
+    font-size: 15px;
+    color: black !important;
+}
+
+    @@media screen and (max-width: 930px) {
+
+            #RerveTableImageMobileView {
+                display: none !important;
+            }
+            .bookingSec{
+                margin-top:120px !important;
+            }
+
+        #RerveTableVideoMobileView {
+            display: none !important;
+        }
+        .footer-layout1 {
+            display: none !important;
+        }
+
+        .Width{
+            width:50% !important;
+
+        }
+
+
+        }
+
+
+         @@media screen and (min-width: 940px) {
+
+        .Width {
+            width: 25% !important;
+        }
+         }
+
+  
+    </style>
+
+    @section Styles{
+         <link rel="stylesheet" href="../../WebsiteAssets/assets/css/jquery.datetimepicker.min.css">
+    <!-- Slick Slider -->
+    <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    }
+
+
+<div class="breadcumb-wrapper" id="RerveTableImageMobileView" data-bg-src="../../images/Banner/5.jpg">
+    <div class="container z-index-common">
+        <div class="breadcumb-content">
+            <h1 class="breadcumb-title">Reserve a <span class="font-style text-theme2">Table</span></h1>
+            <ul class="breadcumb-menu">
+                <li><a href="/" style="color:#BB3430 !important;" >Home</a></li>
+                <li>Reserve a Table</li>
+            </ul>
+        </div>
+    </div>
+</div>
+ 
+
+
+    <section class="pt-5 pb-5 mb-5 mt-3 " id="bookingSec1"  >
+        <div class="container bookingSec">
+            <div class="title-area text-center">
+                <span class="sub-title"><img class="icon" src="../../websiteassets/assets/img/icon/title_icon.svg" alt="icon"> Reservation</span>
+                <h2 class="sec-title text-black">Book A Table <span class="font-style text-theme">Now!</span></h2>
+                <p class="sec-text text-black ms-auto me-auto">Objectively pontificate quality models before intuitive information. Dramatically recaptiualize multifunctional materials.</p>
+            </div>
+        <form method="POST" action="#" class="booking-form">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+
+                @if (ViewBag.errorMsg != null)
+            {
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="alert alert-danger alert-dismissible d-flex align-items-center" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                            <div>
+                                <strong>Error! </strong> @ViewBag.errorMsg
+                                <button type="button" class="btn-close text-danger" data-bs-dismiss="alert" aria-label="Close"><strong>x</strong></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            } 
+             @if (ViewBag.errorMsgNotLogin != null)
+            {
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="alert alert-danger alert-dismissible d-flex align-items-center" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                            <div>
+                                <strong>Error! </strong> @ViewBag.errorMsgNotLogin
+                                <button type="button" class="btn-close text-danger" data-bs-dismiss="alert" aria-label="Close"><strong>x</strong></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @section Scripts{
+                <script type="text/javascript"> 
+                    $(document).ready(function(){
+                        setTimeout(function(){
+ $('#staticBackdrop').modal('show');
+                        },3500);
+                    
+                    });
+                </script>
+                }
+            }  
+        
+
+            @if (!string.IsNullOrEmpty(ViewBag.successMsg))
+            {
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="alert alert-success alert-dismissible d-flex align-items-center" role="alert">
+                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+                            <div>
+                                <strong>Success: </strong> @ViewBag.successMsg
+                                <button type="button" class="btn-close text-success" data-bs-dismiss="alert" aria-label="Close"><strong>x</strong></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+                <div class="row">
+                       <div class="form-group col-lg-4">
+                          
+                        <input type="text" asp-for="UserName" class="form-control "  name="UserName" placeholder="Name and Sure Name" required> <i class="fal fa-user"></i>
+             <span asp-validation-for="UserName" class="text-danger"></span>   
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <input type="text" class="form-control " asp-for="PhoneNo"  name="PhoneNo" placeholder="Phone No" required> <i class="fal fa-phone"></i>
+                      <span asp-validation-for="PhoneNo" class="text-danger"></span>   
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <input type="email" class="form-control" asp-for="Email" name="Email" id="Email" placeholder="Email" required> <i class="fal fa-envelope"></i>
+                        <span asp-validation-for="Email" class="text-danger"></span>   
+                    </div>
+                   
+                    <div class="form-group col-lg-4">
+                    <input type="text" class="form-control  "  asp-for="ReservationDate" id="ReservationDate" name="ReservationDate"   required> 
+                          <span asp-validation-for="ReservationDate" class="text-danger"></span>   
+                    </div>
+                    <div class="form-group col-lg-4">
+                    <select class="form-control " id="ReservationTime" asp-for="ReservationTime" name="ReservationTime"  required>
+
+                    </select>
+                        <span asp-validation-for="ReservationTime" class="text-danger"></span> 
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <input type="number" class="form-control" name="TotalGuest" asp-for="TotalGuest" id="TotalGuest" placeholder="Total Guests" required> <i class="fal fa-user-group"></i>
+                       <span asp-validation-for="TotalGuest" class="text-danger"></span> 
+                    </div>
+                    <div class="form-group col-12">
+                        <textarea name="Message" asp-for="Message" id="Message" cols="30" rows="3" class="form-control" placeholder="Write Message" required></textarea> <i class="fal fa-comment"></i>
+                         <span asp-validation-for="Message" class="text-danger"></span> 
+                    </div>
+                    <div class="form-btn col-12 text-center">
+                        <input type="submit"  class="as-btn w-50" value="SUBMIT REQUEST"/>
+                    </div>
+                </div>
+            
+            </form>
+        </div>
+    </section>
+
+   @section Scripts{
+
+    <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var today = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+        $('#ReservationDate').datepicker({
+            uiLibrary: 'bootstrap5',
+            format: 'dd-mmm-yyyy',
+            minDate: today,
+            setDate: today
+        });
+    $(document).ready(function () {
+
+            
+            
+        $('#KybergardenF0oter').hide();
+            BindTimeData('@DateTime.Now.ToString("dd-MMM-yyyy")');
+         
+            
+    });
+        
+
+        $('#ReservationDate').change(function(){
+
+           
+            var date =$(this).val();
+            BindTimeData(date);
+
+
+        });
+
+
+        function BindTimeData(date) {
+            var formData = new FormData();
+
+
+            formData.append("date", date)
+
+            $.ajax({
+                type: "POST",
+                url: "/Home/BindTimeReservation/",
+
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                success: function (result) {
+
+                    if (result.success) {
+
+                        var html = '<option value="" disabled >--Select--</option>';
+                        $.each(result.responseText, function (key, item) {
+
+                            html += '<option value="' + item.value + '" >' + item.text + '</option>';
+                        });
+
+
+                        $("#ReservationTime").html(html);
+                    }
+                    else {
+                        const toast = new bootstrap.Toast(liveToast);
+
+                        toast.hide();
+                        swal("Error!", result.responseText, "error");
+                    }
+
+
+                },
+                error: function (errormessage) {
+
+                    //alert(errormessage.responseText);
+                }
+            });
+        }
+       
+
+
+
+    </script>
+    }
+   
+    
+   

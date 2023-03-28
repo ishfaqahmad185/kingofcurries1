@@ -1,0 +1,37 @@
+﻿@model string
+@{
+    var data = Model;
+    var data2= "data";
+}
+
+@{
+    ViewData["Title"] = "Menu";
+}
+ 
+<div class="breadcumb-wrapper image-layer"  data-bg-src="../../images/Banner/5.jpg">
+    <div class="container z-index-common">
+        <div class="breadcumb-content">
+            <h1 class="breadcumb-title">Restaurant <span class="font-style text-theme2">ant</span></h1>
+            <ul class="breadcumb-menu">
+                <li><a href="/" style="color:#BB3430 !important;" >Home</a></li>
+                <li>Restaurant</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+@if (Model.ToLower() == "early-bird")
+{
+    @await Html.PartialAsync("~/Views/Menu/_EarlyBird.cshtml")
+    
+}else if (Model.ToLower() == "takeaway")
+{
+    @await Html.PartialAsync("~/Views/Menu/_Takeaway.cshtml")
+}
+else
+    {
+      @await Html.PartialAsync("~/Views/Menu/_Takeaway.cshtml")  
+    }
+
+

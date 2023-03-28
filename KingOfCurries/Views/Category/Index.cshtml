@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<div id="body_holder">
+    <div class="row m-0 mb-3">
+        <div class="col-lg-12">
+            <div class="alert alert-success" id="addCategorySuccessMessage" hidden>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row m-0 mb-3">
+        <div class="col-lg-12">
+            <div class="alert alert-danger" id="addCategoryErrorMessage" hidden>
+            </div> 
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+        <div class="card-header card-header-custom">
+            <a id="AddNew" class="btn btn-outline-warning btn-custom btn-sm float-right" onclick="AddCategory()" title="Add New"> <i class="fa fa-plus"></i> Add  Category</a>
+            Manage Category
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    @await Html.PartialAsync("~/Views/Category/_ListCategory.cshtml")
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>

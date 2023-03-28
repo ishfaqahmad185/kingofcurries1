@@ -1,0 +1,233 @@
+﻿@model KingofCurries.Models.SubItems
+@{
+  
+}
+
+
+<!-- Plugin css for this page -->
+<!-- End plugin css for this page -->
+
+<link rel="stylesheet" href="~/theme/vendors/summernote/dist/summernote-bs4.css">
+<link rel="stylesheet" href="~/theme/vendors/quill/quill.snow.css">
+<link rel="stylesheet" href="~/theme/vendors/simplemde/simplemde.min.css">
+
+<div class="row m-0 mb-3">
+    <div class="col-lg-12">
+        <div class="alert alert-danger" id="editSubItemsErrorMessage">
+
+        </div>
+
+    </div>
+
+</div>
+<div class="row">
+    <div class="col">
+        <form asp-action="Edit" id="EditSubItems">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row p-3" id="alertDiv71" hidden>
+                <div class="col-md-12">
+                    <div class="alertNew alert-dangerNew" role="alert" id="alertLabel72">
+
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" asp-for="SubItemId" id="subItemId" />
+            <input type="hidden" asp-for="ItemId" id="itemId" />
+
+            <div class="form-group row">
+                <div class="col-sm-6 p-4 ">
+                    @if (Model != null)
+                    {
+                        <img src="@Model.SubItemImage" class="align-content-center center" width="150px" style="align-content:center" />
+                    }
+                </div>
+
+                <div class="col-sm-6">
+                <label asp-for="SubItemImage" class="control-label">Change Image </label>
+
+                <input asp-for="SubItemImage" type="file" id="editSubItemImage" name="ImageURl1" class="form-control  dropify" />
+
+                <span asp-validation-for="SubItemImageUrl" class="text-danger"></span>
+                <input type="hidden" asp-for="SubItemImage" name="hdnImageUrl" id="editImageCheckUrl" />
+                <input type="hidden" asp-for="SubItemThumbnail" name="hdnImageUrl" id="editImageCheckUrlThumb" />
+            </div>
+            </div>
+   
+        
+            <div class="form-group row">
+                 <div class="col-sm-6">
+                      
+                      <label asp-for="SubItemTitle" class="control-label">SubItem Title  </label>
+                <input asp-for="SubItemTitle" maxlength="250" class="form-control" id="editSubItemTitle" placeholder=" FreeItemTitle" required />
+                <span asp-validation-for="SubItemTitle" class="text-danger"></span>
+                 </div> 
+                 <div class="col-sm-6">
+                 <label asp-for="ItemId" class=" text-center">Item Name</label>
+                            @*<input asp-for="CountyId" class="form-control" />*@
+                            <select asp-for="ItemId" id="editItemId" class="custom-select " required asp-items="@(new SelectList(@ViewBag.Items,"Value","Text"))">
+                                <option value="0" selected disabled>--Select Item--</option>
+                            </select>
+                 </div>
+               
+            </div>
+
+            <div class="form-group row">
+             <div class="col-sm-6">
+                      <label asp-for="Priority" class="control-label">Priority</label>
+                <input asp-for="Priority" maxlength="250" class="form-control" id="editPriority" placeholder=" Priority" required />
+                <span asp-validation-for="Priority" class="text-danger"></span>
+                 </div>
+                 <div class="col-sm-6">
+                    <label asp-for="SubItemDetails" class="control-label">SubItemDetails</label>               
+                    <textarea asp-for="SubItemDetails" name="SubItemDetails" class="form-control" id="editSubItemDetail" placeholder="Sub Item Detail " required></textarea>
+                     <span asp-validation-for="SubItemDetails" class="text-danger"></span>
+
+                 </div>
+               
+            </div>
+            <div class="form-group row">
+             <div class="col-sm-6">
+                      <label asp-for="SubItemPrice" class="control-label">Price</label>
+                <input asp-for="SubItemPrice" maxlength="250" class="form-control" id="editSubItemPrice" placeholder=" Priority " required />
+                <span asp-validation-for="SubItemPrice" class="text-danger"></span>
+                 </div>
+               
+               
+            </div>
+     
+
+
+
+          
+
+         
+
+
+             <div class="form-group float-right">
+                <a onclick="UpdateSubitems()" class="btn btn-success btn-sm text-white" data-toggle="tooltip" data-placement="bottom" title="Update"><i class="mdi mdi-update text-white"></i>Update</a>
+                <a id="back" class="btn btn-warning btn-sm text-white " data-dismiss="modal" aria-label="Close" title="Back"><i class="fa fa-chevron-left text-white"></i> Back</a>
+            </div>
+
+        
+        </form>
+    </div>
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#alertDiv71').hide;
+        
+    });
+
+   
+    function UpdateSubitems() {
+        alert("click");
+ 
+           var ItemId = $('#editItemId').val();
+        var SubItemId = $('#subItemId').val();
+       
+        var editSubItemTitle = $('#editSubItemTitle').val();
+        var editSubItemDetail = $('#editSubItemDetail').val();
+        var editSubItemPriority = $('#editPriority').val();
+        var editSubItemPrice = $('#editSubItemPrice').val();
+        var editSubItemImage = document.getElementById('editSubItemImage');
+        var editSubItemImageUrl = $('#editImageCheckUrl').val();
+        var editImageCheckUrlThumb = $('#editImageCheckUrlThumb').val();
+        
+     
+       
+        
+      
+       
+         displayBusyIndicator();
+ 
+        var freeItems = new FormData();
+        freeItems.append("ItemId",ItemId); 
+        freeItems.append("SubItemId",SubItemId); 
+        freeItems.append("SubItemTitle",editSubItemTitle); 
+        freeItems.append("SubItemDetails",editSubItemDetail) 
+        freeItems.append("Priority",editSubItemPriority); 
+        freeItems.append("SubItemPrice",editSubItemPrice); 
+        freeItems.append("SubItemImageUrl", editSubItemImage
+        .files[0]); 
+        freeItems.append("SubItemImage", editSubItemImageUrl); 
+        freeItems.append("SubItemThumbnail", editImageCheckUrlThumb); 
+    
+        $.ajax({
+
+            type: "POST",
+            url: "/SubItems/UpdateSubItems/",
+
+            data: freeItems,
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,  // tell jQuery not to set contentType
+
+
+            success: function (result) {
+                if (result.code) {
+                     
+                  
+                    loadListSubItems();
+                    displayBusyIndicator2();
+                    $('#EditSubItemsModal').modal('hide');
+                    $('#addSubItemsSuccessMessage').modal('hide');
+                    $('#addSubItemsSuccessMessage').removeAttr('hidden');
+                    $('#addSubItemsSuccessMessage').html('SubItems Updated Successfully');
+                    $('#addSubItemsSuccessMessage').fadeIn();
+
+                    $('#addSubItemsSuccessMessage').fadeTo(5000, 500).slideUp(500, function () {
+                        $("#addSubItemsSuccessMessage").slideUp(500);
+                    });
+                    $('#addSubItemsSuccessMessage').attr('hidden');
+
+                    $('#alertLabel22').html('');
+                     $('#editSubItemsErrorMessage').removeAttr('hidden');
+                    $('#editSubItemsErrorMessage').html(result.responseText);
+                    $('#editSubItemsErrorMessage').fadeIn();
+
+                    $('#editSubItemsErrorMessage').fadeTo(5000, 500).slideUp(500, function () {
+                    $("#editSubItemsErrorMessage").slideUp(500);
+                    });
+
+                    $('#editSubItemsErrorMessage').attr('hidden');
+                }
+                else {
+                    displayBusyIndicator2();
+
+                    $('#editSubItemsErrorMessage').removeAttr('hidden');
+                    $('#editSubItemsErrorMessage').html(result.responseText);
+                    $('#editSubItemsErrorMessage').fadeIn();
+
+                    $('#editSubItemsErrorMessage').fadeTo(5000, 500).slideUp(500, function () {
+                    $("#editSubItemsErrorMessage").slideUp(500);
+                    });
+
+                    $('#editSubItemsErrorMessage').attr('hidden');
+                }
+              
+                
+            },
+            error: function (errormessage) {
+                //alert(errormessage.responseText);
+            }
+        });
+    }
+
+      
+
+</script>
+
+
+<script src="~/theme/vendors/summernote/dist/summernote-bs4.min.js"></script>
+<script src="~/theme/vendors/tinymce/tinymce.min.js"></script>
+<script src="~/theme/vendors/quill/quill.min.js"></script>
+<script src="~/theme/vendors/simplemde/simplemde.min.js"></script>
+<!-- End plugin js for this page -->
+<!-- Custom js for this page-->
+<script src="~/theme/js/editorDemo.js"></script>
+
+<!-- Custom js for this page-->
+<!-- End custom js for this page-->

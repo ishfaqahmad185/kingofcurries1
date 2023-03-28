@@ -1,0 +1,223 @@
+﻿
+@{
+    ViewData["Title"] = "GetDoneOrders";
+    Layout = "~/Views/Shared/_LayoutClients.cshtml";
+}
+
+ 
+<div class="container-fluid">
+    <div class="form-head d-flex mb-3 align-items-start">
+        <div class="me-auto d-none d-lg-block">
+            <h2 class="text-primary font-w600 mb-0">Done Orders</h2>
+            <p class="mb-0">Welcome to Harry's Restro Admin!</p>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-blue">
+                    <h4 class="card-title text-white">Done Orders</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                         <table class="table table-responsive-md">
+                            <thead class="OrderTableHeader">
+                               
+                            </thead>
+                            <tbody class="ordersDone">
+                                   
+                                
+
+
+
+
+
+
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="row ">
+        <div class="col-12">
+            <div class="row">
+
+                <div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-3">
+                    <div class="widget-stat card">
+                        <div class="card-body  p-4">
+                            <div class="media ai-icon">
+                                <span class="me-3 bgl-danger text-danger">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-currency-euro" viewBox="0 0 16 16">
+                                        <path d="M4 9.42h1.063C5.4 12.323 7.317 14 10.34 14c.622 0 1.167-.068 1.659-.185v-1.3c-.484.119-1.045.17-1.659.17-2.1 0-3.455-1.198-3.775-3.264h4.017v-.928H6.497v-.936c0-.11 0-.219.008-.329h4.078v-.927H6.618c.388-1.898 1.719-2.985 3.723-2.985.614 0 1.175.05 1.659.177V2.194A6.617 6.617 0 0 0 10.341 2c-2.928 0-4.82 1.569-5.244 4.3H4v.928h1.01v1.265H4v.928z" />
+                                    </svg>
+                                </span>
+                                <div class="media-body">
+                                    <p class="mb-1">Total Payment </p>
+                                    <h4 class="mb-0" id="h4TotalPayment">0</h4>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-3">
+                    <div class="widget-stat card">
+                        <div class="card-body  p-4">
+                            <div class="media ai-icon">
+                                <span class="me-3 bgl-primary text-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-currency-euro" viewBox="0 0 16 16">
+                                        <path d="M4 9.42h1.063C5.4 12.323 7.317 14 10.34 14c.622 0 1.167-.068 1.659-.185v-1.3c-.484.119-1.045.17-1.659.17-2.1 0-3.455-1.198-3.775-3.264h4.017v-.928H6.497v-.936c0-.11 0-.219.008-.329h4.078v-.927H6.618c.388-1.898 1.719-2.985 3.723-2.985.614 0 1.175.05 1.659.177V2.194A6.617 6.617 0 0 0 10.341 2c-2.928 0-4.82 1.569-5.244 4.3H4v.928h1.01v1.265H4v.928z" />
+                                    </svg>
+                                </span>
+                                <div class="media-body">
+                                    <p class="mb-1">Total Collection Payment</p>
+                                    <h4 class="mb-0" id="h4TotalCollectionPayment">0</h4>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+               
+
+                <div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-3">
+                    <div class="widget-stat card">
+                        <div class="card-body  p-4">
+                            <div class="media ai-icon">
+                                <span class="me-3 bgl-warning text-warning">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-currency-euro" viewBox="0 0 16 16">
+                                        <path d="M4 9.42h1.063C5.4 12.323 7.317 14 10.34 14c.622 0 1.167-.068 1.659-.185v-1.3c-.484.119-1.045.17-1.659.17-2.1 0-3.455-1.198-3.775-3.264h4.017v-.928H6.497v-.936c0-.11 0-.219.008-.329h4.078v-.927H6.618c.388-1.898 1.719-2.985 3.723-2.985.614 0 1.175.05 1.659.177V2.194A6.617 6.617 0 0 0 10.341 2c-2.928 0-4.82 1.569-5.244 4.3H4v.928h1.01v1.265H4v.928z" />
+                                    </svg>
+
+                                </span>
+                                <div class="media-body">
+                                    <p class="mb-1">Total Delivery Payment </p>
+                                    <h4 class="mb-0" id="h4TotalDeliveryPayment">0</h4>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-3">
+                    <div class="widget-stat card">
+                        <div class="card-body  p-4">
+                            <div class="media ai-icon">
+                                <span class="me-3 bgl-danger text-danger">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-currency-euro" viewBox="0 0 16 16">
+                                        <path d="M4 9.42h1.063C5.4 12.323 7.317 14 10.34 14c.622 0 1.167-.068 1.659-.185v-1.3c-.484.119-1.045.17-1.659.17-2.1 0-3.455-1.198-3.775-3.264h4.017v-.928H6.497v-.936c0-.11 0-.219.008-.329h4.078v-.927H6.618c.388-1.898 1.719-2.985 3.723-2.985.614 0 1.175.05 1.659.177V2.194A6.617 6.617 0 0 0 10.341 2c-2.928 0-4.82 1.569-5.244 4.3H4v.928h1.01v1.265H4v.928z" />
+                                    </svg>
+                                </span>
+                                <div class="media-body">
+                                    <p class="mb-1">Delivery charges</p>
+                                    <h4 class="mb-0" id="h4DeliveryCharges">0</h4>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-3">
+                    <div class="widget-stat card">
+                        <div class="card-body  p-4">
+                            <div class="media ai-icon">
+                                <span class="me-3 bgl-success text-success">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-currency-euro" viewBox="0 0 16 16">
+                                        <path d="M4 9.42h1.063C5.4 12.323 7.317 14 10.34 14c.622 0 1.167-.068 1.659-.185v-1.3c-.484.119-1.045.17-1.659.17-2.1 0-3.455-1.198-3.775-3.264h4.017v-.928H6.497v-.936c0-.11 0-.219.008-.329h4.078v-.927H6.618c.388-1.898 1.719-2.985 3.723-2.985.614 0 1.175.05 1.659.177V2.194A6.617 6.617 0 0 0 10.341 2c-2.928 0-4.82 1.569-5.244 4.3H4v.928h1.01v1.265H4v.928z" />
+                                    </svg>
+                                </span>
+                                <div class="media-body">
+                                    <p class="mb-1">Cash Payment </p>
+                                    <h4 class="mb-0" id="h4CashPayment">0</h4>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-3">
+                    <div class="widget-stat card">
+                        <div class="card-body  p-4">
+                            <div class="media ai-icon">
+                                <span class="me-3 bgl-success text-success">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-currency-euro" viewBox="0 0 16 16">
+                                        <path d="M4 9.42h1.063C5.4 12.323 7.317 14 10.34 14c.622 0 1.167-.068 1.659-.185v-1.3c-.484.119-1.045.17-1.659.17-2.1 0-3.455-1.198-3.775-3.264h4.017v-.928H6.497v-.936c0-.11 0-.219.008-.329h4.078v-.927H6.618c.388-1.898 1.719-2.985 3.723-2.985.614 0 1.175.05 1.659.177V2.194A6.617 6.617 0 0 0 10.341 2c-2.928 0-4.82 1.569-5.244 4.3H4v.928h1.01v1.265H4v.928z" />
+                                    </svg>
+                                </span>
+                                <div class="media-body">
+                                    <p class="mb-1">Card Payment </p>
+                                    <h4 class="mb-0" id="h4CardPayment">0</h4>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-3">
+                    <div class="widget-stat card">
+                        <div class="card-body  p-4">
+                            <div class="media ai-icon">
+                                <span class="me-3 bgl-primary text-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-1-circle" viewBox="0 0 16 16">
+                                        <path d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8Zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0ZM9.283 4.002V12H7.971V5.338h-.065L6.072 6.656V5.385l1.899-1.383h1.312Z" />
+                                    </svg>
+                                </span>
+                                <div class="media-body">
+                                    <p class="mb-1">Total Collection Orders</p>
+                                    <h4 class="mb-0" id="h4TotalCollectionOrders">0</h4>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="col-xl-3 col-xxl-3 col-lg-3 col-sm-3">
+                    <div class="widget-stat card">
+                        <div class="card-body  p-4">
+                            <div class="media ai-icon">
+                                <span class="me-3 bgl-warning text-warning">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-1-circle" viewBox="0 0 16 16">
+                                        <path d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8Zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0ZM9.283 4.002V12H7.971V5.338h-.065L6.072 6.656V5.385l1.899-1.383h1.312Z" />
+                                    </svg>
+                                </span>
+                                <div class="media-body">
+                                    <p class="mb-1">Total Delivery Orders</p>
+                                    <h4 class="mb-0" id="h4TotalDeliveryOrders">0</h4>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+</div>

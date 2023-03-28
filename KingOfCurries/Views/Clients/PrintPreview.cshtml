@@ -1,0 +1,313 @@
+﻿@model KingofCurries.Models.GenericOrder
+@{
+    Layout = null;
+}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <style>
+
+        .marginTopBottom {
+            margin-top: 0px;
+            margin-bottom:1px;
+        }
+
+        .btn-primary {
+            color: #fff !important;
+            background-color: #337ab7;
+            border-color: #2e6da4;
+            width:50% !important;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-bottom: 0;
+            font-weight: 400;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            background-image: none;
+            border: 1px solid transparent;
+            border-top-color: transparent;
+            border-right-color: transparent;
+            border-bottom-color: transparent;
+            border-left-color: transparent;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            border-radius: 4px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+    
+
+        @@media print {
+
+            #btnPrint{
+                visibility:hidden;
+            }
+
+    #ticket {
+    position:absolute;
+    left:5px;
+    right:5px;
+    top:0px;
+    
+
+    }
+        }
+
+
+
+        .font-size-normal {
+    font-size: 14px;
+    font-family: 'Times New Roman' !important;
+    color: black !important;
+    }
+
+    td,
+    th,
+    tr,
+    table {
+    border-top: 1px solid black !important;
+    border-collapse: collapse !important;
+    }
+
+    .bordertop {
+    border-top: 1px solid black !important;
+    border-collapse: collapse !important;
+    }
+
+    td.description,
+    th.description {
+    width: 175px !important;
+    max-width: 175px !important;
+    word-break: break-all;
+    }
+
+    td.quantity,
+    th.quantity {
+    width: 50px !important;
+    max-width: 50px !important;
+    word-break: break-all !important;
+    }
+
+    td.price,
+    th.price {
+    width: 75px !important;
+    max-width: 75px !important;
+    word-break: break-all !important;
+    text-align: right !important;
+
+    }
+
+    .centered {
+    text-align: center !important;
+    align-content: center !important;
+    }
+
+    .ticket {
+    width: 300px !important;
+    max-width: 302px !important;
+
+    }
+
+        .center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+           
+        }
+
+    img {
+    
+    width: 200px !important;
+    align-content:center;
+    }
+
+    .bold {
+    font-weight: bold;
+    }
+
+
+    
+    </style>
+    <title>Receipt example</title>
+   
+</head>
+<body>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ticket" id="ticket" >
+                <img style="width:250px;" class="centered center marginTopBottom" src="/WebsiteAssets/assets/img/KG_dark_logo.png" alt="Logo">
+                <h5 class="centered marginTopBottom">Tel: +353 46 928 0833</h5>
+                <h2 class="centered marginTopBottom" id="invDeliveryType">@(char.ToUpper(Model.OrdersMain.DeliveryType[0]) + Model.OrdersMain.DeliveryType.Substring(1))</h2>
+                <h5 class="centered marginTopBottom">Pickup Time</h5>
+                <h3 class="centered marginTopBottom" id="invDeliveryTime">@Model.OrdersMain.DeliveryTime</h3>
+                <h5 class="centered marginTopBottom">Order Placed Date and Time</h5>
+                <h3 class="centered marginTopBottom" id="invOrderTime">@Model.OrdersMain.Systime</h3>
+                <h5 class="centered marginTopBottom"><span>Order Number: </span><span id="invOrderNo">@Model.OrdersMain.OrderNo</span></h5>
+                <h4 class="centered marginTopBottom">Restaurant Notes:</h4>
+                <h3 class="centered marginTopBottom" id="invResturantNotes">@Model.OrdersMain.Remarks</h3>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="quantity bold  font-size-normal">Qty.</th>
+                            <th class="description bold  font-size-normal" style="text-align:left !important">items</th>
+                            <th class="EUR bold  font-size-normal" style="text-align:right !important">EUR</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblInvBody">
+                        @foreach(OrdersDetail item in Model.ListOrderDetail)
+                        {
+                            <tr>
+                                <td class="quantity bold centered  font-size-normal">@item.Quantity x</td>
+                                <td class="description bold  font-size-normal">
+                                    @if (item.SubItemId>0 && item.FreeItemId>1)
+                                    {
+                                        <span>@item.ItemName</span>  <br />
+                                        <span>@item.SubName</span> <br />
+                                        <span>@item.FreeName</span>
+
+                                    }
+                                    else if (item.SubItemId > 0  && item.FreeItemId <= 0)
+                                    {
+                                        <span>@item.ItemName</span>  <br />
+                                        <span>@item.SubName</span> <br />
+                                        
+
+
+                                    }
+                                    else if (item.SubItemId <= 0 && item.FreeItemId > 0)
+                                    {
+                                        <span>@item.ItemName</span>  <br />
+                                       
+                                        <span>@item.FreeName</span>
+                                    }
+
+                                    else
+                                    {
+                                        <span>@item.ItemName</span>
+
+                                    }
+                                </td>
+                                <td class="price bold  font-size-normal">@item.TotalPrice</td>
+                            </tr>
+                        }
+                       
+                       
+
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td colspan="2" class="bold" style="text-align:right; align-content:end">Sub Total:</td>
+                            <td colspan="2" class="price bold" id="invSubTotal" style="text-align:right; align-content:end ">@Model.OrdersMain.TotalAmount</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="bold" style="text-align:right; align-content:end">Delivery Charges:</td>
+                            <td colspan="2" class="price bold" id="invDeliveryCharges" style="text-align:right; align-content:end ">@Model.OrdersMain.DeliveryCharges</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="bold" style="text-align:right; align-content:end">Grand Total:</td>
+                            <td colspan="2" class="price bold" id="invGrandTotal" style="text-align:right; align-content:end ">@Model.OrdersMain.GrandTotal</td>
+                        </tr>
+
+
+                    </tbody>
+                </table>
+                <p class="centered bold bordertop  font-size-normal">
+                    Important: For Food Allergen Info:
+                    Call the restaurant or Check their Menu
+                </p>
+                <p class="centered bold bordertop  font-size-normal">
+                    <span>Customer ID: </span>  <span id="invCustomerId">@Model.OrdersMain.UserId</span>
+                </p>
+              
+                <p class="centered bold bordertop  font-size-normal">
+                    <span>Customer Detail </span> <br />
+                    <span>@Model.OrdersMain.UserName </span> <br />
+                    @if (Model.OrdersMain.DeliveryId > 0)
+                    {
+                        <span>@Model.OrdersMain.Address </span> <br />
+                        <span>@Model.OrdersMain.DeliveryLocation </span> <br />
+                        <span>@Model.OrdersMain.PostalCode </span>
+                    }
+                 
+                </p>
+                <p class="centered bold bordertop  font-size-normal">
+                    <span>Payment Method </span> <br />
+                    @if (Model.OrdersMain.paymentType.ToLower() == "card")
+                    {
+                        <span style="font-size:18px">Paid </span> <br />
+                    }
+                    else{
+                        <span style="font-size:18px" >Un Paid </span> <br />
+
+                        
+                        }
+
+
+                </p>
+                <p class="centered bold bordertop  font-size-normal">
+                    <span>To Contact Customer Call: </span> <br />
+                    <span>@Model.OrdersMain.ContactNo</span> <br />
+
+                </p>
+                <button id="btnPrint" class="hidden-print btn btn-primary center w-100 text-white">Print</button>
+
+            </div>
+
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script>
+        document.querySelector("#btnPrint").addEventListener("click", () => {
+
+
+
+            PrintInvoice();
+
+        });
+
+        $(document).ready(function(){
+            PrintInvoice();
+        });
+
+        function PrintInvoice() {
+
+            window.onbeforeprint = function () {
+
+                console.log("Printing completed...");
+                
+
+            }
+
+            window.onafterprint = function () {
+
+                console.log("Printing completed...");
+                window.close();
+                
+                window.history.back();
+                window.location.reload();
+            }
+            window.print();
+              
+            window.onfocus = function () { window.close(); }
+        }
+    </script>
+
+   
+</body>
+</html>

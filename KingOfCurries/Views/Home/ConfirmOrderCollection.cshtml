@@ -1,0 +1,241 @@
+﻿@{
+    ViewData["Title"] = "Cash Order";
+}
+<style>
+
+    @@media screen and (max-width: 930px) {
+
+        .CheckOutImageMobileView {
+            display: none !important;
+        }
+
+
+        .footer-layout1 {
+            display: none !important;
+        }
+    }
+    .cart_table thead {
+  background-color: #ecf0f1;
+}
+
+.cart_table td::before, .cart_table th {
+
+  color: black !important;
+
+}
+
+.cart_totals th:first-child, .cart_totals td:first-child {
+  width: 45%;
+  background-color: #f9fbfb;
+  font-weight: 700;
+  font-size: 14px;
+  color: #333333;
+}
+.woocommerce-notices-wrapper .woocommerce-message {
+  background-color: #BB3430;
+  color: white !important;
+}
+
+
+.cart_item td {
+  color: BLACK !important;
+}
+.cart_totals th:first-child, .cart_totals td:first-child {
+  background-color: #f9fbfb;
+  color: #333333;
+}
+.cart_totals th, .cart_totals td {
+  color: black !important;
+}
+
+</style>
+
+<div class="breadcumb-wrapper" data-bg-src="../../images/Banner/5.jpg">
+    <div class="container z-index-common">
+        <div class="breadcumb-content">
+            <h1 class="breadcumb-title">Confirm <span class="font-style text-theme2">Order</span></h1>
+            <ul class="breadcumb-menu">
+                <li><a href="/" style="color:#D8962B !important;" >Home</a></li>
+                <li>Contact Us</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+@if (!string.IsNullOrEmpty(ViewBag.IsNewUser))
+{
+    if (ViewBag.IsNewUser == "1")
+    {
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="alert alert-success">Your Account has been successfully created and your Password is Email to you on your email address.</div>
+            </div>
+        </div>
+    }
+}
+<div class="as-cart-wrapper space-top space-extra-bottom">
+    <div class="container">
+        <div class="woocommerce-notices-wrapper">
+            <div class="woocommerce-message">Order Information</div>
+        </div>
+        <form action="#" class="woocommerce-cart-form">
+            <table class="cart_table">
+                <thead>
+                    <tr>
+                        <th class="cart-col-image">Image</th>
+                        <th class="cart-col-productname">Product Name</th>
+                        <th class="cart-col-price">Price</th>
+                        <th class="cart-col-quantity">Quantity</th>
+                        <th class="cart-col-total">Total</th>
+                 
+                    </tr>
+                </thead>
+                <tbody class="cartTablebodyConfirm">
+                </tbody>
+            </table>
+        </form>
+        <div class="row justify-content-end">
+            <div class="col-md-8 col-lg-7 col-xl-6">
+                <h2 class="h4 summary-title">Cart Totals</h2>
+                <table class="cart_totals">
+                    <tbody>
+                        <tr>
+                            <td>Cart Subtotal</td>
+                            <td data-title="Cart Subtotal">
+                                <span class="amount">
+                                    <bdi><span>€</span><span class="carttableTotal">0.0</span></bdi>
+                                </span>
+                            </td>
+                        </tr>
+
+                         <tr>
+                            <td>Delivery Charges</td>
+                            <td data-title="Cart Subtotal">
+                                <span class="amount">
+                                    <bdi><span>€</span><span class="tddeliveryCharges">0.0</span></bdi>
+                                </span>
+                            </td>
+                        </tr>
+
+
+                    </tbody>
+                    <tfoot>
+                        <tr class="order-total">
+                            <td>Order Total</td>
+                            <td data-title="Total"><strong><span class="amount"><bdi><span>€</span><span class="tdcarttableGrand">0.0</span></bdi></span></strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div class="wc-proceed-to-checkout mb-30"><a href="/home/PlaceOrderCollection" class="as-btn">Confirm Place Order</a></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script type="text/javascript">
+         $(document).ready(function(){
+            CartListJsonDataNew();
+    });
+
+        function CartListJsonDataNew() {
+
+
+
+
+            $.ajax({
+                type: "Get",
+                url: "/Home/ListCartDataJson/",
+
+
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                success: function (result) {
+                    if (result.isSuccess) {
+
+
+                        var html = '';
+
+                        $(".carttableTotal").html(result.subPrice);
+                        var totalSum = parseFloat($(".carttableTotal").text());
+                        $(".carttableTotal").html(result.subPrice.toFixed(2));
+                        if (totalSum.toFixed(2)>=30){
+                $(".tddeliveryCharges").html("0 Free Delivery");
+                $(".tdcarttableGrand").html((parseFloat(result.subPrice)).toFixed(2));
+
+                        }else{
+                $(".tddeliveryCharges").html(result.deliveryCharges.toFixed(2));
+                $(".tdcarttableGrand").html((parseFloat(result.deliveryCharges) + parseFloat(result.subPrice)).toFixed(2));
+
+                        }
+                      
+                        $.each(result.responseText, function (key, item) {
+                            var slug = "'" + item.productSlug + "'";
+
+                            html += '<tr class="cart_item">';
+                            html += ' <td data-title="Product">';
+
+                            html += '<img width="91" height="91" src="' + item.items.itemImage + '" alt="Image">';
+                            html += '</td>';
+                            html += '<td data-title="Name">' + item.items.itemTitle + '<br/>' + item.subItems.subItemTitle + '<br/>' + item.freeItems.freeItemTitle + '</td>';
+                            html += '<td data-title="Price">';
+                            html += '<span class="amount">';
+                            if (item.subItemId > 0) {
+                                html += ' <bdi><span>€</span><span  class="td-amount"  >' + item.subItems.subItemPrice + '</span></bdi>';
+                            } else {
+                                html += ' <bdi><span>€</span><span  class="td-amount"  >' + item.items.price + '</span></bdi>';
+                            }
+                            html += '  </span></td>';
+                            html += '  <td data-title="Quantity">';
+                            html += ' <div class="quantity">';
+                            html += ' '+ item.quantity + '';
+            
+                            html += '</div>';
+                            html += '</td>';
+                            html += '</td>';
+                            html += ' <td data-title="Total">';
+                            html += ' <span class="amount">';
+                            if (item.subItemId > 0) {
+                                html += ' <bdi><span>€</span><span  class="td-total-amount"  >' + item.subItems.totalPrice + '</span></bdi>';
+                            } else {
+                                html += ' <bdi><span>€</span><span  class="td-total-amount"  >' + item.items.totalPrice + '</span></bdi>';
+                            }
+
+                            html += ' </span>';
+                            html += '</td>';
+
+                            html += '</tr>';
+
+
+                        });
+
+                        $(".cartTablebodyConfirm").html(html);
+
+
+
+                    }
+                    else {
+
+                        swal("Error!", result.responseText, "error");
+                    }
+
+
+                },
+                error: function (errormessage) {
+                    //alert(errormessage.responseText);
+                }
+            });
+
+
+        }
+
+        </script>
+   
+
+ 
+
+}

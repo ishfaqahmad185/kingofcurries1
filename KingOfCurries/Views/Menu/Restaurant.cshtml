@@ -1,0 +1,140 @@
+﻿@model KingofCurries.Models.GenericModel
+@{
+    ViewData["Title"] = "Resturant";
+}
+<style>
+
+
+    @@media (max-width:930px) {
+        .footer-layout1 {
+            display: none !important;
+        }
+    }
+</style>
+
+
+<div class="breadcumb-wrapper image-layer"  data-bg-src="../../images/Banner/5.jpg">
+    <div class="container z-index-common">
+        <div class="breadcumb-content">
+            <h1 class="breadcumb-title">Dine  <span class="font-style text-theme2">In</span></h1>
+            <ul class="breadcumb-menu">
+                <li><a href="/" style="color:#BB3430 !important;" >Home</a></li>
+                <li>Dine In</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<section class="space-top pb-4 ">
+        <div class="container">
+            <div class="title-area text-center">
+                <span class="sub-title"><img class="icon" src="../../WebsiteAssets/assets/img/icon/title_icon.svg" alt="icon"> Indian Food Menu</span>
+                <h2 class="sec-title">Our Popular <span class="font-style text-theme">Dine In</span></h2>
+                <p class="sec-text ms-auto me-auto">we take great pride in offering some of the most delicious and authentic Indian food around</p>
+            </div>
+                    <div class="board-wrap2">
+            @{
+                var count = 0;
+                foreach(var item in Model.ListSubCategory)
+                {
+                    var ListProducts = Model.ListItem.FindAll(x => x.SubCategoryId == item.SubCategoryId);
+                    if (count == 0)
+                    {
+ <div class="row flex-row-reverse image_container">
+                    <div class="col-xl-7 ">
+                        <div class="menu-list-img"><img src="@item.ImageUrl" alt="menu"></div>
+                    </div>
+                    <div class="col-xl-5 ">
+                        <div class="menu-list">
+                            <h3 class="menu-list_title"><span class="text-theme"># </span>@item.SubCategoryName</h3>
+                           
+                           @foreach(var data in ListProducts){
+                            
+                            <div class="board-list">
+                                <div class="board-list_info">
+                                                <h4 class="board-list_title">@data.ItemTitle <span class="allergian-title">@data.ItemAllergen</span></h4>
+                           
+                                                <h4 class="board-list_price">&euro;@String.Format("{0:#,##0.00}", Convert.ToDecimal(data.Price)) </h4>
+                                </div>
+                                  @if (data.ItemDetail.Length >= 10)
+                                            {
+                                                <p class="board-list_text">@Html.Raw(@data.ItemDetail)</p>
+
+                                            }
+                            </div>
+                           
+                         }
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-list-divider"><img src="../../WebsiteAssets/assets/img/icon/title_icon.svg" alt="icon"></div>
+               
+                        count = 1;
+                    }
+                    else
+                    {
+   <div class="row">
+                    <div class="col-xl-7">
+                        <div class="menu-list-img left"><img src="@item.ImageUrl" alt="menu"></div>
+                    </div>
+                    <div class="col-xl-5">
+                        <div class="menu-list">
+                            <h3 class="menu-list_title"><span class="text-theme"># </span>@item.SubCategoryName</h3>
+                               
+                           @foreach(var data in ListProducts){
+                            
+                            <div class="board-list">
+                                <div class="board-list_info">
+                                                <h4 class="board-list_title">@data.ItemTitle <span class="allergian-title">@data.ItemAllergen</span></h4>
+                                                <h4 class="board-list_price">&euro;@String.Format("{0:#,##0.00}", Convert.ToDecimal(data.Price)) </h4>
+                                </div>
+                                            @if (data.ItemDetail.Length >= 10)
+                                            {
+                                                <p class="board-list_text">@Html.Raw(@data.ItemDetail)</p>
+
+                                            }
+                                        </div>
+
+                            }
+                        </div>
+                    </div>
+                </div>
+                        <div class="menu-list-divider"><img src="../../WebsiteAssets/assets/img/icon/title_icon.svg" alt="icon"></div>
+
+                        count = 0;
+                    }
+
+                }
+            }
+            @if (Model.ListAllergens.Count > 0)
+            {
+                <div class="row">
+                    <div class="col-12">
+                        <h3 class="divider-title"><span class="text"><span class="sec-title">ALLERGEN <span class="font-style text-theme">INFORMATION </span></span></span></h3>
+
+                    </div>
+                    @{
+                        int countdata = 1;
+
+                        foreach (var item in Model.ListAllergens)
+                        {
+                            <div class="col-lg-2 col-sm-4">
+                                @countdata. <strong>@item.AllergenName</strong>
+                            </div>
+
+                            countdata++;
+                        }
+                    }
+                </div>
+                <div class="menu-list-divider"><img src="../../WebsiteAssets/assets/img/icon/title_icon.svg" alt="icon"></div>
+            }
+            </div>
+           </div>
+        <div class="shape-mockup chili jump-reverse" data-top="0%" data-left="0"><img src="../../WebsiteAssets/assets/img/shape/red_chili_2.png" alt="shape"></div>
+        <div class="shape-mockup jump" data-top="12%" data-right="5%"><img src="../../WebsiteAssets/assets/img/shape/leaf_4.png" alt="shape"></div>
+        <div class="shape-mockup jump" data-top="36%" data-left="4%"><img src="../../WebsiteAssets/assets/img/shape/leaf_4.png" alt="shape"></div>
+        <div class="shape-mockup jump-reverse" data-bottom="15%" data-left="4%"><img src="../../WebsiteAssets/assets/img/shape/leaf_5.png" alt="shape"></div>
+        <div class="shape-mockup leaf jump" data-bottom="15%" data-right="0"><img src="../../WebsiteAssets/assets/img/shape/leaf_6.png" alt="shape"></div>
+    </section>
+

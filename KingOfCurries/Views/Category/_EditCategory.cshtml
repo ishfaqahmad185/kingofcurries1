@@ -1,0 +1,228 @@
+﻿@model KingofCurries.Models.Category
+@{
+
+}
+
+<div class="row m-0 mb-3">
+    <div class="col-lg-12">
+        <div class="alert alert-danger" id="editSubCategoriesErrorMessage" hidden>
+        </div>
+
+    </div>
+
+</div>
+
+<form asp-action="Edit" id="EditCategoryForm" asp-controller="Category" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+
+    <div class="row">
+        <div class="col">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+           @* <div class="form-group row p-3" id="alertDiv24">
+                <div class="col-md-12">
+                    <div class="alertNew alert-dangerNew" role="alert" id="alertLabel24">
+                    </div>
+                </div>
+            </div>*@
+
+            <div class="form-group row">
+                <div class="col-sm-12">
+
+                    <label asp-for="CategoryImageurl" class="control-label">Image </label>
+                    <input asp-for="CategoryId" type="hidden" id="catid" />
+                    <input asp-for="CategoryImageurl" type="file" id="editcategoryimageurl" name="ImageURl1edit" class="form-control  dropify" />
+                    <input asp-for="CategoryImageurl" type="hidden" id="editcategoryimageurlCheck" name="ImageURl1"  />
+                    <span asp-validation-for="CategoryImageurl" class="text-danger"></span>
+
+                </div>
+
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label asp-for="CategoryName" class="control-label">Category Name </label>
+                    <input asp-for="CategoryName" maxlength="250" class="form-control" id="editCategoryName" placeholder=" CategoryName" required />
+                    <span asp-validation-for="CategoryName" class="text-danger"></span>
+
+                    <div class="invalid-feedback">
+                        Please Provide a Category Name
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label asp-for="CategoryDescription" class="control-label">Category Descrption </label>
+                    <input asp-for="CategoryDescription" maxlength="250" class="form-control" id="editCategoryDescription" placeholder=" CategoryDescription" required />
+                    <span asp-validation-for="CategoryDescription" class="text-danger"></span>
+                    <div class="invalid-feedback">
+                        Please Provide a Category Descrption
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <label asp-for="CategoryPriority" class="control-label">Category Priority </label>
+                    <input asp-for="CategoryPriority" maxlength="250" class="form-control" id="editCategoryPriority" placeholder=" CategoryPriority" required />
+                    <span asp-validation-for="CategoryPriority" class="text-danger"></span>
+
+                    <div class="invalid-feedback">
+                        Please Provide a Category Priority
+                    </div>
+                </div>
+            </div>
+
+                <div class="form-group ">
+                <div class="col-sm-12">
+                <div class="form-check">
+                    <div class="custom-control custom-switch lg">
+                            <input asp-for="isFeature" type="checkbox" class="custom-control-input control" id="editisFeature">
+                            <label class="custom-control-label" for="editisFeature"> Is Features ? </label>
+
+                    </div>
+                </div>
+
+            </div>
+            </div>
+
+
+
+
+            <div class="form-group float-right">
+                <a onclick="UpdateCategory()" class="btn btn-success btn-sm text-white" data-toggle="tooltip" data-placement="bottom" title="Update"><i class="mdi mdi-update text-white"></i>Update</a>
+                <a id="back" class="btn btn-warning btn-sm text-white " data-dismiss="modal" aria-label="Close" title="Back"><i class="fa fa-chevron-left text-white"></i> Back</a>
+            </div>
+
+
+        </div>
+</div>
+</form>
+
+<script type="text/javascript">
+
+
+       $(document).ready(function () {
+        DropifyCategoryImageShow();
+        $('#alertDiv24').hide();
+        $('#editSubCategoriesErrorMessage').hide();
+       
+
+    });
+
+
+    function UpdateCategory() {
+
+        var form = $("#EditCategoryForm")[0];
+        var isValid = form.checkValidity();
+
+        if (!isValid) {
+
+
+        }
+        else {
+
+
+            var CategoryId = document.getElementById('catid').value;
+       
+        var CategoryName = document.getElementById('editCategoryName').value;
+
+        var CategoryImageurl = document.getElementById('editcategoryimageurl');
+        var CategoryDescription = document.getElementById('editCategoryDescription').value;
+        var CategoryPriority = document.getElementById('editCategoryPriority').value;
+        var isFeature = $("#editisFeature").prop("checked");
+
+        var CatHiddenImage = document.getElementById('editcategoryimageurlCheck').value;
+
+
+
+
+
+
+        displayBusyIndicator();
+        var category = new FormData();
+
+        category.append("CategoryId", CategoryId);
+        category.append("CategoryName", CategoryName);
+
+        category.append("Image", CategoryImageurl.files[0]);
+        category.append("CategoryImageurl", CatHiddenImage);
+
+        category.append("CategoryDescription", CategoryDescription);
+
+        category.append("CategoryPriority", CategoryPriority);
+
+        category.append("isFeature", isFeature);
+
+
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Category/UpdateCategory/",
+
+            data: category,
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,  // tell jQuery not to set contentType
+
+        
+
+
+            success: function (result) {
+                if (result.code) {
+
+                    loadCategory();
+                    displayBusyIndicator2();
+                    $('#EditCategoryModal').modal('hide');
+                    $('#addCategorySuccessMessage').removeAttr('hidden');
+                    $('#addCategorySuccessMessage').html(' Category Updated Successfully');
+                    $('#addCategorySuccessMessage').fadeIn();
+
+                    $('#addCategorySuccessMessagee').fadeTo(5000, 500).slideUp(500, function () {
+                        $("#addCategorySuccessMessage").slideUp(500);
+                    });
+                    $('#addCategorySuccessMessage').attr('hidden');
+
+                  
+                }
+                else {
+
+
+                    displayBusyIndicator2();
+                    $('#addCategorySuccessMessage').removeAttr('hidden');
+                    $('#addCategorySuccessMessage').html(result.responseText);
+                    $('#addCategorySuccessMessage').fadeIn();
+
+                    $('#addCategorySuccessMessage').fadeTo(5000, 500).slideUp(500, function () {
+                        $("#addCategorySuccessMessage").slideUp(500);
+                    });
+                    $('#addCategorySuccessMessage').attr('hidden');
+
+                }
+            },
+            error: function (errormessage) {
+              
+            }
+        });
+
+        }
+
+        form.classList.add('was-validated');
+        return false;
+
+    }
+
+    function DropifyCategoryImageShow() {
+
+        var filedropper = $('#editcategoryimageurl').dropify();
+        filedropper = filedropper.data('dropify');
+        filedropper.resetPreview();
+        filedropper.clearElement();
+        filedropper.settings['defaultFile'] = $("#editcategoryimageurlCheck").val();
+        filedropper.destroy();
+        filedropper.init();
+    }
+
+            </script>

@@ -1,0 +1,292 @@
+﻿@model KingofCurries.Models.Users
+
+
+
+
+<div class="row m-0 mb-3">
+    <div class="col-lg-12">
+        <div class="alert alert-success" id="EditUserSuccessMessage" hidden>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row m-0 mb-3">
+    <div class="col-lg-12">
+        <div class="alert alert-danger" id="EditUserErrorMessage" hidden>
+        </div>
+
+    </div>
+
+</div>
+
+<form asp-action="EditUser" id="EditUserForm" enctype="multipart/form-data" class="needs-validation" novalidate>
+
+    <div class="card">
+        <div class="card-body">
+
+
+
+            <div class="form-group row">
+                <label asp-for="UserName" for="EditvalidationCustom01" class="col-sm-3 col-form-label">User Name *</label>
+                <div class="col-sm-9">
+                    <input type="hidden" asp-for="UserId" id="usrId" />
+                    <input asp-for="UserName" class="form-control" type="text" id="EditvalidationCustom01" placeholder="User Name" required />
+                    <div class="invalid-feedback">
+                        Please Provide a valid User Name
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group row">
+                <label asp-for="EmailAddress" for="EditEditvalidationCustom01" class="col-sm-3 col-form-label">Email Address *</label>
+                <div class="col-sm-9">
+
+                    <input asp-for="EmailAddress" class="form-control" placeholder="Email" type="email" id="EditEditvalidationCustom01" required />
+                    <div class="invalid-feedback">
+                        Please Provide a valid Email Address
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group ">
+                <div class="form-check">
+                    <div class="custom-control custom-switch lg">
+                        <input type="checkbox" asp-for="StatusId" class="custom-control-input control" id="eStatusId">
+                        <label class="custom-control-label" for="eStatusId"> Enable Status ? </label>
+
+                    </div>
+                </div>
+
+            </div>
+        
+            <div class="form-group row">
+                <label for="EditvalidationCustom04" class="col-sm-3 col-form-label">Login Password *</label>
+                <div class="col-sm-9">
+
+                    <input type="password" class="form-control" placeholder="Password" id="EditvalidationCustom04" required />
+
+                    <div class="invalid-feedback" id="PasswordAlertLabel">
+                        <ul>
+                            <li>Password field required</li>
+                            <li>password must be atleast 8 character long</li>
+                            <li>password must contain atleast 1 Upper Case letter</li>
+                            <li>password must contain atleast 1 Lower Case letter</li>
+                            <li>password must contain atleast 1 Numeric Digit</li>
+                            <li>password must contain atleast 1 Special Character Like !#$%</li>
+                            <li>password must not contain User First Name or Last Name</li>
+                            <li>password must not contain Sequence of Character of digits number </li>
+                            <li>password must not contain Your First Name & Last Name </li>
+
+
+
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group row" >
+                <label for="EditConfirmPassword01" class="col-sm-3 col-form-label">Confirm Password *</label>
+                <div class="col-sm-9">
+                    <input type="password" class="form-control" placeholder="Confirm Password" id="EditConfirmPassword01" required />
+                    <div class="invalid-feedback" id="EditConfirmPassword01AlertLabel">
+                        Kindly Provide a valid Password confirm password must match with password
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="UserType" class="col-sm-3 col-form-label">User Type</label>
+                <div class="col-sm-9">
+                    <span asp-validation-for="UserType" class="text-danger"></span>
+                    <select asp-for="UserType" id="editselect1" required class="custom-select">
+                        <option value="0" selected >--Select UserType--</option>
+                        <option value="1">Admin</option>
+                        <option value="2">Client</option>
+                        <option value="3">Customer</option>
+
+                    </select>
+                    <div class="invalid-feedback">
+                        Please Provide a valid User Type
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="form-group float-right">
+
+                <button type="submit" id="BtnEditUser" class="btn btn-success btn-sm text-white" data-toggle="tooltip" data-placement="bottom" title="Update"><i class="mdi mdi-content-save text-white"></i>Update</button>
+                <a id="back" class="btn btn-warning btn-sm text-white " data-dismiss="modal" aria-label="Close" title="Cancel"><i class="fa fa-window-close-o text-white"></i> Cancel</a>
+
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+
+<script>
+
+    $('#EditvalidationCustom04').keyup(function () {
+        var Check = EditCheckValidation();
+        if (check) {
+
+            $('#PasswordAlertLabel').attr('class', 'invalid-feedback');
+            $('#EditvalidationCustom04').attr('class', 'form-control');
+        }
+    });
+
+    function EditCheckValidation() {
+        var check = true;
+        var FirstName = document.getElementById('EditvalidationCustom01').value;
+
+        var EditpasswordCheck = document.getElementById('EditvalidationCustom04').value;
+
+        if ($("#EditvalidationCustom04").val().length < 8) {
+
+
+            check = false;
+        }
+        else if (!/\d/.test($("#EditvalidationCustom04").val())) {
+
+            check = false;
+        }
+        else if
+            (!/[a-z]/.test($("#EditvalidationCustom04").val())) {
+
+
+            check = false;
+        }
+        else if (!/[A-Z]/.test($("#EditvalidationCustom04").val())) {
+
+
+            check = false;
+        } else if (!/([~,!,@@,#,$,%,^,&,*,-,_,+,=,?,>,<])/.test($("#EditvalidationCustom04").val())) {
+
+
+            check = false;
+        }
+        else if (EditpasswordCheck.toLowerCase().includes(FirstName.toLowerCase())) {
+
+
+            check = false;
+        }
+
+        if (check == false) {
+
+            $('#PasswordAlertLabel').attr('class', 'invalid-feedback2');
+            $('#EditvalidationCustom04').attr('class', 'textboxstyle');
+
+            return false;
+            $('#EditUserPopUp').modal('show');
+        }
+        else {
+
+            $('#PasswordAlertLabel').attr('class', 'invalid-feedback');
+            $('#EditvalidationCustom04').attr('class', 'form-control');
+            return true;
+        }
+
+    }
+
+    $(function () {
+        $("#BtnEditUser").on("click", function (e) {
+            var form = $("#EditUserForm")[0];
+            var EditpasswordCheck = EditCheckValidation();
+            var EditConfirmPassword01 = CheckEditConfirmPassword01();
+            var usrId = $('#usrId').val();
+            var UserName = $('#EditvalidationCustom01').val();
+            var Email = $('#EditEditvalidationCustom01').val();
+            var Pass = $('#EditvalidationCustom04').val();
+            var userType = $('#editselect1').val();
+            var status = $('#eStatusId').prop('checked');
+            var EditUserForm = new FormData();
+            EditUserForm.append("UserId", usrId);
+            EditUserForm.append("UserName", UserName);
+            EditUserForm.append("EmailAddress", Email);
+            EditUserForm.append("Password", Pass);
+            EditUserForm.append("UserType", userType);
+            AddUserForm.append("StatusId", status);
+           
+            if (EditConfirmPassword01 === true && EditpasswordCheck === true && UserName != '' && Email != '') {
+          
+
+                $.ajax({
+                    type: "Post",
+                    url: "/Users/UpdateUsers/",
+                    data: EditUserForm,
+                    processData: false,
+                    contentType: false,
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.code) {
+
+                            loadUsers();
+                            //displayBusyIndicator2();
+                            $('#EditUserModal').modal('hide');
+                            $('#EditUserSuccessMessage').removeAttr('hidden');
+                            $('#EditUserSuccessMessage').html('User Updated Successfully');
+                            $('#EditUserSuccessMessage').fadeIn();
+
+                            $('#EditUserSuccessMessage').fadeTo(5000, 500).slideUp(500, function () {
+                                $("#EditUserSuccessMessage").slideUp(500);
+                            });
+                            $('#EditUserSuccessMessage').attr('hidden');
+                        }
+                        else {
+
+                            //displayBusyIndicator2();
+                            $('#EditUserErrorMessage').removeAttr('hidden');
+                            $('#EditUserErrorMessage').html(result.responseText);
+                            $('#EditUserErrorMessage').fadeIn();
+
+                            $('#EditUserErrorMessage').fadeTo(5000, 500).slideUp(500, function () {
+                                $("#EditUserErrorMessage").slideUp(500);
+                            });
+                            $('#EditUserErrorMessage').attr('hidden');
+
+                        }
+                    },
+                    error: function (errormessage) {
+                        //alert(errormessage.responseText);
+                    }
+                });
+            }
+            form.classList.add('was-validated');
+            return false; // For testing only to stay on this page
+        });
+    });
+
+
+    function CheckEditConfirmPassword01() {
+
+        var Password = document.getElementById('EditvalidationCustom04').value;
+        var EditConfirmPassword01 = document.getElementById('EditConfirmPassword01').value;
+
+        if (!(Password === EditConfirmPassword01)) {
+
+            $('#EditConfirmPassword01AlertLabel').attr('class', 'invalid-feedback2');
+            $('#EditConfirmPassword01').attr('class', 'textboxstyle');
+
+            return false;
+            $('#EditUserPopUp').modal('show');
+
+        }
+        else {
+
+            $('#EditConfirmPassword01AlertLabel').attr('class', 'invalid-feedback');
+            $('#EditConfirmPassword01').attr('class', 'form-control');
+            return true;
+        }
+    }
+    $('#EditConfirmPassword01').keyup(function () {
+        var Check = CheckEditConfirmPassword01();
+        if (check) {
+
+            $('#EditConfirmPassword01AlertLabel').attr('class', 'invalid-feedback');
+            $('#EditConfirmPassword01').attr('class', 'form-control');
+        }
+    });
+
+</script>

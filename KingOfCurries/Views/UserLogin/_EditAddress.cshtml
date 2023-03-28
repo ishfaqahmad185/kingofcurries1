@@ -1,0 +1,68 @@
+﻿@model KingofCurries.Models.Address
+@{
+	 
+
+	
+
+
+
+}
+
+
+
+            
+          
+
+				<form class="row g-3">
+                    
+            <input type="hidden" asp-for="Id" id="addressId" />
+  <div class="col-md-6">
+
+                        <label for="lname">Country Name</label>
+                        <input type="text" asp-for="Country" id="ucountry" name="lastname" placeholder="Your country name..">
+
+  </div>
+
+  <div class="col-md-6">
+                        <label for="PostalCode">PostalCode</label>
+                        <input type="text" asp-for="PostalCode" id="upostalCode" name="PostalCode" placeholder="Your PostalCode..">
+  </div>
+
+  <div class="col-12">
+                        <label for="ContactNo">ContactNo</label>
+                        <input type="text" asp-for="ContactNo" id="ucontactNo" name="ContactNo" placeholder="Your ContactNo..">
+                    </div>
+  
+
+  <div class="col-md-6">
+                            <label for="State">County </label>
+                            <input type="text" asp-for="State" id="ustate" name="State" placeholder="Your County..">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="addressType">AddressType</label>
+       
+            <input readonly asp-for="AddreessType" type="text" id="uaddressType">
+       
+    
+  </div>
+                    <div class="col-12">
+                        <label for="Town">Town</label>
+                        <input type="text" id="utown" asp-for="Town" name="Town" placeholder="Your Town..">
+                    </div>
+  <div class="col-md-12">
+                            <label for="Address">Address</label>
+                            <textarea id="uaddress" name="Address" asp-for="Addresss" placeholder="Write something.." style="height:170px"></textarea>
+  </div>
+
+
+                        <a onclick="UpdateAddress()" class="btn btn-danger  d-none d-xl-block w-50" data-toggle="tooltip" data-placement="bottom" title="Add"><i class="mdi mdi-content-save text-white"></i>Update Address</a>
+
+</form>
+
+			
+ 
+	
+
+
+ 

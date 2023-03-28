@@ -1,0 +1,542 @@
+﻿@model string
+
+@{
+    ViewData["Title"] = "Order Complete";
+}
+<style>
+
+	.cardactive {
+		border: 3px solid #EB0034 !important;
+	}
+
+		.cardactive h5 {
+			color: #EB0034 !important;
+		}
+
+		.text-pink {
+			color: #EB0034 !important;
+			font-size:large !important;
+			font-weight:bold !important;
+		}
+
+	.text-pink-h1 {
+		color: #EB0034 !important;
+		font-size: 44px !important;
+		font-weight: bold !important;
+	}
+
+	.w-20 {
+		width: 20% !important;
+	}
+
+	.img-card-body {
+		width: 188px !important;
+		height: 271px !important;
+	}
+
+	.float-right{
+	float:right !important;
+	}
+
+	.overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: rgba(0,0,0,0.4);
+		width: 100%;
+		height: 100%;
+		z-index: -1;
+	}
+
+	.countdown-container{
+  display:flex;
+}
+.big-text{
+  font-size:4rem;
+}
+.title{
+  margin:10px;
+  text-align:center;
+  color:#fff;
+  width:100%;
+  letter-spacing:2px;
+  font-size: 3rem;
+  line-height: 5.5rem;
+}
+.title span{
+  display:block;
+  font-size:6rem;
+  letter-spacing:2rem;
+}
+.wrapper{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap: wrap;
+
+}
+.countdown-container > div{
+  margin:0 2rem;
+  text-align: center;
+  border:2px solid #fff;
+  padding:0px 20px;
+  border-radius: 12px;
+  box-shadow: 0px 2px 10px rgba(0,0,0,0.5);
+  box-sizing: border-box;
+  color:#fff;
+  min-width:150px;
+}
+@@media (max-width:992px){
+  .countdown-container > div{
+    margin:0 1rem;
+  }
+}
+@@media (max-width:767px){
+  .countdown-container{
+    flex-wrap: wrap;
+  }
+  .countdown-container > div{
+    margin:1rem auto;
+    max-width:150px;
+  }
+
+		.title-count {
+    font-size: 1.5rem;
+    line-height: 3.5rem;
+    margin:10px 0px;
+  }
+  .title-count span{
+    font-size: 2rem;
+    letter-spacing: 1rem;
+  }
+}
+
+
+	@@media screen and (max-width: 930px) {
+
+	
+
+		.footer-layout1 {
+			display: none !important;
+		}
+	}
+	body {
+  font-family: var(--body-font);
+  color: black !important;
+}
+
+th {
+  font-weight: 700;
+  color: black !important;
+}
+
+.cart_item td {
+  color: black !important;
+}
+		</style>
+
+<div class="breadcumb-wrapper" data-bg-src="../../images/Banner/5.jpg">
+	<div class="container z-index-common">
+		<div class="breadcumb-content">
+			<h1 class="breadcumb-title">Order<span class="font-style text-theme2">Status</span></h1>
+			<ul class="breadcumb-menu">
+				<li><a href="index.html">Home</a></li>
+				<li>Order Complete</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+
+<section>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card m-3">
+				<div class="card-body">
+					<h3>Invoice Status</h3>
+
+					<div class="row">
+						<div class="col-lg-2 col-sm-12">
+							<div class="card  cardactive-1">
+								<div class="card-body img-card-body">
+									<div class="row">
+										<div class="col-sm-12">
+											<img class="card-image card-image-1" src="~/images/Order-1.png" />
+
+										</div>
+										<div class="col-sm-12 text-center ">
+											<h5>Order Recieved</h5>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-2 col-sm-12">
+							<div class="card cardactive-2">
+								<div class="card-body img-card-body">
+									<div class="row">
+										<div class="col-sm-12">
+											<img class="card-image card-image-2" src="~/images/Order-2.png" />
+
+										</div>
+										<div class="col-sm-12 text-center ">
+											<h5>Order Accept</h5>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-2 col-sm-12">
+							<div class="card cardactive-3">
+								<div class="card-body img-card-body">
+									<div class="row">
+										<div class="col-sm-12">
+											<img class="card-image card-image-3" src="~/images/Order-3.png" />
+
+										</div>
+										<div class="col-sm-12 text-center ">
+											<h5>Order Preparing</h5>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-2 col-sm-12">
+							<div class="card cardactive-4 cardactive-5 cardactive-8">
+								<div class="card-body img-card-body">
+									<div class="row">
+										<div class="col-sm-12">
+											<img class="card-image card-image-4 card-image-5 card-image-8" src="~/images/Order-4.png" />
+
+										</div>
+										<div class="col-sm-12 text-center ">
+											<h5>Order Ready</h5>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-2 col-sm-12">
+							<div class="card cardactive-6">
+								<div class="card-body img-card-body">
+									<div class="row">
+										<div  class="col-sm-12">
+											<img class="card-image card-image-6" src="~/images/Order-6.png" />
+
+										</div>
+										<div class="col-sm-12 text-center ">
+											<h5>Delivered</h5>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-2 col-sm-12">
+							<div class="card cardactive-7">
+								<div class="card-body img-card-body">
+									<div class="row">
+										<div class="col-sm-12">
+											<img class="card-image card-image-7" src="~/images/Order-7.png" />
+
+										</div>
+										<div class="col-sm-12 text-center ">
+											<h5>Order Cancel</h5>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card m-3">
+				<div class="card-body">
+					<div class="overlay"></div>
+					<div class="wrapper">
+						<div class="text-center">
+							<h1 class="title-count text-pink-h1"><span>Your</span> order will be prepared in </h1>
+			<div class="countdown-container">
+				
+				<div>
+					<p id="hours" class="big-text">0</p>
+									<span class="text-pink">Hours</span>
+				</div>
+				<div>
+					<p id="min" class="big-text">0</p>
+									<span class="text-pink">Min</span>
+				</div>
+				<div>
+					<p id="sec" class="big-text">0</p>
+									<span class="text-pink">Sec</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	</div>
+
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card m-3">
+				<div class="card-body">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="row">
+										<div class="col-lg-12">
+
+											<div class="card">
+												<div class="card-header">
+													<div class="row">
+														<div class="col-lg-4 ">
+															Invoice # <strong><span id="spnInvoiceNo"></span> </strong>
+														</div>
+														<div class="col-lg-4 text-center">Invoice Date <strong><span id="spnInvoiceDate"></span></strong></div>
+														<div class="col-lg-4  align-content-end">
+															<span class="float-right align-content-end float-right">
+																<strong>Status:</strong> <span id="spnInvoiceStatus"></span>
+															</span>
+														</div>
+													</div>
+
+												</div>
+												<div class="card-body">
+													<div class="row mb-5">
+														<div class="mt-4 col-xl-4 col-lg-4 col-md-6 col-sm-12">
+															<h6>From:</h6>
+															<div> <strong>Harry's Restro</strong> </div>
+															<div>11 Market st, Kells,</div>
+															<div> Co. Meath, A82 YR84</div>
+															<div>Email: harrysrestro@hotmail.es</div>
+															<div>Phone: +353 46 928 0833</div>
+														</div>
+														<div class="mt-4 col-xl-4 col-lg-4 col-md-6 col-sm-12"></div>
+														<div class="mt-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 float-right">
+															<h6>To:</h6>
+															<div>Name <strong><span id="spnInvoiceUser"></span></strong> </div>
+															<div>Email <span id="spnInvoiceEmail"></span></div>
+															<div>Phone <span id="spnInvoicePhone"></span></div>
+															<div>Payment <span id="spnInvoicePayment"></span></div>
+															<div>Type <span id="spnInvoiceType"></span></div>
+															<div><span id="spnInvoiceAddress"></span></div>
+															<div><span id="spnInvoiceTown"></span></div>
+														
+														</div>
+													</div>
+													<div class="table-responsive">
+														<table class="table table-striped">
+															<thead>
+																<tr>
+																	<th class="center">#</th>
+																	<th class="cart-col-image">Image</th>
+																	<th class="cart-col-productname">Product Name</th>
+																	<th class="cart-col-price">Price</th>
+																	<th class="cart-col-quantity">Quantity</th>
+																	<th class="cart-col-total">Total</th>
+																</tr>
+															</thead>
+															<tbody id="tblInvoiceTBody">
+														
+															</tbody>
+														</table>
+													</div>
+													<div class="row">
+														<div class="col-lg-4 col-sm-5"> </div>
+														<div class="col-lg-4 col-sm-5 ms-auto">
+															<table class="table table-clear">
+																<tbody>
+																	<tr>
+																		<td class="left"><strong>Subtotal</strong></td>
+																		<td class="right"><span id="spnInvoiceSubTotal"></span></td>
+																	</tr>
+																	<tr>
+																		<td class="left"><strong>Delivery Charges </strong></td>
+																		<td class="right"><span id="spnInvoiceDelivery"></span></td>
+																	</tr>
+																	
+																	<tr>
+																		<td class="left"><strong>Total</strong></td>
+																		<td class="right">
+																			<strong><span id="spnInvoiceGrandTotal"></span></strong>
+																			
+																		</td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</section>
+
+@section Scripts{
+
+	<script type="text/javascript">
+		var TimerIntervalCount;
+	
+		$(document).ready(function(){
+		
+
+
+			LoadInvoiceData();
+		});
+		
+
+		function LoadInvoiceData(){
+
+
+
+			$.ajax({
+				method:"Get",
+				url:"/home/CustomerInvoice/@Model",
+				processData:false,
+				contentType:false,
+				dataType:"json",
+				success:function (result){
+					if (result.code===-1){
+
+						window.location.href="/";
+					}
+
+					if(result.success){
+						clearInterval(TimerIntervalCount);
+						SetClockTimer(result.invoiceMain.deliveryDate);
+						$("#spnInvoiceNo").html(result.invoiceMain.orderNo);
+						$("#spnInvoiceDate").html(result.invoiceMain.systime2);
+						$("#spnInvoiceStatus").html(result.invoiceMain.orderStatus);
+						$("#spnInvoiceUser").html(' '+result.invoiceMain.userName);
+						if (result.invoiceMain.deliveryType === "delivery"){
+							$("#spnInvoiceAddress").html('Location: ' + result.invoiceMain.deliveryLocation);
+						$("#spnInvoiceTown").html('Eir Code: '+ result.invoiceMain.postalCode);
+						}
+						$("#spnInvoiceEmail").html(': '+result.invoiceMain.email);
+						$("#spnInvoicePhone").html(': '+result.invoiceMain.contactNo);
+						$("#spnInvoiceSubTotal").html('€ ' + result.invoiceMain.totalAmount);
+						$("#spnInvoiceDelivery").html('€ ' + result.invoiceMain.deliveryCharges);
+						$("#spnInvoiceGrandTotal").html('€ '+result.invoiceMain.grandTotal);
+						$("#spnInvoicePayment").html(':  '+ result.invoiceMain.paymentType);
+						$("#spnInvoiceType").html(': '+ result.invoiceMain.deliveryType);
+
+					
+						$(".card-image-" + result.invoiceMain.statusId).attr("src","/images/Order-"+result.invoiceMain.statusId+".gif")
+						$(".card").removeClass("cardactive");
+						$(".cardactive-" + result.invoiceMain.statusId).addClass("cardactive");
+						console.log(result);
+						var html='';
+
+						$.each(result.invoiceDetail, function (key, item) {
+							
+
+							html += '<tr class="cart_item">';
+							html += '<td>'+(key+1)+'</td>';
+							html += ' <td data-title="Product">';
+
+							html += '<img width="91" height="91" src="https://restaurant.powerobjects.ie/' + item.itemImage + '" alt="Image">';
+							html += '</td>';
+							html += '<td data-title="Name">' + item.itemName + '<br/>' + item.subName + '<br/>' + item.freeName + '</td>';
+							html += '<td data-title="Name">' + item.price + '</td>';
+							html += '<td data-title="Name">' + item.quantity + '</td>';
+							html += '<td data-title="Name">' + item.totalPrice + '</td>';
+							
+
+							html += '</tr>';
+
+
+						});
+
+						$("#tblInvoiceTBody").html(html);
+					}
+
+				},
+				error:function (errorText){
+
+				}
+			});
+		}
+
+		$(function(){
+
+			setInterval(function(){
+				LoadInvoiceData();
+			},30000);
+		});
+
+	
+
+
+
+		function SetClockTimer(dateTimer){
+			
+			let hoursItem = document.querySelector("#hours");
+			let minItem = document.querySelector("#min");
+			let secItem = document.querySelector("#sec");
+
+
+			let countDown = () => {
+				let futureDate = new Date(dateTimer);
+				
+				const currentDate = new Date().toUTCString();
+
+				let myDate = futureDate - currentDate;
+				//console.log(myDate);
+
+
+
+				let hours = Math.floor(myDate / 1000 / 60 / 60) % 24;
+
+				let min = Math.floor(myDate / 1000 / 60) % 60;
+
+				let sec = Math.floor(myDate / 1000) % 60;
+
+
+				hoursItem.innerHTML = hours;
+				minItem.innerHTML = min;
+				secItem.innerHTML = sec;
+			}
+
+			countDown()
+
+		 TimerIntervalCount=	setInterval(countDown, 1000)
+
+		}
+
+		
+
+	
+	</script>
+}
+
+
+
+
+
+
+

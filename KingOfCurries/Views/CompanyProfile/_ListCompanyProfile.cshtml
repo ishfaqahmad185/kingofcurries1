@@ -1,0 +1,238 @@
+﻿@model Models.CompanyProfile
+@{
+
+}
+<style>
+    @@media only screen and (min-width: 850px) {
+
+        .MobileviewMaxwidth1 {
+            max-width: 60% !important;
+        }
+    }
+</style>
+
+
+
+<div class="card">
+    <div class="card-body">
+
+
+
+
+
+        <div class="">
+
+
+
+
+            <table class="table ">
+                <thead>
+                    <tr>
+                        <th>
+                            Title
+                        </th>
+                        <th>
+                            Logo
+                        </th>
+
+                        <th>
+                            Address
+                        </th>
+
+                        <th>
+                            Phone No
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Detail
+                        </th>
+                        <th>
+                            Short Name
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="companyProfile">
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 grid-margin">
+        <div class="modal fade" id="AddCompanyProfilePopUp" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable mt-4 MobileviewMaxwidth1" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add CompanyProfile</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fa fa-window-close-o"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="AddPreview">
+                        @await Html.PartialAsync("~/Views/CompanyProfile/_AddCompanyProfile.cshtml", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 grid-margin">
+        <div class="modal fade" id="EditCompanyProfileModel" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable mt-4 MobileviewMaxwidth1" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit CompanyProfile</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fa fa-window-close-o"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="EditCompanyProfilePreview">
+                        @await Html.PartialAsync("~/Views/CompanyProfile/_EditCompanyProfile.cshtml", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        loadCompanyProfile();
+
+
+    });
+
+    function loadCompanyProfile() {
+        $.ajax({
+            url: "/CompanyProfile/ListCompanyProfile",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+
+                console.log(result)
+                var html = '';
+                if (result.code === true) {
+
+
+
+
+
+                    $.each(result.jsonText, function (key, item) {
+
+
+
+                        html += '<tr>';
+                        html += '<td class="text-wrap" ><img src="' + item.companyLogo + '" style="width:80px !important;height:80px !important;"/></td>';
+                        html += '<td class="text-wrap" >' + item.companyTitle + '</td>'; 
+                        html += '<td class="text-wrap" >' + item.companyaddress + '</td>';
+                        html += '<td class="text-wrap" >' + item.companyPhoneNo + '</td>';
+                        html += '<td class="text-wrap" >' + item.companyEmail + '</td>';
+                        html += '<td class="text-wrap" >' + item.companyDetail + '</td>';
+                        html += '<td class="text-wrap" >' + item.companyShortname + '</td>';
+                      
+                        html += ' <td>';
+                        html += '<a onclick="EditCompanyProfile(' + item.companyID + ')" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fa fa-edit text-white"></i></a>&nbsp;';
+                        html += '<a onclick="DeleteCompanyProfiles(' + item.companyID + ')" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash text-white"></i></a>';
+                        html += ' </td>';
+                        html += '</tr>';
+                    });
+                    $('.companyProfile').html(html);
+                } else {
+                    alert(false);
+                }
+            },
+            error: function (errormessage) {
+                //alert(errormessage.responseText);
+            }
+        });
+    }
+
+
+    function EditCompanyProfile(companyID) {
+
+        $.ajax({
+            type: "Get",
+            url: '@Url.Action("EditCompanyProfileById", "CompanyProfile")',
+            data: { id: companyID },
+            success: function (data) {
+                $('#EditCompanyProfilePreview').html(data);
+                $('#EditCompanyProfileModel').modal('show');
+
+            }
+        })
+    }
+
+    function AddCompanyProfilesModel() {
+
+        $('#AddCompanyProfilePopUp').modal('show');
+
+    }
+
+
+
+
+    function DeleteCompanyProfiles(id) {
+
+        var ans = confirm("Are you sure you want to delete this Company Profile?");
+        if (ans) {
+            $.ajax({
+                url: "/CompanyProfile/DeleteCompanyProfile/" + id,
+                type: "POST",
+
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result.success) {
+                        loadCompanyProfile();
+                        $(window).scrollTop(0);
+                        $('#addcompanyProfileSuccessMessage').removeAttr('hidden');
+                        $('#addcompanyProfileSuccessMessage').html('Company Profile Deleted Successfully');
+                        $('#addcompanyProfileSuccessMessage').fadeIn();
+
+                        $('#addcompanyProfileSuccessMessage').fadeTo(5000, 500).slideUp(500, function () {
+                            $("#addcompanyProfileSuccessMessage").slideUp(500);
+                        });
+                        $('#addcompanyProfileSuccessMessage').attr('hidden');
+
+                    }
+                    else {
+
+
+
+                    }
+
+
+                },
+                error: function (errormessage) {
+                    // alert(errormessage.responseText);
+                }
+            });
+        }
+    }
+
+
+</script>

@@ -1,0 +1,254 @@
+﻿@model KingofCurries.Models.Item
+@{
+
+}
+<style>
+	@@media only screen and (min-width: 850px) {
+
+		.MobileviewMaxwidth1 {
+			max-width: 60% !important;
+		}
+	}
+</style>
+
+
+
+<div class="card">
+	<div class="card-body">
+
+		<div class="row">
+            <div class="search">
+
+
+                <input type="text" id="myInput" onkeyup="SearchFunction()" class="searchTerm" placeholder="Search Your SubCategory....">
+
+            </div>
+        </div>
+
+
+
+		<div class="">
+
+			<table id="myTable" class="table ">
+				<thead>
+					<tr>
+						<th>
+							Title
+						</th>
+						<th>
+							Detail
+						</th>
+						
+						<th>
+							ThumbnailImage 
+						</th>
+						
+						<th>
+							Category
+						</th>
+						<th>
+							Sub Category
+						</th>
+						<th>
+							Price
+						</th>
+						
+
+						<th>
+							Actions
+						</th>
+					</tr>
+				</thead>
+				<tbody class="itemList">
+				</tbody>
+			</table>
+
+		</div>
+
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-12 grid-margin">
+		<div class="modal fade" id="AddItemPopUp" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable mt-4 MobileviewMaxwidth1" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Add Item</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true"><i class="fa fa-window-close-o"></i></span>
+						</button>
+					</div>
+					<div class="modal-body" id="AddPreview">
+						@await Html.PartialAsync("~/Views/Item/_AddItem.cshtml", Model)
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-12 grid-margin">
+		<div class="modal fade" id="EditItemss" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable mt-4 MobileviewMaxwidth1" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Edit Items</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true"><i class="fa fa-window-close-o"></i></span>
+						</button>
+					</div>
+					<div class="modal-body" id="EditItemsPreview">
+						@await Html.PartialAsync("~/Views/Item/_EditItem.cshtml", Model)
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+	
+		$(document).ready(function () {
+
+			loadItem();
+
+			
+		});
+
+		function loadItem() {
+			$.ajax({
+				url: "/Item/ListItem",
+				type: "GET",
+				contentType: "application/json;charset=utf-8",
+				dataType: "json",
+				success: function (result) {
+				
+				  console.log(result)
+					var html = '';
+					if (result.code === true) {
+
+
+
+
+
+					$.each(result.jsonText, function (key, item)
+					{
+					
+		
+				
+						html += '<tr>';
+						html += '<td class="text-wrap" >' + item.itemTitle  + '</td>';
+						html += '<td class="text-wrap" >' + item.itemDetail + '</td>';
+						html += '<td class="text-wrap" ><img src="' +item.thumbnailImage+'" style="width:80px !important;height:80px !important;"/></td>';
+						html += '<td class="text-wrap" >' + item.categoryName + '</td>';
+						html += '<td class="text-wrap" >' + item.subCategoryName + '</td>';
+						html += '<td class="text-wrap" >' + item.price  + '</td>';
+						
+						html += ' <td>';
+
+						html += '<a onclick="EditItem(' + item.itemId + ')" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fa fa-edit text-white"></i></a>&nbsp;';
+						html += '<a onclick="DeleteItems(' + item.itemId + ')" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash text-white"></i></a>';
+						html += ' </td>';
+						html += '</tr>';
+					});
+					$('.itemList').html(html);
+					}else{
+						alert(false);
+					}
+				},
+				error: function (errormessage) {
+					//alert(errormessage.responseText);
+				}
+			});
+		}
+
+
+
+	function AddItem() {
+
+			$('#AddItemPopUp').modal('show');
+
+		}
+
+	function DeleteItems(id) {
+
+		var ans = confirm("Are you sure you want to delete this Delete Items?");
+		if (ans) {
+			$.ajax({
+				url: "/Item/DeleteItems/" + id,
+				type: "POST",
+
+				contentType: "application/json;charset=UTF-8",
+				dataType: "json",
+				success: function (result) {
+					if (result.success) {
+						loadItem();
+						$(window).scrollTop(0);
+						$('#addItemSuccessMessage').removeAttr('hidden');
+						$('#addItemSuccessMessage').html('Items Deleted Successfully');
+						$('#addItemSuccessMessage').fadeIn();
+
+						$('#addItemSuccessMessage').fadeTo(5000, 500).slideUp(500, function () {
+							$("#addItemSuccessMessage").slideUp(500);
+						});
+						$('#addItemSuccessMessage').attr('hidden');
+
+					}
+					else {
+
+
+
+					}
+
+
+				},
+				error: function (errormessage) {
+					// alert(errormessage.responseText);
+				}
+			});
+		}
+	}
+
+	function EditItem(id) {
+			 $.ajax({
+				type: "Get",
+			url: '@Url.Action("EditItemsById", "Item")',
+				 data: { id: id },
+				success: function (data) {
+				$('#EditItemsPreview').html(data);
+				$('#EditItemss').modal('show');
+
+				}
+			})
+	}
+	function SearchFunction() {
+		var input, filter, table, tr, td, i, ii;
+		input = document.getElementById("myInput");
+		filter = input.value.toUpperCase();
+		table = document.getElementById("myTable");
+		tr = table.querySelectorAll("tbody tr");
+		for (i = 0; i < tr.length; i++) {
+			var tds = tr[i].getElementsByTagName("td");
+			var found = false;
+			for (ii = 0; ii < tds.length && !found; ii++) {
+				if (tds[ii].textContent.toUpperCase().indexOf(filter) > -1) {
+					found = true;
+					break;
+				}
+			}
+			tr[i].style.display = found ? "" : "none";
+		}
+	}
+
+</script>

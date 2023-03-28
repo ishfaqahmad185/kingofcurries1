@@ -1,0 +1,149 @@
+﻿@{
+	Layout = null;
+}
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="staticBackdropLabel"><i class="fal fa-users"></i> User Authentication</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-sm-6" id="pills-tab" role="tablist">
+					</div>
+				</div>
+				<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+					<li class="nav-item w-50" role="presentation">
+						<button class="nav-link w-100  " id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#Register" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Registration</button>
+
+					</li>
+					<li class="nav-item w-50" role="presentation">
+						<button class="nav-link w-100 active" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#login" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Login</button>
+					</li>
+
+				</ul>
+				<div class="tab-content" id="pills-tabContent">
+					<div class="tab-pane fade " id="Register" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="card">
+									<div class="card-body">
+										<form method="post" id="AddRegistrationForm">
+											<div class="row" id="errorRegistrationMessage" hidden>
+												<div class="col-sm-12">
+													<div class="alert alert-danger">
+														<div class="" id="errorRegistrationText"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-sm-12 m-2">
+													<label class="form-control-label">User Name*</label>
+													<input type="text" class="form-control" id="registerName" placeholder="Enter User Name" required />
+													<div class="invalid-feedback">
+														User Name Required
+													</div>
+												</div>
+												<div class="col-sm-12 m-2">
+													<label class="form-control-label">Phone*</label>
+													<input type="text" class="form-control" id="phoneNumber" placeholder="Enter Your Phone" required />
+													<div class="invalid-feedback">
+														Phone Number Required
+													</div>
+												</div>
+
+												<div class="col-sm-12 m-2">
+													<label class="form-control-label">Email*</label>
+													<input type="email" class="form-control" id="registerEmail" placeholder="Enter Your Email" required />
+													<div class="invalid-feedback">
+														Email Address Required
+													</div>
+												</div>
+												<div class="col-sm-12 m-2">
+													<label class="form-control-label">Password*</label>
+													<input type="password" class="form-control" id="registerPassword" placeholder="Enter your Password" required />
+													<div class="invalid-feedback">
+														Password Required
+													</div>
+												</div>
+
+
+												<div class="col-sm-12 text-center m-2">
+													<a id="btnRegistrationClick" class="btn align-content-center btn-primary w-50 text-white">Register Now</a>
+												</div>
+
+
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					<div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="1">
+
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="card">
+									<div class="card-body">
+										<form method="post" id="signInForm">
+											<div class="row" id="errorSignInMessage" hidden>
+												<div class="col-sm-12">
+													<div class="alert alert-danger">
+														<div class="" id="errorSignInText"></div>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+
+												<div class="col-sm-12 m-2">
+													<label class="form-control-label">Email*</label>
+													<div class="form-group  col-md-12">
+														<input type="text" class="form-control" id="singinEmail" placeholder="Enter Your Email" required /><i class="fal fa-user"></i>
+
+													</div>
+
+												</div>
+												<div class="col-sm-12 m-2 mb-0">
+													<label class="form-control-label">Password*</label>
+													<div class="form-group  col-md-12">
+														<input type="password" class="form-control" id="singinPassword" placeholder="Enter your Password" required /><i class="fal fa-eye-slash" id="togglePassword"></i>
+													</div>
+												</div>
+												<div class="col-sm-12 text-right mt-0">
+													<a href="/ForgetPassword" class="text-danger "><strong>Forget Password</strong></a>
+												</div>
+												<div class="col-sm-12 m-2">
+													<div class="form-check">
+														<input class="form-check-input" style="background-color:#BB3430"   type="checkbox" value="" id="rememberMe">
+														<label class="form-check-label " style="color:#BB3430" for="rememberMe">
+															Remember Me
+														</label>
+													</div>
+												</div>
+												<div class="col-sm-12 text-center mt-2">
+
+													<a id="btnSignInSubmit" class="btn align-content-center btn-primary w-50 text-white">Login</a>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>

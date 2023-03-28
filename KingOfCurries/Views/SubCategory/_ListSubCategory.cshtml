@@ -1,0 +1,251 @@
+﻿@model KingofCurries.Models.SubCategory
+@{
+
+}
+<style>
+    @@media only screen and (min-width: 850px) {
+
+        .MobileviewMaxwidth1 {
+            max-width: 60% !important;
+        }
+    }
+</style>
+
+
+
+<div class="card">
+    <div class="card-body">
+
+
+
+
+        <div class="row">
+            <div class="search">
+
+
+                <input type="text" id="myInput" onkeyup="SearchFunction()" class="searchTerm" placeholder="Search Your SubCategory....">
+
+            </div>
+        </div>
+
+        <table id="myTable" class="table ">
+            <thead>
+                <tr>
+
+                    <th>
+                        SubCategories Title
+                    </th>
+
+                    <th>
+                        Descriptions
+                    </th>
+                    <th>
+                        Categories Title
+                    </th>
+
+                    <th>
+                        Priorities
+                    </th>
+                    <th>
+                        Features
+                    </th>
+
+                    <th>
+                        Images
+                    </th>
+
+
+                    <th>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="subCategoriesList">
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+
+<div class="row">
+    <div class="col-12 grid-margin">
+        <div class="modal fade" id="SubCategoryModel" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable mt-4 MobileviewMaxwidth1" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Sub Categories</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fa fa-window-close-o"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="AddPreview">
+                        @await Html.PartialAsync("~/Views/SubCategory/_AddSubCategory.cshtml", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12 grid-margin">
+        <div class="modal fade" id="EditSubCategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable mt-4 MobileviewMaxwidth1" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">EditSubCategories</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fa fa-window-close-o"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="EditSubCategoryPreview">
+                        @await Html.PartialAsync("~/Views/SubCategory/_EditSubCategory.cshtml", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+
+        loadSubCategory();
+
+
+    });
+
+    function loadSubCategory() {
+
+        $.ajax({
+            url: "/SubCategory/ListSubCategory",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                console.log("ibad Khan");
+                console.log(result)
+                var html = '';
+                if (result.code === true) {
+
+
+
+
+
+                    $.each(result.jsonText, function (key, item) {
+
+
+
+                        html += '<tr>';
+                        html += '<td class="text-wrap" >' + item.subCategoryName + '</td>';
+                        html += '<td class="text-wrap" >' + item.subCategoryDescription + '</td>';
+                        html += '<td class="text-wrap" >' + item.categoryName + '</td>';
+                        html += '<td class="text-wrap" >' + item.priority + '</td>';
+                        html += '<td class="text-wrap" >' + item.features + '</td>';
+                        html += '<td class="text-wrap" ><img src="' + item.imageUrl + '" style="width:80px !important;height:80px !important;"/></td>';
+
+                        html += ' <td>';
+
+                        html += '<a onclick="EditSubCategory(' + item.subCategoryId + ')" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Edit"><i class="fa fa-edit text-white"></i></a>&nbsp;';
+                        html += '<a onclick="DeleteSubCategory(' + item.subCategoryId + ')" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fa fa-trash text-white"></i></a>';
+
+                        html += ' </td>';
+                        html += '</tr>';
+                    });
+                    $('.subCategoriesList').html(html);
+                } else {
+                    alert(false);
+                }
+            },
+            error: function (errormessage) {
+                //alert(errormessage.responseText);
+            }
+        });
+    }
+
+    function AddSubCategory() {
+
+        $('#SubCategoryModel').modal('show');
+
+    }
+
+    function EditSubCategory(id) {
+        alert(id);
+        $.ajax({
+            type: "Get",
+            url: '@Url.Action("EditSubCategoryById", "SubCategory")',
+            data: { id: id },
+            success: function (data) {
+                $('#EditSubCategoryPreview').html(data);
+                $('#EditSubCategoryModal').modal('show');
+
+            }
+        })
+    }
+
+    function DeleteSubCategory(id) {
+
+        var ans = confirm("Are you sure you want to delete this SubCategory?");
+        if (ans) {
+            $.ajax({
+                url: "/SubCategory/DeleteSubCategory/" + id,
+                type: "POST",
+
+                contentType: "application/json;charset=UTF-8",
+                dataType: "json",
+                success: function (result) {
+                    if (result.success) {
+                        loadSubCategory();
+                        $(window).scrollTop(0);
+                        $('#addSubCategoriesSuccessMessage').removeAttr('hidden');
+                        $('#addSubCategoriesSuccessMessage').html('SubCategory Deleted Successfully');
+                        $('#addSubCategoriesSuccessMessage').fadeIn();
+
+                        $('#addSubCategoriesSuccessMessage').fadeTo(5000, 500).slideUp(500, function () {
+                            $("#addSubCategoriesSuccessMessage").slideUp(500);
+                        });
+                        $('#addSubCategoriesSuccessMessage').attr('hidden');
+
+                    }
+                    else {
+
+
+
+                    }
+
+
+                },
+                error: function (errormessage) {
+                    // alert(errormessage.responseText);
+                }
+            });
+        }
+    }
+
+    function SearchFunction() {
+        var input, filter, table, tr, td, i, ii;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.querySelectorAll("tbody tr");
+        for (i = 0; i < tr.length; i++) {
+            var tds = tr[i].getElementsByTagName("td");
+            var found = false;
+            for (ii = 0; ii < tds.length && !found; ii++) {
+                if (tds[ii].textContent.toUpperCase().indexOf(filter) > -1) {
+                    found = true;
+                    break;
+                }
+            }
+            tr[i].style.display = found ? "" : "none";
+        }
+    }
+
+</script>
