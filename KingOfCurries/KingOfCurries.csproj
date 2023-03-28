@@ -6,6 +6,21 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\**" />
+    <Compile Remove="Resources\**" />
+    <Compile Remove="wwwroot\Uploadimages\**" />
+    <Content Remove="Data\**" />
+    <Content Remove="Resources\**" />
+    <Content Remove="wwwroot\Uploadimages\**" />
+    <EmbeddedResource Remove="Data\**" />
+    <EmbeddedResource Remove="Resources\**" />
+    <EmbeddedResource Remove="wwwroot\Uploadimages\**" />
+    <None Remove="Data\**" />
+    <None Remove="Resources\**" />
+    <None Remove="wwwroot\Uploadimages\**" />
+  </ItemGroup>
+
 
 
 
@@ -26,8 +41,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
-    <Folder Include="Resources\" />
     <Folder Include="wwwroot\lib\bootstrap\" />
     <Folder Include="wwwroot\lib\bootstrap\dist\js\" />
     <Folder Include="wwwroot\lib\jquery-validation-unobtrusive\" />
@@ -35,7 +48,6 @@
     <Folder Include="wwwroot\lib\jquery-validation\dist\" />
     <Folder Include="wwwroot\lib\jquery\" />
     <Folder Include="wwwroot\lib\jquery\dist\" />
-    <Folder Include="wwwroot\Uploadimages\" />
   </ItemGroup>
 
   <ItemGroup>
